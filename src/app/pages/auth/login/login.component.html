@@ -1,0 +1,104 @@
+<!-- Loader Start-->
+<div *ngIf='isShowLoadingPanel()' class='spinner-wrapper'>
+    <div class='spinner spinner-border'></div>
+</div>
+<!-- Loader End-->
+<div id="login">
+    <div id="login-form-wrapper">
+        <div class="logo">
+            <img class="logo-icon" src="assets/images/logos/logo.png">
+        </div>
+        <div *ngIf="!isFirstTimeLogin" id="login-form">
+            <div class="title">{{ 'LOGIN.TITLE' | translate }}</div>
+            <form name="loginForm" class="mt-4" [formGroup]="loginForm" novalidate (ngSubmit)="login(loginForm.valid)">
+                <div class="alert alert-danger" *ngIf="submittedErrorMsg != ''">{{ submittedErrorMsg | translate }}
+                </div>
+                <div class="form-group">
+                    <label class="label">{{ 'LOGIN.EMAIL' | translate }}<span class="mandatory"></span></label>
+                    <input id="txt-email" #email type="email" class="form-control" formControlName="email" maxlength="{{MaxLength.Email}}"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                    <div *ngFor='let validation of login_validation_messages.email' class='invalid-feedback'>
+                        <div *ngIf='f.email.hasError(validation.type) && submitted && f.email.errors'>
+                            {{ validation.message | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">{{ 'LOGIN.PASSWORD' | translate }}<span class="mandatory"></span></label>
+                    <input id="txt-password" type="password" class="form-control" formControlName="password"
+                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                    <div *ngFor='let validation of login_validation_messages.password' class='invalid-feedback'>
+                        <div *ngIf='f.password.hasError(validation.type) && submitted && f.password.errors'>
+                            {{ validation.message | translate }}
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-login" class="btn btn-primary btn-block mb-4 btn--padding"
+                    aria-label="Login">{{ 'LOGIN.LOGIN' | translate }}</button>
+            </form>
+            <div class="mb-4" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+                <a id="link-forgot-password" class="dark-blue"
+                    [routerLink]="'/auth/forgotpassword'">{{ 'LOGIN.FORGOT_PASSWORD' | translate }}</a>
+            </div>
+            <div class="terms text-center">
+                <!-- <a [routerLink]='' class="dark-blue">{{ 'LOGIN.PRIVACY_POLICY' | translate }}</a> -->
+                <button id="btn-privacy-policy" type="button" class="btn btn-link p-0"
+                    (click)='openPrivacyPolicy()'>{{ 'LOGIN.PRIVACY_POLICY' | translate}}</button>
+            </div>
+            <div class="register text-center">
+                <!-- <a class="link dark-blue" [routerLink]="['/wizard']" [queryParams]="{t: 1}" target="_blank">{{ 'LOGIN.WIZARD' | translate }}</a> -->
+            </div>
+        </div>
+        <!-- Change Passsword -->
+        <div *ngIf="isFirstTimeLogin" id="login-form">
+            <div class="title">{{ 'MYPROFILE_DIALOG.TAB_BASIC.RESET_PASSWORD' | translate }}</div>
+            <form name="changePasswordForm" class="mt-4" [formGroup]="changePasswordForm">
+                <div class="form-group">
+                    <label>{{ 'MYPROFILE_DIALOG.TAB_CHANGE_PASSWORD.NEWPASSWORD' | translate }}<span
+                            class="mandatory"></span></label>
+                    <input type="password" id="txt-new-password" class="form-control" formControlName="newPassword"
+                        [ngClass]="{ 'is-invalid': passwordSubmitted && changePasswordForm.controls.newPassword.errors }">
+                    <div *ngFor='let validation of changePassword_validation_messages.newPassword'
+                        class='invalid-feedback'>
+                        <div
+                            *ngIf='changePasswordForm.controls.newPassword.hasError(validation.type) && passwordSubmitted && changePasswordForm.controls.newPassword.errors'>
+                            {{ validation.message | translate }}
+                        </div>
+                    </div>
+                    <div class='invalid-feedback'>
+                        <div class="error-message"
+                            *ngIf="changePasswordForm.controls['newPassword'].errors && (changePasswordForm.controls['newPassword'].value != null && changePasswordForm.controls['newPassword'].value != '')">
+                            {{ 'MYPROFILE_DIALOG.TAB_CHANGE_PASSWORD.MESSAGE_OLDPASSWORD_NEWPASSWORD_NOTSAME' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{ 'MYPROFILE_DIALOG.TAB_CHANGE_PASSWORD.CONFIRMPASSWORD' | translate }}<span
+                            class="mandatory"></span></label>
+                    <input type="password" id="txt-confirm-password" class="form-control"
+                        formControlName="confirmPassword"
+                        [ngClass]="{ 'is-invalid': passwordSubmitted && changePasswordForm.controls.confirmPassword.errors }">
+                    <div *ngFor='let validation of changePassword_validation_messages.confirmPassword'
+                        class='invalid-feedback'>
+                        <div
+                            *ngIf='changePasswordForm.controls.confirmPassword.hasError(validation.type) && passwordSubmitted && changePasswordForm.controls.confirmPassword.errors'>
+                            {{ validation.message | translate }}
+                        </div>
+                        <div class="error-message"
+                            *ngIf="changePasswordForm.controls['confirmPassword'].errors && (changePasswordForm.controls['confirmPassword'].value != null && changePasswordForm.controls['confirmPassword'].value != '')">
+                            {{ 'MYPROFILE_DIALOG.TAB_CHANGE_PASSWORD.MESSAGE_NEWPASSWORD_CONFIRMPASSWORD' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-address-cancel" class='btn btn-secondary mr-16' type='button'
+                    (click)='onResetPasswordForm()'>
+                    {{ 'MYPROFILE_DIALOG.TAB_BASIC.RESET' | translate }}
+                </button>
+                <button id="btn-change-password-save" class='btn btn-primary' type='button'
+                    (click)='saveChangePasswordForm(changePasswordForm.value)'>
+                    {{ 'MYPROFILE_DIALOG.TAB_CHANGE_PASSWORD.BUTTON_SAVE' | translate }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

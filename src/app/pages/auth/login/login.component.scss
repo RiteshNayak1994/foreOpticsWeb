@@ -1,0 +1,121 @@
+/*@import "src/scss/_variables.scss";
+@import "src/scss/_custom.scss";*/
+
+$clr-white: #fff;
+
+
+login {
+    background: $clr-white;
+
+    #login {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        min-height: 100vh;
+        align-items: center;
+
+        #login-form-wrapper {
+            flex: 100%;
+            padding: 16px;
+            flex-direction: column;
+            box-sizing: border-box;
+            display: flex;
+            place-content: center;
+            align-items: center;
+
+            .logo {
+                text-align: center;
+                padding-bottom: 32px;
+
+                @media screen and (max-width: 991px) {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .logo-icon{
+                    max-width: 350px;
+
+                    @media (max-width: 575px){
+                      max-width: 320px;
+                    }
+                }
+            }
+
+            .social-login {
+                .btn-social {
+                    position: relative;
+                    text-align: left;
+                    height: 40px;
+                    padding: 2px;
+                    border: 1px solid rgba(0, 0, 0, 0.12);
+                    background-color: $clr-white;
+                    width: 100%;
+                    border-radius: 5px;
+
+                    .text {
+                        line-height: 30px;
+                        vertical-align: top;
+                        font-size: 15px;
+                        color: #000;
+                    }
+
+                    .icon {
+                        width: 30px;
+                        height: 30px;
+                        margin: 0 12px 0 16px;
+                    }
+                }
+            }
+
+            .or-div {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .bordr--or {
+                    position: absolute;
+                    top: 0;
+                    border-top: 1px solid rgba(0, 0, 0, 0.12);
+                    left: 0;
+                    width: 100%;
+                }
+
+                .or--span {
+                    position: absolute;
+                    width: 40px;
+                    background: #fff;
+                }
+            }
+
+            #login-form {
+                width: 450px;
+                max-width: 100%;
+                padding: 32px;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+
+                @media screen and (max-width: 480px) {
+                    width: 100%; padding: 16px;         
+                }
+
+                .title {
+                    font-size: 20px;
+                    margin: 0 0 32px 0;
+                    text-transform: uppercase;
+                    text-align: center;
+                }
+
+                .btn--padding{ padding: 9px; }
+            }
+
+            .register {
+                font-weight: 600;
+                font-size: 24px
+            }
+
+            .btn-link{ color: #1D2D44; }
+            .btn-link:hover { color: #116fbf; }
+        }
+    }
+}

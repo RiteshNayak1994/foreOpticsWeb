@@ -1,0 +1,35 @@
+.tbl-permissions-list {
+    th.isActive,
+    td.isActive {
+        width: 80px;
+    }
+
+    .card-columns {
+        column-count: 4;
+
+        .card {
+            .card-title {
+                padding-bottom: 10px;
+                border-bottom: solid 1px #e8e8e8;
+            }
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .card-columns {
+            column-count: 3;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .card-columns {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .card-columns {
+            column-count: 1;
+        }
+    }
+}

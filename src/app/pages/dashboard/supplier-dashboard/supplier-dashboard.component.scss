@@ -1,0 +1,19 @@
+.col-4, .col{
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+}
+// :host ::ng-deep .ui-card-header{
+//     text-align: center;
+//     font: 700 16px Muli;
+// }
+:host ::ng-deep .ui-table {
+    width: 100%;
+}
+
+:host ::ng-deep .ui-card-header{
+    font: 700 16px Muli;
+}
+
+:host ::ng-deep .sDetailinfoBox .ui-card-header{
+    text-align: center;
+} 

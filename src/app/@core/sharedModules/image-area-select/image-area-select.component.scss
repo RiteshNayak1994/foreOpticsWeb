@@ -1,0 +1,17 @@
+.select-img { margin-bottom: 20px;}
+
+.custom-file-input { height: 40px; }
+.custom-file-label {
+    height: 40px;
+    font-size: 14px;
+    padding: 10px;
+}
+.custom-file-label::after {
+    height: 38px; padding:10px;
+}
+
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: #CCCCCC;
+    box-shadow: none;
+}
+

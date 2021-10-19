@@ -1,0 +1,27 @@
+label {
+    display: block !important;
+}
+
+.main-title-permiss {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.permission-data {
+    max-height: 550px;
+    padding-top: 8px;
+    padding-left: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    @media screen and (min-height: 800px) and (max-height: 900px) and (min-width: 1279px){ max-height: 415px; }
+    @media screen and (max-width: 991px){ max-height: calc(100vh - 430px); }
+    @media screen and (max-height: 575px){ max-height: 550px; }
+}
+
+// input[type="checkbox"]:focus {
+//     outline-offset: 0px;
+//     background-color: transparent !important;
+//     color: transparent !important ; 
+// }

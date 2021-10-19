@@ -1,0 +1,27 @@
+@import "src/scss/_variables.scss";
+
+.navTabs{min-height: 100%; border-radius: 5px;
+    .nav-tabs{
+        border-bottom: 1px solid $brdr-grey;
+    }
+    .nav-tabs .nav-link.active, .nav-tabs .nav-link.active:hover, .nav-tabs .nav-link.active:focus{ border: none; border-bottom: 3px solid #3498DB; font-weight: bold; color: #333333; background-color: transparent;}
+    .nav-link{ 
+        @media (max-width: 575px){ padding: 0.5rem 0.5rem; }
+        @media (max-width: 374px){ padding: 0.5rem 0.25rem; }
+    }
+    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus { border-color: transparent; }
+}
+
+.user-img { margin: 35px auto 15px; text-align: center;}
+.user-img img{ width: 96px; height: 96px; }
+.btn-back {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: end;
+    align-items: flex-end;
+
+    .btn{ min-width: 55px; }
+}

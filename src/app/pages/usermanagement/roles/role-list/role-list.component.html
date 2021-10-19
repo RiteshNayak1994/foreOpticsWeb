@@ -1,0 +1,103 @@
+<!-- Page Header Start -->
+<div class="page-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h4><span class="header-text">{{ 'URAM.ROLE.LIST.TITLE' | translate }}</span></h4>
+      </div>
+      <div class="col">
+        <div class="btn-view" *ngIf="isAddRole">
+          <button id="btn-add-role" class="btn btn-primary" type="button" (click)="addRole()"><i
+              class="icon-plus font-semibold mr-1"></i>{{ 'URAM.ROLE.LIST.ADD_ROLE' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Page Content Start -->
+<div class="page-content animated fadeIn entity-main">
+  <div class="tbl-role-list">
+
+    <!-- Table Header Start -->
+    <div class="entity-search-area">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 form-group">
+          <div class="search-panel">
+            <label class="font-weight-bold">{{ 'URAM.ROLE.LIST.SEARCH' | translate }}</label>
+            <div class="inner-addon">
+              <i class="fas fa-search dark-grey" aria-hidden="true"></i>
+              <input #searchTextInput type="text" id="txt-search-text" class="form-control entity-search-control"
+                size="50" [(ngModel)]="roleSearchFilter.searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-xl-2 col-lg-6 col-sm-3 col-6">
+          <button id="btn-reset" class="btn btn-outline-secondary btn-mg btn-reset-filter" type="button"
+            (click)="onResetAllFilters()" [disabled]="(roleSearchFilter.searchText == '' ? true : false)">
+            {{'URAM.ROLE.LIST.BUTTON_RESET' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Table Header End -->
+
+    <!-- Table Start -->
+    <p-table #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource" sortField="name"
+      class="tbl-scrollable" [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadRoles()"
+      [totalRecords]="totalRecords" [autoLayout]="true" [scrollable]="true" [ngClass]="totalRecords==1 ? 'overflow-visible' : ''">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
+            class="{{col.field}} {{col.class}}">
+            {{ col.header | translate }}
+            <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td class="font-bold name"><span class="ui-column-title">{{columns[0].header}}</span>
+            <a [routerLink]="['/settings/uram/roles', rowData.id]" class="dark-blue font-weight-bold no-underline"
+              [ngClass]="{disabled: !isViewRole}">{{rowData.name}}
+            </a>
+          </td>
+          <td class="internalRoleName"><span
+              class="ui-column-title">{{columns[1].header}}</span>{{rowData.internalRoleName}}</td>
+          <td class="permissionSetName"><span
+              class="ui-column-title">{{columns[2].header}}</span>{{rowData.permissionSetName}}</td>
+          <td class="grid-dropdown" *ngIf="isShowActionColumn">
+            <div class="dropdown drop-no-arrow">
+              <button class="btn btn-small lighter--grey dropdown-toggle" id="drop-down-menu" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="icon-options icons"></i>
+              </button>
+
+              <div class="dropdown-menu less-transform-menu" aria-labelledby="drop-down-menu">
+                <a *ngIf="isViewRole && isEditRole" id="link-edit" (click)="editRole(rowData.id)"
+                  class="dropdown-item menu--item"><i class="fas fa-pencil-alt pd-menu-icon"></i>
+                  {{ 'URAM.ROLE.LIST.BUTTON_EDIT' | translate }}</a>
+                <a *ngIf="isViewRole && isDeleteRole" id="link-remove" (click)="deleteRole(rowData.id)"
+                  class="dropdown-item menu--item"><i class="far fa-trash-alt pd-menu-icon"></i>
+                  {{ 'URAM.ROLE.LIST.BUTTON_REMOVE' | translate }}</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <!-- Table End -->
+
+    <!-- Paginator Start -->
+    <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
+      class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
+      (onPageChange)="loadRoles()" [totalRecords]="totalRecords"></p-paginator>
+    <div *ngIf="totalRecords == 0" class="table-no-record text-center">
+      <div>{{ 'URAM.ROLE.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
+    </div>
+    <!-- Paginator End -->
+
+  </div>
+</div>
+<!-- Page Content End -->

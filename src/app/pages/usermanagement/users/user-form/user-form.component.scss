@@ -1,0 +1,13 @@
+.user-img { margin: 35px auto; text-align: center;}
+.user-img img{ width: 96px; height: 96px; }
+.btn-back {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: end;
+    align-items: flex-end;
+
+    .btn{ min-width: 55px; }
+}

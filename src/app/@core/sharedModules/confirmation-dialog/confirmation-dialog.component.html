@@ -1,0 +1,13 @@
+<div class="modal-header border-bottom-0 padding-32 pb-0">
+    <h4 class="modal-title font-weight-bold">{{ title | translate }}</h4>
+    <button type="button" id="btn-close" class="close" aria-label="Close" (click)="decline()">
+        <span class="font-24 fonts-close" aria-hidden="true"><i class="fas fa-times"></i></span>
+    </button>
+</div>
+<div class="modal-body padding-32 pt-3 pb-3">
+    {{ message | translate }}
+</div>
+<div class="modal-footer border-top-0 padding-32 pt-0">
+    <button type="button" id="btn-cancel" class='btn btn-outline-secondary mr-16' (click)="decline()">{{ btnCancelText | translate }}</button>
+    <button type="button" id="btn-ok" class='btn btn-primary' (click)="accept()">{{ btnOkText | translate }}</button>
+</div>

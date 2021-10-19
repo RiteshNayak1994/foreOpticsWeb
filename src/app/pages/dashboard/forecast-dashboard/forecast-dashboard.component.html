@@ -1,0 +1,61 @@
+<div class=" ">
+    <div class="entity-search-area">
+        <h3>Forecast</h3>
+        <div class='row' [formGroup]="searchFilterForm">
+            <div class="col-2">
+                <label class="mb-0">Date Range</label>
+                <!-- <p-calendar formControlName="selectedTimeSpan" (onSelect)="onTimeSpanChange()" view="month"
+                    dateFormat="mm/yy" placeholder="Select Date" [yearNavigator]="true" yearRange="2005:2021"
+                    [readonlyInput]="true" [maxDate]="maxDate"></p-calendar> -->
+                <input type="text" name="daterangeInput" daterangepicker [options]="options" class="dateRange"
+                    (selected)="selectedDate($event, daterange)" formControlName="selectedTimeSpan"/>
+            </div>
+            <div class="col-2">
+                <label class="mb-0">Parts</label>
+                <div class="input-group entity-dropdown custom-dropdown-muliselect">
+                    <p-multiSelect [options]="partsList" class="entity-multiSelect" optionLabel="partName"
+                        [maxSelectedLabels]="500" [showToggleAll]="false" [filter]="false" [showHeader]="false"
+                        formControlName="selectedPart" (onChange)="onPartChange()" placeholder="Select Parts">
+                    </p-multiSelect>
+                </div>
+            </div>
+            <div class="col-2">
+                <label class="mb-0">Supplier</label>
+                <div class="input-group entity-dropdown custom-dropdown-muliselect">
+                    <p-multiSelect [options]="supplierList" class="entity-multiSelect" optionLabel="name"
+                        [maxSelectedLabels]="500" [showToggleAll]="false" [filter]="false" [showHeader]="false"
+                        formControlName="selectedSupplier" (onChange)="onSuppliierChange()" placeholder="Select Suppliers">
+                    </p-multiSelect>
+                </div>
+            </div>
+            <div class="col-6">
+                <p-radioButton label="GAP" name="viewType" value="gap" formControlName="selectedViewType"
+                    class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+                <p-radioButton label="Supply Risk Assessment" name="viewType" value="SupplyRiskAssessment" formControlName="selectedViewType"
+                    class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+                <p-radioButton label="Forecast" name="viewType" value="forecast" formControlName="selectedViewType"
+                    class="float-right mt-3  mr-3" (click)="getIndicatorList()"></p-radioButton>
+            </div>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="row">
+            <ng-container *ngIf="dashboardName == 'Demand_Supply_Forecast'">
+                <div *ngFor="let indicator of indicatorList" class="mt-3 swotsection" [ngClass]="indicator.displayOrder < 3 ? 'col-6' : 'col-12'">
+                    <app-combo-indicator [indicatorConfig]="indicator" [selectedTSValue]="selectedTSValue"
+                        [selectedBuyerId]="selectedBuyerId" [selectedSupplierId]="selectedSupplierId"
+                        [selectedStartDate]="daterange.start" [selectedEndDate]="daterange.end">
+                    </app-combo-indicator>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="dashboardName == 'Demand_Supply_Gap' || dashboardName == 'Supply_Risk_Assessment'">
+                <div *ngFor="let indicator of indicatorList" class="col-12 mt-3 swotsection">
+                    <app-combo-indicator [indicatorConfig]="indicator" [selectedTSValue]="selectedTSValue"
+                        [selectedBuyerId]="selectedBuyerId" [selectedSupplierId]="selectedSupplierId"
+                        [selectedStartDate]="daterange.start" [selectedEndDate]="daterange.end">
+                    </app-combo-indicator>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="entity-search-area">
+    <h3>Supply Chain Risk Dashboard</h3>
+    <div class='row' [formGroup]="searchFilterForm">
+        <div class="col-2">
+            <label class="mb-0">Time Span</label>
+            <p-dropdown [options]="timeSpanList" formControlName="selectedTimeSpan" (onChange)="onTimeSpanChange()"
+                class="form-control" placeholder="Select Time Span"></p-dropdown>
+        </div>
+        <div class="col-2">
+            <label class="mb-0">Buyer</label>
+            <p-dropdown [options]="buyerList" formControlName="selectedBuyer" optionLabel="name"
+                (onChange)="onBuyerChange()" class="form-control" placeholder="Select Buyer"></p-dropdown>
+        </div>
+        <div *ngIf="isPartsView" class="col-2">
+            <label class="mb-0">Parts</label>
+            <p-dropdown [options]="partsList" formControlName="selectedPart" optionLabel="partName"
+                (onChange)="onPartChange()" class="form-control" placeholder="Select Parts"></p-dropdown>
+        </div>
+        <div [ngClass]="isPartsView ? 'col-6' : 'col-8'">
+            <p-radioButton label="By Parts" name="viewType" value="parts" formControlName="selectedViewType"
+                class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+            <p-radioButton label="By Product Family" name="viewType" value="productFamily" formControlName="selectedViewType"
+                class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+            <p-radioButton label="By Platform" name="viewType" value="platforms" formControlName="selectedViewType"
+                class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+            <p-radioButton label="By Supplier" name="viewType" value="supplier" formControlName="selectedViewType"
+                class="float-right mt-3 mr-3" (click)="getIndicatorList()"></p-radioButton>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <div class="row">
+        <div *ngFor="let indicator of indicatorList" class="col-6 mt-3 swotsection">
+            <app-combo-indicator [indicatorConfig]="indicator" [selectedTSValue]="selectedTSValue"
+                [selectedBuyerId]="selectedBuyerId"></app-combo-indicator>
+        </div>
+    </div>
+</div>

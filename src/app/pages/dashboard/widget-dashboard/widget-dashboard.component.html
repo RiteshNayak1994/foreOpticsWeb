@@ -1,0 +1,11 @@
+<div class="chart-section" style="height: calc(100vh - 60px); width: 100%; overflow-y: auto;">
+    <div class="fild-box" *ngFor="let wdgts of widgetList; let counter = index;" [id]="wdgts.displayOrder"
+        [style.height]="'calc(' + wdgts.height + '% - 4px)'" [style.width]="'calc(' + wdgts.width + '% - 20px)'"
+        style="background-color: #ffffff; display: inline-block;vertical-align: top;" draggable="true"
+        (dragover)="allowDrop($event)" (drop)="drop($event)" (dragstart)="drag($event)">
+        <app-indicator [indId]="wdgts.id" [selectedView]="wdgts.chartType"
+            [selectedDuration]="wdgts.duration" [height]="wdgts.height" [width]="wdgts.width" [iOrder]="wdgts.displayOrder"
+            [apiUrl]="((isCommonUrl || isRelated) ? commonUrl :wdgts.query)" [iName]="wdgts.name"
+            [indicatorsAs]="indicatorsAs" [groupByData]="wdgts.groupBy" [displayData]="wdgts.display"></app-indicator>
+        </div>
+</div>

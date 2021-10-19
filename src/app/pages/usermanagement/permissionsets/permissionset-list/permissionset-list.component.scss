@@ -1,0 +1,30 @@
+.tbl-permission-set{
+    th.name, td.name{ width: 130px; word-break: break-word;
+        @media (max-width: 640px){ padding-top: 5px; }
+    }
+
+    th.permissionName, td.permissionName {width: 345px; word-break: break-word;
+        @media (max-width: 991px){ width: 280px; }
+    }
+
+    // th.isActive, td.isActive {width:65px ; word-break: break-all;}
+
+    th.action{width: 60px;}
+}
+
+.search-panel label { margin-bottom: 0.1rem; }
+
+.btn-view {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.btn-mg {
+    margin: 21px 15px 0 0;
+  
+    @media (max-width: 1199px) and (min-width: 992px){ margin: 21px 15px 0 0; }
+    @media (max-width: 575px){ margin: 0 15px 0 0; }
+
+  }

@@ -1,0 +1,51 @@
+<!-- <div class="header-title-section">
+<div class="box-title" style="float: left;">{{iName}} </div>
+<div class="box-dropdown-main" style="float: right;">
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="durationDropDown" ngbDropdownToggle>{{selectedDuration}}</button>
+        <div ngbDropdownMenu aria-labelledby="durationDropDown" style="min-width: 110px;">
+            <div *ngFor="let duration of durationList" style="text-align: center;margin:5px 0px;"
+                (click)="changeDuration(duration)">
+                <button ngbDropdownItem>{{duration}}</button>
+            </div>
+        </div>
+    </div>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="viewDropDown"
+            ngbDropdownToggle>{{selectedView.toUpperCase()}}</button>
+        <div ngbDropdownMenu aria-labelledby="viewDropDown" style="min-width: 110px;">
+            <div *ngFor="let view of viewList" style="text-align: center;margin:5px 0px;"
+                (click)="changeView(view.value)">
+                <button ngbDropdownItem>{{view.dValue}}</button>
+            </div>
+        </div>
+    </div>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Size</button>
+        <div [id]="'myDropdown_'+ indId" ngbDropdownMenu aria-labelledby="dropdownBasic1" style="min-width: 110px;">
+            <div ngbDropdownItem *ngFor="let size of sizeList" style="text-align: center;margin:5px 0px;"
+                (click)="sizeSelect(size)">
+                <svg [attr.id]="'svg_' + size.sizeId + '_' + indId" [attr.width]="size.width"
+                    [attr.height]="size.height" [attr.x]="100 -(size.width/2)">
+                    <g>
+                        <rect [attr.width]="size.width" [attr.height]="size.height"
+                            style="fill:powderblue;stroke-width:3;" />
+                        {{getSizeDdDispTxt('svg_' + size.sizeId + '_' + indId,size.width, size.height,'Verdana','10')}}
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+</div> -->
+<app-chartview [indId]="indId" [selectedView]="selectedView" [height]="height" [width]="width" [iOrder]="iOrder"
+    [apiUrl]="apiUrl" [indicatorsAs]="indicatorsAs" [groupByData]="groupByData" [displayData]="displayData" 
+    [data]="data" [yAxisCol]="yAxisCol" [xAxisCol]="xAxisCol" [legendCol]="legendCol" [parentCol]="parentCol"
+    [subLegendCol]="subLegendCol" [apiData]="apiData" [xAxisTitle] ="xAxisTitle" [yAxisTitle]="yAxisTitle"
+    [customColor]="customColor" [seriesCol]="seriesCol" [indicatorName]="indicatorName"
+    [dashboardName]="dashboardName">
+</app-chartview>
+
+
+<!-- <div class="chart-section-datapart">{{apiUrl}}</div> -->
+<!-- <div [id]="'container_'+ indId" style="width:100%; height:calc(100% - 15px);"></div> -->

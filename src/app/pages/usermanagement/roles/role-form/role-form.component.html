@@ -1,0 +1,65 @@
+<div class='page-header'>
+  <h4>
+    <span *ngIf="formMode == 'ADD'" class='header-text'>{{ 'URAM.ROLE.DETAIL.ADD_TITLE' | translate }}</span>
+    <span *ngIf="formMode == 'EDIT'" class='header-text'>{{ 'URAM.ROLE.DETAIL.EDIT_TITLE' | translate }}</span>
+  </h4>
+</div>
+<div *ngIf="roleForm" class='page-content row'>
+  <div class='col-lg-12'>
+    <div class='card'>
+      <div class='card-body'>
+        <div class="col-xl-7 p-0">
+
+          <form [formGroup]='roleForm'>
+            <div class='row'>
+              <div class='col-sm-6 form-group'>
+                <label>{{ 'URAM.ROLE.DETAIL.ROLE' | translate }}<span class="mandatory"></span></label>
+                <input type='text' id="txt-name" formControlName='name' class='form-control'
+                  [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngFor='let validation of role_validation_messages.name' class='invalid-feedback'>
+                  <div *ngIf='f.name.hasError(validation.type) && submitted && f.name.errors'>
+                    {{ validation.message | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class='col-sm-6 form-group'>
+                <label for='internalRoleId'>{{ 'URAM.ROLE.DETAIL.SYSTEM_ROLE' | translate }}<span class="mandatory"></span></label>
+                <select class='form-control' id='drp-internal-role-id' formControlName='internalRoleId'
+                  [ngClass]="{ 'is-invalid': submitted && f.internalRoleId.errors }">
+                  <option *ngFor='let internalRole of internalRoleRef' [value]="internalRole.intValue1">
+                    {{ internalRole.name }}</option>
+                </select>
+                <div *ngFor='let validation of role_validation_messages.internalRoleId' class='invalid-feedback'>
+                  <div *ngIf='f.internalRoleId.hasError(validation.type) && submitted && f.internalRoleId.errors'>
+                    {{ validation.message | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <label>{{ 'URAM.ROLE.DETAIL.PERMISSIONSET' | translate }}<span class="mandatory"></span></label>
+              <div *ngIf="submitted && selectedPermissionSet.length == 0" class="invalid-feedback d-block">
+                  {{ 'URAM.ROLE.DETAIL.MESSAGE_PERMISSIONSET_SELECT' | translate }}</div>
+              <div class="permission-data">
+                <div class="row">
+                  <div *ngFor="let pset of f.permissionSetFormArray.controls; let i = index" class="col-md-6 px-2">
+                    <label formArrayName="permissionSetFormArray" class="custom-control custom-checkbox">
+                      <input type="checkbox" id="{{createPermissionSetId(permissionSets[i].id)}}"  [formControlName]="i" class="custom-control-input">
+                      <div class="custom-control-label" id="{{createPermissionSetId(permissionSets[i].id)}}">{{ permissionSets[i].name }} </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='float-right'>
+              <button id="btn-cancel" class='btn btn-secondary mr-16' type='button' (click)='closeForm()'>{{ 'URAM.ROLE.DETAIL.CANCEL' | translate }}</button>&nbsp;
+              <button id="btn-save" class='btn btn-primary' type='button' (click)='saveForm(roleForm.value)'>{{ 'URAM.ROLE.DETAIL.SAVE' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+.tbl-role-list{
+    th.name, td.name, th.internalRoleName, td.internalRoleName { width: 190px; word-break: break-all; }
+    th.name, td.name{ word-break: break-word; }
+    td.name{
+        @media (max-width: 640px){ padding-top: 5px; }
+    }
+    th.permissionSetName, td.permissionSetName {width:280px ; word-break: break-word;}
+
+    th.action{width: 60px;}
+}
+
+.search-panel label { margin-bottom: 0.1rem; }
+
+.btn-view {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.btn-mg {
+    margin: 21px 15px 0 0;
+  
+    @media (max-width: 1199px) and (min-width: 992px){ margin: 21px 15px 0 0; }
+    @media (max-width: 575px){ margin: 0 15px 0 0; }
+
+  }

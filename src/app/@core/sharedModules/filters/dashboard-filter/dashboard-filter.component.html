@@ -1,0 +1,57 @@
+<div class="row collapse" id="filterCollapse">
+    <div class="col">
+        <label class="mb-0">Time Span</label>
+        <p-dropdown class="form-control" [options]="timeSpans" [(ngModel)]="selectedTimeSpan"
+            (onChange)="onTimeSpanChange()" styleClass="filterTimeSpan">
+        </p-dropdown>
+    </div>
+    <div class="col">
+        <label class="mb-0">Buyers</label>
+        <div class="input-group entity-dropdown custom-dropdown-muliselect">
+            <p-multiSelect class="entity-multiSelect" [options]="buyersList" [(ngModel)]="selectedBuyers"
+                optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.buyer)">
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="col">
+        <label class="mb-0">Suppliers</label>
+        <div class="input-group entity-dropdown custom-dropdown-muliselect">
+            <p-multiSelect class="entity-multiSelect" [options]="supplierList" [(ngModel)]="selectedSupplier"
+                optionLabel="name" [virtualScroll]="true" (onChange)="onFilterChange(filterName.supplier)"
+                [maxSelectedLabels]="1">
+                <ng-template let-supplier let-i="index" pTemplate="item">
+                    <span class="supplierMultiSelect" pTooltip="{{supplier.label}}">{{supplier.label}}</span>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="col">
+        <label class="mb-0">Commodity</label>
+        <div class="input-group entity-dropdown custom-dropdown-muliselect">
+            <p-multiSelect class="entity-multiSelect" [options]="commodityList" [(ngModel)]="selectedCommodity"
+                optionLabel="name" (onChange)="onFilterChange(filterName.commodity)">
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="col">
+        <label class="mb-0">PO line</label>
+        <div class="input-group entity-dropdown custom-dropdown-muliselect">
+            <p-multiSelect class="entity-multiSelect" [options]="poLineList" [(ngModel)]="selectedPoLine"
+                optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.POLine)">
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="col">
+        <label class="mb-0">Part Number</label>
+        <div class="input-group entity-dropdown custom-dropdown-muliselect">
+            <p-multiSelect class="entity-multiSelect" [options]="partNumberList" [(ngModel)]="selectedPartNumber"
+                optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.PN)"
+                [maxSelectedLabels]="1">
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="col pt-21">
+        <p-button label="Apply" (click)="sendFilterData()"></p-button>
+        <p-button #reset icon="fas fa-undo-alt" class="ml-1" (click)="resetFilters()"></p-button>
+    </div>
+</div>

@@ -1,0 +1,250 @@
+<div *ngIf="tableData ? (tableData.length > 0) : false">
+    <ng-container [ngSwitch]="dashboardName">
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskTrend">
+            <p-table *ngIf="showRiskFactorTable" [id]="'charTable_'+indId" [columns]="cols" [value]="tableData"
+                [scrollable]="true" scrollHeight="265px" dataKey="SupplierID" [(selection)]="selectedSuppliers"
+                styleClass="riskTrendTable" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <ng-container *ngFor="let col of columns">
+                            <th *ngIf="col.visibility == 'visible'" [ngClass]="col.className" class="cellContentBold"
+                                [pSortableColumn]="col.sort ? col.data : null">
+                                <span class="ml-4 otherColumn">{{col.title}}</span>
+                                <p-sortIcon *ngIf="col.sort && ['number'].includes(col.dataType)" [field]="col.data">
+                                </p-sortIcon>
+                                <p-sortIcon *ngIf="col.sort && ['string','date'].includes(col.dataType)"
+                                    [field]="col.data">
+                                </p-sortIcon>
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <ng-container *ngFor="let col of columns">
+                            <td *ngIf="col.visibility == 'visible'" [ngClass]="col.className">
+                                <span class="ui-column-title">{{col.title}}</span>
+                                <ng-container [ngSwitch]="col.data">
+                                    <ng-container *ngSwitchCase="'Supplier'">
+                                        {{rowData[col.data]}}
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'SupplierID'">
+                                        <p-tableCheckbox #checkBoxEle (click)="selectSupplierCheckboxClick(checkBoxEle, rowData)" [value]="rowData">
+                                        </p-tableCheckbox>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'InfoGainLoss'">
+                                        <span *ngIf="rowData[col.data] > 0;else negativeValue">
+                                            <i class="fas fa-arrow-circle-up fa-lg lightGreen"></i>
+                                        </span>
+                                        <ng-template #negativeValue>
+                                            <i class="fas fa-arrow-circle-down fa-lg lightRed"></i>
+                                        </ng-template>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'ExternalRisk'">
+                                        <span *ngFor="let risk of  rowData[col.data]; let i = index"
+                                            [title]="riskName[i]" class="externalRisk mr-1"
+                                            (click)="loadRiskTrend(rowData, i)">
+                                            <ng-container *ngIf="risk == 1">
+                                                <i class="fas fa-circle fa-lg lightGreen"></i>
+                                            </ng-container>
+                                            <ng-container *ngIf="risk == 0">
+                                                <i class="fas fa-circle fa-lg lightRed"></i>
+                                            </ng-container>
+                                        </span>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <div *ngIf="rowData[col.data] >= 0.8" class="greenhm">
+                                            {{rowData[col.data] | number:'.2'}}
+                                        </div>
+                                        <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8" class="yellowhm">
+                                            {{rowData[col.data] | number:'.2'}}
+                                        </div>
+                                        <div *ngIf="rowData[col.data] < 0.7" class="redhm">
+                                            {{rowData[col.data] | number:'.2'}}
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskProfile">
+            <p-table [id]="'charTable_'+indId" [columns]="cols" [value]="tableData" [scrollable]="true"
+                scrollHeight="265px" styleClass="riskProfileTable" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [ngClass]="col.className" class="cellContentBold"
+                            [pSortableColumn]="col.sort ? col.data : null">
+                            <p-sortIcon *ngIf="col.sort && ['number'].includes(col.dataType)" [field]="col.data">
+                            </p-sortIcon>
+                            {{col.title}}
+                            <p-sortIcon *ngIf="col.sort && ['string','date'].includes(col.dataType)" [field]="col.data">
+                            </p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr class="rowCustomClick" (click)="rowClick(rowData)">
+                        <td *ngFor="let col of columns" [ngClass]="col.className">
+                            <ng-container [ngSwitch]="col.data">
+                                <span class="ui-column-title">{{col.title}}</span>
+                                <ng-container *ngSwitchCase="'DamVariance'">
+                                    <span *ngIf="rowData[col.data] > 0;else negativeValue">
+                                        <i class="fas fa-arrow-up greenText"></i>
+                                        <span class="ml-1">{{mathInstance.abs(rowData[col.data]) | number:'.2'}}</span>
+                                    </span>
+                                    <ng-template #negativeValue>
+                                        <i class="fas fa-arrow-down redText"></i>
+                                        <span class="redText ml-1">{{mathInstance.abs(rowData[col.data])}}</span>
+                                    </ng-template>
+                                </ng-container>
+                                <ng-container
+                                    *ngSwitchCase="(col.data == 'DueDate' || col.data == 'dueDate') ? col.data : false">
+                                    {{rowData[col.data] | date: 'MM/dd/YYYY'}}
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'DAM'">
+                                    {{rowData[col.data] | number:'.2'}}
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    {{rowData[col.data]}}
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.SupplyRiskAssessment">
+            <p-table [columns]="cols" [value]="tableData" sortMode="multiple" [scrollable]="true" scrollHeight="360px"
+                [value]="products">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <ng-container *ngFor="let col of columns">
+                            <th *ngIf="col.visibility == 'visible'" [pSortableColumn]="col.sort ? col.data : null"
+                                [ngClass]="col.className" class="cellContentBold">
+                                <p-sortIcon *ngIf="col.sort" [field]="col.data"></p-sortIcon>
+                                {{col.title}}
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <ng-container *ngFor="let col of columns; let i = index">
+                            <td *ngIf="col.visibility == 'visible'" [ngClass]="(col.data == 'DAM' && col.bgColorColumn) ? 
+                        rowData[col.bgColorColumn] + ' cellContentBold' : null" [class]="col.className">
+                                {{['int','decimal'].includes(col.dataType) ?
+                                (rowData[col.data] | shortNumber) : (col.data == 'MonthYear' ? (rowData[col.data] |
+                                dateFormatPipe:'MMM-YYYY') : rowData[col.data]) }}
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.SupplyChainSupplierDetail">
+            <p-table #dataTable [value]="tableData">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let col of cols" [class]="col.className">
+                            {{col.title}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                    <tr>
+                        <td *ngFor="let col of cols" [class]="col.className">
+                            <ng-container [ngSwitch]="col.data">
+                                <ng-container *ngSwitchCase="'id'">
+                                    <p-radioButton name="group2" [value]="rowData[col.data]"
+                                        [(ngModel)]="selectedOrder" (click)="handleOrderClick(rowData[col.data])">
+                                    </p-radioButton>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'rec'">
+                                    <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm green-text"></i>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    {{rowData[col.data]}}
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <p-table [id]="'charTable_'+dashboardName" [value]="tableData" [responsive]="true" sortMode="multiple"
+                [scrollable]="true" scrollHeight="360px">
+                <ng-template pTemplate="header">
+                    <tr *ngIf="headCols">
+                        <ng-container *ngFor="let hcol of headCols">
+                            <th *ngIf="hcol.visibility == 'visible'" [pSortableColumn]="hcol.sort ? hcol.data : null"
+                                [ngClass]="hcol.className" class="cellContentBold" [attr.rowspan]="hcol.rowspan"
+                                [attr.colspan]="hcol.colspan">
+                                <p-sortIcon *ngIf="hcol.sort" [field]="hcol.data"></p-sortIcon>
+                                {{hcol.title}}
+                            </th>
+                        </ng-container>
+                    </tr>
+                    <tr>
+                        <th class="dotStyle" *ngIf="isChartComboTable && dashboardName != 'Demand_Supply_Forecast' && 
+                                            dashboardName != 'Demand_Supply_Gap'"> </th>
+                        <ng-container *ngFor="let col of cols">
+                            <th *ngIf="col.visibility == 'visible' && (col.showInHeader == undefined || col.showInHeader == true)"
+                                [pSortableColumn]="col.sort ? col.data : null" [ngClass]="col.className"
+                                class="cellContentBold" [attr.rowspan]="col.rowspan" [attr.colspan]="col.colspan">
+                                <p-sortIcon *ngIf="col.sort" [field]="col.data"></p-sortIcon>
+                                {{col.title}}
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td class="dotStyle" [style.color]="rowData.color"
+                            *ngIf="isChartComboTable && dashboardName != 'Demand_Supply_Forecast' && 
+                                                                                    dashboardName != 'Demand_Supply_Gap'">
+                            <i class=" fas fa-circle"></i>
+                        </td>
+                        <ng-container *ngFor="let col of cols">
+                            <ng-container *ngIf="col.visibility == 'visible'">
+                                <ng-container [ngSwitch]="col.data">
+                                    <ng-container *ngSwitchCase="'rating'">
+                                        <td [class]="col.className">
+                                            <i *ngFor="let number of [1,2,3,4,5]"
+                                                [ngClass]="number <= rowData[col.data] ? 'fas fa-star starStyle' : 'far fa-star'"></i>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'id'">
+                                        <td [class]="col.className">
+                                            <p-radioButton name="group2" [value]="rowData[col.data]"
+                                                [(ngModel)]="selectedId" (click)="handleOrderClick(rowData[col.data])">
+                                            </p-radioButton>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'rec'">
+                                        <td [class]="col.className">
+                                            <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm green-text"></i>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <td [ngClass]="getCellClassName(col.data,rowData,col.bgColorColumn)"
+                                            [class]="col.className" (click)="onCellClick(col,rowData)"
+                                            data-toggle="tooltip" data-placement="top"
+                                            [title]="getCellTooltip(col.data,rowData)">
+                                            {{ getCellDisplayText(col,rowData)}}
+                                        </td>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+    </ng-container>
+</div>
+<div *ngIf="tableData ? (tableData.length == 0) : false" style="float: left;margin-top: 20px;">No data to display for
+    selected filters!</div>

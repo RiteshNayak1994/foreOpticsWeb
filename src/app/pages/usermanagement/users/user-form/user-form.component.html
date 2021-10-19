@@ -1,0 +1,251 @@
+<!-- Page Header Start -->
+<div class='page-header'>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-7">
+            <h4>
+              <span *ngIf="formMode == 'ADD'" class='header-text'>{{ 'URAM.USER.DETAIL.ADD_TITLE' | translate }}</span>
+              <span *ngIf="formMode == 'EDIT'" class='header-text'>{{ 'URAM.USER.DETAIL.EDIT_TITLE' | translate }}</span>
+            </h4>
+        </div>
+        <div class="col-sm-3 col-5">
+            <div class="btn-back">
+                <button type="button" id="" class="btn btn-secondary" (click)="onBack()">
+                  {{ 'URAM.USER.DETAIL.BACK' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Page Content Start -->
+<div *ngIf="userForm" class='page-content row'>
+  <div class='col-lg-12'>
+    <div class="card">
+      <div class="card-header btn-card-edit card-header-line mx-3">
+        {{ 'URAM.USER.DETAIL.BASIC_INFORMATION' | translate }}                 
+      </div>
+      <div class="card-body">
+        <form [formGroup]='userForm'>
+          <div class="col-lg-6 p-0">
+            <div formGroupName="basicInfoForm">
+              <div class="user-img m-0 mb-4">
+                <img id="img-image-path" class='rounded-circle'
+                  [src]='croppedImage != null ? croppedImage : "assets/images/default/users/no-image.jpg"'
+                  onerror="this.src='assets/images/default/users/no-image.jpg';">
+                <div class="user-img m-0 mb-4 py-2">
+                  <!-- <a id="link-add-photo" [routerLink]=""
+                    (click)="openProfileCropper()">{{ 'URAM.USER.DETAIL.ADD_PHOTO' | translate }}</a> -->
+
+                    <a id="link-add-photo" class="text-nowrap" [routerLink]="" (click)="openProfileCropper()">{{ croppedImage == 'assets/images/default/users/no-image.jpg' ||
+                      croppedImage == 'assets/images/default/users/no-image.jpg' 
+                      ? ( 'URAM.USER.DETAIL.ADD_PHOTO' | translate ) :  ( 'URAM.USER.DETAIL.CHANGEPHOTO' | translate ) }}</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 col-sm-12 col-md-6">
+                  <div class='form-group'>
+                    <label>{{ 'URAM.USER.DETAIL.FIRST_NAME' | translate }}<span class="mandatory"></span></label>
+                    <input type='text' id="txt-firstName" formControlName='firstName' class='form-control'
+                      [ngClass]="{ 'is-invalid': submitted && userForm.get('basicInfoForm')['controls'].firstName.errors }" />
+                    <div *ngFor='let validation of user_validation_messages.firstName' class='invalid-feedback'>
+                      <div
+                        *ngIf="userForm.get('basicInfoForm')['controls'].firstName.hasError(validation.type) && submitted && userForm.get('basicInfoForm')['controls'].firstName.errors">
+                        {{ validation.message | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-12 col-md-6">
+                  <div class='form-group'>
+                    <label>{{ 'URAM.USER.DETAIL.LAST_NAME' | translate }}</label>
+                    <input type='text' id="txt-lastName" formControlName='lastName' class='form-control'>
+                    <!-- [ngClass]="{ 'is-invalid': submitted && changePasswordFrm.lastName.errors }" />
+                  <div *ngFor='let validation of user_validation_messages.lastName' class='invalid-feedback'>
+                    <div *ngIf='changePasswordFrm.lastName.hasError(validation.type) && submitted && changePasswordFrm.lastName.errors'>
+                      {{ validation.message | translate }}
+                    </div>
+                  </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class='row'>
+                <div class="col-lg-6 col-sm-12 col-md-6 edituser-email">
+                  <div class='form-group'>
+                    <label>{{ 'URAM.USER.DETAIL.EMAIL' | translate }}<span class="mandatory"></span></label>
+                    <input type='email' id="txt-email" formControlName='email' class='form-control'
+                      [ngClass]="{ 'is-invalid': submitted && userForm.get('basicInfoForm')['controls'].email.errors }"
+                      maxlength="100" />
+                    <div *ngFor='let validation of user_validation_messages.email' class='invalid-feedback'>
+                      <div
+                        *ngIf="userForm.get('basicInfoForm')['controls'].email.hasError(validation.type) && submitted && userForm.get('basicInfoForm')['controls'].email.errors">
+                        {{ validation.message | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-12 col-md-6 form-group">
+                  <label>{{ 'URAM.USER.DETAIL.PHONE_NUMBER' | translate }}</label>
+                  <div class="inner-addon left-addon lg-prefix">
+                    <span>+1</span>
+                    <input type='text' id="txt-phone" formControlName='phone' class='form-control' mask='(000) 000-0000'
+                      maxlength='16' (input)='inputPhoneMaskValid()'
+                      [ngClass]="{ 'is-invalid': submitted && userForm.get('basicInfoForm')['controls'].phone.errors }"
+                      autocomplete="off" />
+
+                    <div *ngFor='let validation of user_validation_messages.phone' class='invalid-feedback'>
+                      <div
+                        *ngIf="userForm.get('basicInfoForm')['controls'].phone.hasError(validation.type) && submitted && userForm.get('basicInfoForm')['controls'].phone.errors">
+                        {{ validation.message | translate }}
+                      </div>
+                    </div>
+                    <div *ngIf='isPhoneInvalid' class='invalid-feedback'>
+                      {{ 'URAM.USER.DETAIL.MESSAGE_INVALID_PHONENUMBER' | translate }}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label for='roleId'>{{ 'URAM.USER.DETAIL.ROLE' | translate }}<span class="mandatory"></span></label>
+                  <select class='form-control' id="drp-role-id" formControlName='roleId'
+                    [ngClass]="{ 'is-invalid': submitted && userForm.get('basicInfoForm')['controls'].roleId.errors }">
+                    <option *ngFor='let role of roles' [value]='role.id'>{{ role.name }}</option>
+                  </select>
+                  <div *ngFor='let validation of user_validation_messages.roleId' class='invalid-feedback'>
+                    <div
+                      *ngIf="userForm.get('basicInfoForm')['controls'].roleId.hasError(validation.type) && submitted && userForm.get('basicInfoForm')['controls'].roleId.errors">
+                      {{ validation.message | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for='timezone'>{{ 'URAM.USER.DETAIL.TIMEZONE' | translate }}<span
+                      class="mandatory"></span></label>
+                  <select class='form-control' id="drp-time-zone" formControlName='timezone'
+                    [ngClass]="{ 'is-invalid': submitted && userForm.get('basicInfoForm')['controls'].timezone.errors }">
+                    <option *ngFor='let time of timeZoneList' [value]='time.standardName'>{{ time.displayName }}
+                    </option>
+                  </select>
+                  <div *ngFor='let validation of user_validation_messages.timezone' class='invalid-feedback'>
+                    <div
+                      *ngIf="userForm.get('basicInfoForm')['controls'].timezone.hasError(validation.type) && submitted && userForm.get('basicInfoForm')['controls'].timezone.errors">
+                      {{ validation.message | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <div><label>{{ 'URAM.USER.DETAIL.STATUS' | translate }}</label></div>
+                  <label class="m-0">
+                    <div class="switch switch-label switch-pill switch-primary">
+                      <input type="checkbox" id="swt-active-inactive" class="switch-input" formControlName='isActive'>
+                      <div class="switch-slider switch--status" data-checked="Active" data-unchecked="Inactive"></div>
+                    </div>
+                  </label>
+                </div>
+                <div class="col-md-6 form-group">
+                  <button *ngIf="formMode == 'EDIT' && !user.isActive" type="button" id="btn-send-reactivation"
+                    class="btn btn-link p-0" (click)='onSendReactivation()'>{{ 'URAM.USER.DETAIL.SEND_ACTIVATION' | translate }}</button>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formMode == 'ADD'">
+              <div class="row" formGroupName="changePassForm">
+                <div class="col-md-6 col-sm-12 form-group" >
+                  <label>{{ 'URAM.USER.DETAIL.PASSWORD' | translate }}<span class="mandatory"></span></label>
+                  <input type='password' id="txt-password" formControlName='password' class='form-control'
+                    maxlength='20'
+                    [ngClass]="{ 'is-invalid': submitted && userForm.get('changePassForm')['controls'].password.errors }" />
+                  <div *ngFor='let validation of user_validation_messages.password' class='invalid-feedback'>
+                    <div
+                      *ngIf="userForm.get('changePassForm')['controls'].password.hasError(validation.type) && submitted && userForm.get('changePassForm')['controls'].password.errors">
+                      {{ validation.message | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12 form-group" *ngIf="formMode == 'ADD'">
+                  <label>{{ 'URAM.USER.DETAIL.CONFIRM_PASSWORD' | translate }}<span class="mandatory"></span></label>
+                  <input type='password' id="txt-confirm-password" formControlName='confirmPassword'
+                    class='form-control' maxlength='20'
+                    [ngClass]="{ 'is-invalid': submitted && userForm.get('changePassForm')['controls'].confirmPassword.errors }" />
+                  <div *ngFor='let validation of user_validation_messages.confirmPassword' class='invalid-feedback'>
+                    <div
+                      *ngIf="userForm.get('changePassForm')['controls'].confirmPassword.hasError(validation.type) && submitted && userForm.get('changePassForm')['controls'].confirmPassword.errors">
+                      {{ validation.message | translate }}
+                    </div>
+                    <div class="error-message"
+                      *ngIf="userForm.get('changePassForm')['controls'].confirmPassword.errors && (userForm.get('changePassForm')['controls'].confirmPassword.value != null && userForm.get('changePassForm')['controls'].confirmPassword.value != '')">
+                      {{ 'URAM.USER.DETAIL.MESSAGE_PASSWORD_CONFIRMPASSWORD' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-right">
+              <button id="btn-cancel" class='btn btn-secondary mr-16' type='button'
+                (click)='onResetUserDetail()'>{{ 'URAM.USER.DETAIL.RESET' | translate }}</button>&nbsp;
+              <button id="btn-save" class='btn btn-primary' type='button'
+                (click)='saveForm(userForm.value)'>{{ 'URAM.USER.DETAIL.SAVE' | translate }}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="formMode == 'EDIT'">
+        <div class="card-header btn-card-edit card-header-line mx-3">
+          {{ 'URAM.USER.DETAIL.RESET_PASSWORD' | translate }}
+        </div>
+        <div *ngIf="changePasswordForm" class="card-body">
+          <form [formGroup]='changePasswordForm'>
+            <div class="col-lg-6 p-0">
+              <div class="row">
+                <div class="col-lg-6 col-sm-12 col-md-6">
+                  <div class='form-group'>
+                    <label>{{ 'URAM.USER.DETAIL.PASSWORD' | translate }}<span class="mandatory"></span></label>
+                    <input type='password' id="txt-password" formControlName='password' class='form-control'
+                      maxlength='20' [ngClass]="{ 'is-invalid': isChangePassword && changePasswordForm.controls.password.errors }" />
+                    <div *ngFor='let validation of user_validation_messages.password' class='invalid-feedback'>
+                      <div *ngIf='changePasswordForm.controls.password.hasError(validation.type) && isChangePassword && changePasswordForm.controls.password.errors'>
+                        {{ validation.message | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-12 col-md-6">
+                  <div class='form-group'>
+                    <label>{{ 'URAM.USER.DETAIL.CONFIRM_PASSWORD' | translate }}<span class="mandatory"></span></label>
+                    <input type='password' id="txt-confirm-password" formControlName='confirmPassword'
+                      class='form-control' maxlength='20'
+                      [ngClass]="{ 'is-invalid': isChangePassword && changePasswordForm.controls.confirmPassword.errors }" />
+                    <div *ngFor='let validation of user_validation_messages.confirmPassword' class='invalid-feedback'>
+                      <div *ngIf='changePasswordForm.controls.confirmPassword.hasError(validation.type) && isChangePassword && changePasswordForm.controls.confirmPassword.errors'>
+                        {{ validation.message | translate }}
+                      </div>
+                      <div class="error-message"
+                        *ngIf="changePasswordForm.controls.confirmPassword.errors && (changePasswordForm.controls.confirmPassword.value != null && changePasswordForm.controls.confirmPassword.value != '')">
+                        {{ 'URAM.USER.DETAIL.MESSAGE_PASSWORD_CONFIRMPASSWORD' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <button id="btn-cancel" class='btn btn-secondary mr-16' type='button'
+                    (click)='onResetPasswordForm()'>{{ 'URAM.USER.DETAIL.RESET' | translate }}</button>&nbsp;
+                  <button id="btn-save" class='btn btn-primary' type='button'
+                    (click)='onSetUserPassword(changePasswordForm.value)'>{{ 'URAM.USER.DETAIL.SAVE' | translate }}</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Content End -->

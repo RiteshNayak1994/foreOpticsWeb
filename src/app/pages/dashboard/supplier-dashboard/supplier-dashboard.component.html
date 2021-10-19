@@ -1,0 +1,40 @@
+<div class="entity-search-area">
+    <h3>Supplier: {{supplierName}}</h3>
+    <div class='row' [formGroup]="searchFilterForm">
+        <div class="col-2">
+            <label class="mb-0">Time Span</label>
+            <p-dropdown [options]="timeSpanList" formControlName="selectedTimeSpan" class="form-control"
+                placeholder="Select Time Span" (onChange)="onTimeSpanChange()"></p-dropdown>
+        </div>
+        <div class="col-2">
+            <label class="mb-0">Buyer</label>
+            <p-dropdown [options]="buyerList" formControlName="selectedBuyer" optionLabel="name" class="form-control"
+                placeholder="Select Buyer" (onChange)="onBuyerChange()"></p-dropdown>
+        </div>
+        <div class="col-8">
+            <button id="btn-back" class='btn btn-secondary float-right' type='button' (click)="onBack()">
+                {{'CRM.OTHER_CONTACTS.DETAIL.BUTTON_BACK' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<div class="mt-3 page-content">
+    <div class="container-fluid">
+        <div class="row justify-content-start">
+            <ng-container *ngFor="let indicator of indicatorList">
+                <ng-container *ngIf="indicator.widgetSize.isInfoBox">
+                    <app-combo-indicator [indicatorConfig]="indicator" class="swotsection" [ngClass]="indicator.widgetSize.bsWidth" [selectedTSValue]="selectedTSValue"
+                    [selectedBuyerId]="selectedBuyerId" [selectedSupplierId]="supplierId"></app-combo-indicator>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="row mb-3">
+            <ng-container *ngFor="let indicator of indicatorList">
+                <ng-container *ngIf="indicator.widgetSize.isInfoBox == undefined">
+                    <app-combo-indicator [indicatorConfig]="indicator" class="swotsection mt-3" [ngClass]="indicator.widgetSize.bsWidth" [selectedTSValue]="selectedTSValue"
+                    [selectedBuyerId]="selectedBuyerId" [selectedSupplierId]="supplierId"></app-combo-indicator>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

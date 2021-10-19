@@ -1,0 +1,45 @@
+.tbl-user-list{
+    th.user-img, td.user-img { width:50px; text-align: center; vertical-align: middle; }
+
+    .ui-table-responsive .ui-table-tbody>tr>td.user-img {
+        @media screen and (max-width: 40em){ text-align: center; }
+    }
+
+    th.phone, td.phone { width: 150px; }
+    th.roleName, td.roleName{ width: 180px; }
+    th.fullName, td.fullName {width:245px ; word-break: break-all;}
+    th.fullName, td.fullName{ word-break: break-word; }
+    th.email, td.email { width: 280px;  word-break: break-all; }
+    th.isActive, td.isActive { width: 100px; }
+    th.impersonate, td.impersonate {  width: 100px; 
+        @media (max-width: 639px){padding-top: 10px;}
+    }
+    th.id.action{ width: 60px; }
+    td.impersonate > button { padding: 2px 20px;height: 26px; font-weight: normal; }
+
+    .badge.badge--status{ font-size: 11px; }
+}
+
+.search-panel label { margin-bottom: 0.1rem; }
+
+.btn-margin{
+    @media screen and (max-width: 767px) and (min-width: 576px) { margin: 0 15px 0 0; } 
+}
+
+.btn-view {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.btn-mg {
+    margin: 21px 15px 0 0;
+    @media (max-width: 575px){ margin: 0 15px 0 0; }
+}
+.impersonate.userlistimpersonate button {
+    display: flex;
+    align-items: center;
+    padding: 0px 20px !important;
+}
+.impersonate.userlistimpersonate {width:130px !important;}

@@ -1,0 +1,65 @@
+<!-- Page Header Start -->
+<div class='page-header'>
+  <h4>
+    <span *ngIf="formMode == 'ADD'" class='header-text'>{{ 'URAM.PERMISSION_SET.DETAIL.ADD_TITLE' | translate }}</span>
+    <span *ngIf="formMode == 'EDIT'" class='header-text'>{{ 'URAM.PERMISSION_SET.DETAIL.EDIT_TITLE' | translate }}</span>
+  </h4>
+</div>
+<!-- Page Header End -->
+
+<!-- Page Content Start -->
+<div *ngIf="permissionSetForm" class='page-content row'>
+  <div class="col-12">
+    <div class='card'>
+      <div class='card-body'>
+        <div class="col-xl-6 p-0">
+          <form [formGroup]='permissionSetForm'>
+            <div class='row'>
+              <div class='col-sm-6 form-group'>
+                <label>{{ 'URAM.PERMISSION_SET.DETAIL.PERMISSION_SET' | translate }}<span class="mandatory"></span></label>
+                <input type='text' id="txt-name" formControlName='name' class='form-control'
+                  [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngFor='let validation of permissionSet_validation_messages.name' class='invalid-feedback'>
+                  <div *ngIf='f.name.hasError(validation.type) && submitted && f.name.errors'>
+                    {{ validation.message | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <label>{{ 'URAM.PERMISSION_SET.DETAIL.PERMISSION' | translate }}<span class="mandatory"></span></label>
+              <div *ngIf="submitted && selectedPermissions.length == 0" class="invalid-feedback d-block mb-2">
+                  {{ 'URAM.PERMISSION_SET.DETAIL.MESSAGE_PERMISSIONSET_SELECT' | translate }}
+              </div>
+                <div class="permission-data">
+                  <div class="card-columns">
+                    <div *ngFor="let item of permissions;">
+                      <div class="card border-0 bg-transparent">
+                        <div class="card-body p-0 ">
+                          <h5 class="card-title">{{ item.name }}</h5>
+                          <div class="card-text">
+                            <ul class="list-style-none" *ngFor="let p of item.values; let i = index">
+                              <li><label  class="custom-control custom-checkbox">
+                                  <input type="checkbox" id="{{ createPermissionId(p) }}" class="custom-control-input" [checked]="p.isChecked" (change)="checkChange($event.target)">
+                                  <div id="{{ createPermissionId(p) }}" class="custom-control-label">{{ p.name }} </div>
+                                </label></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class='float-right'>
+              <button id="btn-cancel" class='btn btn-secondary mr-16' type='button' (click)='closeForm()'>{{ 'URAM.PERMISSION_SET.DETAIL.CANCEL' | translate }}</button>&nbsp;
+              <button id="btn-save" class='btn btn-primary' type='button'
+                (click)='saveForm(permissionSetForm.value)'>{{ 'URAM.PERMISSION_SET.DETAIL.SAVE' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Content End -->

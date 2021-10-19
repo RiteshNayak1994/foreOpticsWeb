@@ -1,0 +1,464 @@
+<p-card [ngClass]="getCardClass()">
+    <p-header>
+        <span [innerHTML]="headerElement"></span>
+        <ng-container *ngFor="let fltrs of header.filters">
+            <ng-container [ngSwitch]="fltrs.filtername">
+                <ng-container *ngSwitchCase="filterNameList.QuantityCost">
+                    <div class="float-right">
+                        <span class="mr-3 formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[0]}"
+                            (click)="changeFilter(fltrs.filtername,fltrs.value[0])">{{fltrs.label[0]}}</span>
+                        <span class="formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[1]}"
+                            (click)="changeFilter(fltrs.filtername,fltrs.value[1])">{{fltrs.label[1]}}</span>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.Information">
+                    <i class="fas fa-info-circle fa-sm float-right"></i>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.RiskText">
+                        <span *ngIf="showTableBackBtn" class="ml-2 datatitle posRiskTitle">
+                           {{riskDisplayName[riskTrendIndex]}}
+                        </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.DataView">
+                    <div *ngIf="indicatorConfig.name != indicatorNameList.Risk_Trend[2].name || showTableBackBtn" class="float-right">
+                        <!-- <p-dropdown [options]="dataDurationList" [(ngModel)]="selectedView" optionLabel="label"
+                            optionValue="value" (onChange)="onViewChange()" class="form-control"
+                            placeholder="Select View">
+                        </p-dropdown> -->
+                        <p-selectButton styleClass="timeSelector" [options]="dataDurationList"
+                            [(ngModel)]="header.selectedView" (onChange)="onViewChange()" optionLabel="label">
+                        </p-selectButton>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.RiskFactor">
+                    <div class="float-right riskFactor">
+                        <p-dropdown [options]="riskFactorOptions" [(ngModel)]="selectedRiskFactor" class="form-control" optionLabel="label" optionValue="value"
+                            (onChange)="onRiskFactorChange(fltrs.filtername)"></p-dropdown>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.SupplierCompare">
+                    <div class="float-left" *ngIf="!showTableBackBtn">
+                        <p-button label="Compare Suppliers" (click)="showTableCheckBox()"></p-button>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.RarEsFsQs">
+                    <div class="float-right RARESFSQS">
+                        <p-dropdown [options]="riskProfileFilterOptions" [(ngModel)]="selectedRiskFilter"
+                            class="form-control" (onChange)="onRiskFilterChange(fltrs.filtername)"></p-dropdown>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.Sort">
+                    <!-- <p-button styleClass="sortBtn" class="float-right ml-2" icon="fas fa-sort" (onClick)="onSortClick()"></p-button> -->
+                    <p-toggleButton styleClass="sortBtn" class="float-right ml-2" (click)="onSortClick()" onLabel="" offLabel=""
+                     [onIcon]="'fas fa-sort-amount-down'" [offIcon]="'fas fa-sort-amount-down-alt'"></p-toggleButton>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.Back">
+                    <span *ngIf="showTableBackBtn" class="float-right ml-2">
+                        <i class="fas fa-arrow-alt-circle-left fa-2x" (click)="removeBackBtn()"></i>
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.Reset">
+                    <span *ngIf="selectedOrder" class="float-right">
+                        <i class="fas fa-redo" (click)="removeOrderSelection()"></i>
+                    </span>
+                    <span *ngIf="selectedSuppliersForCompareLength > 0 && table.visible" class="float-left ml-2">
+                        <button class="resetSupplierSelection" (click)="removeSupplierSelection()">
+                            <i class="fas fa-redo" (click)="removeSupplierSelection()"></i>
+                        </button>
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="filterNameList.Export">
+                    <span class="float-right ml-1">
+                        <p-button pTooltip="Export to Excel" styleClass="sortBtn" icon="pi pi-file-excel" (click)="exportClick()" class="ui-button-success"></p-button>
+                    </span>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </p-header>
+    <ng-container [ngSwitch]="indicatorConfig.dashboardName">
+        <ng-container *ngSwitchCase="dashboardNamesList.DemandSupplyForecast">
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)" [ngClass]="'col-12'">
+                <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                    [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                    [subLegendCol]="chart.subLegendCol">
+                </app-indicator>
+            </div>
+            <div class="col-12" *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                Chart data not available for selected duration!
+            </div>
+            <div *ngIf="table" [ngClass]="'col-12'">
+                <app-chart-table [isChartComboTable]="chart ? true : false" [indId]="indicatorConfig.id"
+                    class="tabledata-record" [tableConfig]="table" [dashboardName]='indicatorConfig.dashboardName'
+                    [displayOrder]="indicatorConfig.displayOrder">
+                </app-chart-table>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="indicatorConfig.dashboardName == dashboardNamesList.DemandSupplyGap 
+        || indicatorConfig.dashboardName == dashboardNamesList.SupplyRiskAssessment ? indicatorConfig.dashboardName : false">
+            <div class="row">
+                <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)"
+                    [ngClass]="table ? 'col-7 padd-right' : 'col'">
+                    <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                        [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol">
+                    </app-indicator>
+                </div>
+                <div *ngIf="indicatorConfig.id == 150 || indicatorConfig.id == 160"
+                    [ngClass]="table ? 'col-7 padd-right' : 'col'">
+                    <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                        [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                        [subLegendCol]="chart.subLegendCol">
+                    </app-indicator>
+                </div>
+                <ng-container *ngIf="(indicatorConfig.id == 150 || indicatorConfig.id == 160) ? false : true">
+                    <div *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)" class="col-7">
+                        Chart data not available for selected duration!
+                    </div>
+                </ng-container>
+                <div *ngIf="table" [ngClass]="chart ? 'col-5 padd-left' : 'col'">
+                    <app-chart-table [isChartComboTable]="chart ? true : false" [indId]="indicatorConfig.id"
+                        class="tabledata-record" [tableConfig]="table" [dashboardName]='indicatorConfig.dashboardName'>
+                    </app-chart-table>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskProfile">
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)">
+                <app-indicator [indId]="indicatorConfig.id" [indicatorName]="indicatorConfig.name" [selectedView]="chart.type" [xAxisCol]="chart.xAxisCol"
+                    [yAxisCol]="chart.yAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                    [xAxisTitle]="chart.xAxisTitle" [yAxisTitle]="chart.yAxisTitle" [apiData]="chart.apiData"
+                    [seriesCol]="chart.seriesCol">
+                </app-indicator>
+            </div>
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                Chart data not available for selected filters!
+            </div>
+            <div *ngIf="table">
+                <app-chart-table [indId]="indicatorConfig.id" class="tabledata-record" [tableConfig]="table"
+                    [dashboardName]="indicatorConfig.dashboardName" [displayOrder]="indicatorConfig.displayOrder"
+                    [SCfilterObj]="SCfilterObj" [indicatorName]="indicatorConfig.name">
+                </app-chart-table>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskTrend">
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)">
+                <app-indicator *ngIf="chart.visible != false" [indId]="indicatorConfig.id"
+                    [indicatorName]="indicatorConfig.name" [selectedView]="chart.type" [xAxisCol]="chart.xAxisCol"
+                    [apiData]="chart.apiData" [yAxisCol]="chart.yAxisCol" [legendCol]="chart.legendCol"
+                    [parentCol]="chart.parentCol" [xAxisTitle]="chart.xAxisTitle" [yAxisTitle]="chart.yAxisTitle"
+                    [dashboardName] = "indicatorConfig.dashboardName">
+                </app-indicator>
+            </div>
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                Chart data not available for selected filters!
+            </div>
+            <div *ngIf="table && table.visible != false">
+                <app-chart-table [indId]="indicatorConfig.id" class="tabledata-record" [tableConfig]="table"
+                    [dashboardName]="indicatorConfig.dashboardName" [displayOrder]="indicatorConfig.displayOrder"
+                    [SCfilterObj]="SCfilterObj">
+                </app-chart-table>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskForecast">
+            <div class="col-12">
+                <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)">
+                    <app-indicator [indId]="indicatorConfig.id" [indicatorName]="indicatorConfig.name"
+                        [selectedView]="chart.type" [xAxisCol]="chart.xAxisCol" [apiData]="chart.apiData"
+                        [yAxisCol]="chart.yAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                        [xAxisTitle]="chart.xAxisTitle" [yAxisTitle]="chart.yAxisTitle"
+                        [dashboardName] = "indicatorConfig.dashboardName">
+                    </app-indicator>
+                </div>
+                <div *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                    Chart data not available for selected filters!
+                </div>
+                <div *ngIf="table && table.visible != false">
+                    <app-chart-table [indId]="indicatorConfig.id" class="tabledata-record" [tableConfig]="table"
+                        [dashboardName]="indicatorConfig.dashboardName" [displayOrder]="indicatorConfig.displayOrder"
+                        [SCfilterObj]="SCfilterObj">
+                    </app-chart-table>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'Supply_Chain_Supplier_Detail'">
+            <div class="row col-12">
+                <ng-container *ngIf="chart">
+                    <div *ngIf="indicatorData ? (indicatorData.length > 0) : false" [ngClass]="chart.bsWidth">
+                        <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type"
+                            [yAxisCol]="chart.yAxisCol" [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol"
+                            [parentCol]="chart.parentCol" [xAxisTitle]="chart.xAxisTitle"
+                            [yAxisTitle]="chart.yAxisTitle">
+                        </app-indicator>
+                    </div>
+                    <div *ngIf="indicatorData ? (indicatorData.length == 0) : false" class="pt-3"
+                        [ngClass]="chart.bsWidth">
+                        Chart data not available for selected duration!
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="table">
+                    <div [ngClass]="table.bsWidth">
+                        <app-chart-table [isChartComboTable]="false" [indId]="indicatorConfig.id"
+                            [dashboardName]='indicatorConfig.dashboardName' class="tabledata-record"
+                            [tableConfig]="table">
+                        </app-chart-table>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="icon">
+                    <div [ngClass]="icon.bsWidth">
+                        <div class="col-8">
+                            <div class="row">
+                                <i class="fas fa-truck-moving fa-2x col-4 mt-4"
+                                    [ngClass]="transportRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-smog fa-2x col-4 mt-4"
+                                    [ngClass]="weatherRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-life-ring fa-2x col-4 mt-4"
+                                    [ngClass]="lifeRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-money-bill-alt fa-2x col-4 mt-4"
+                                    [ngClass]="moneyRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-search-location fa-2x col-4 mt-4"
+                                    [ngClass]="locationRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-file-alt fa-2x col-4 mt-4"
+                                    [ngClass]="documentRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-arrow-up fa-5x mt-4"
+                                [ngClass]="totalRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="text">
+                    <div [ngClass]="text.bsWidth">
+                        <div class="align-middle text-center h-120">
+                            {{dri}}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <div class="row" style="width: 100%;margin: 0px;">
+                <ng-container *ngIf="chart">
+                    <div *ngIf="indicatorData ? (indicatorData.length > 0) : false" [ngClass]="chart.bsWidth"
+                        style="padding: 0px;">
+                        <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type"
+                            [yAxisCol]="chart.yAxisCol" [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol"
+                            [parentCol]="chart.parentCol" [xAxisTitle]="chart.xAxisTitle"
+                            [yAxisTitle]="chart.yAxisTitle">
+                        </app-indicator>
+                    </div>
+                    <div *ngIf="indicatorData ? (indicatorData.length == 0) : false" class="pt-3"
+                        [ngClass]="chart.bsWidth">
+                        Chart data not available for selected duration!
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="table">
+                    <div [ngClass]="table.bsWidth" style="padding: 0px;">
+                        <app-chart-table [isChartComboTable]="false" [indId]="indicatorConfig.id"
+                            [dashboardName]='indicatorConfig.dashboardName' class="tabledata-record"
+                            [tableConfig]="table" [displayOrder]="indicatorConfig.displayOrder">
+                        </app-chart-table>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="icon">
+                    <div [ngClass]="icon.bsWidth" style="padding: 0px;">
+                        <div class="col-8">
+                            <div class="row">
+                                <i class="fas fa-truck-moving fa-2x col-4 mt-4"
+                                    [ngClass]="transportRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-smog fa-2x col-4 mt-4"
+                                    [ngClass]="weatherRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-life-ring fa-2x col-4 mt-4"
+                                    [ngClass]="lifeRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-money-bill-alt fa-2x col-4 mt-4"
+                                    [ngClass]="moneyRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-search-location fa-2x col-4 mt-4"
+                                    [ngClass]="locationRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                                <i class="fas fa-file-alt fa-2x col-4 mt-4"
+                                    [ngClass]="documentRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-arrow-up fa-5x mt-4"
+                                [ngClass]="totalRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="text">
+                    <div [ngClass]="text.bsWidth" style="padding: 0px;">
+                        <div class="align-middle text-center h-120">
+                            {{dri}}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</p-card>
+<!-- <p-card>
+    <p-header>
+        <ng-container [ngSwitch]="indicatorConfig.dashboardName">
+            <ng-container *ngSwitchCase="'Supply_Chain_Supplier_Detail'">
+                <ng-container *ngIf="indicatorConfig.widgetSize.isInfoBox; else headerStyle_1">
+                    {{header.title}}
+                </ng-container>
+                <ng-template #headerStyle_1>
+                    <span class="float-left mb-3">
+                        {{header.title}}{{indicatorConfig.name == indicatorNameList.Supply_Chain_Supplier_Detail[8].name ? ' ' + selectedTSValue + ' days'
+                        : ''}}
+                        <ng-container *ngIf="selectedOrder">
+                            <span *ngIf="indicatorConfig.name == indicatorNameList.Supply_Chain_Supplier_Detail[9].name" class="activedata">
+                                for PO# {{selectedOrder}}
+                            </span>
+                            <span *ngIf="indicatorConfig.name == indicatorNameList.Supply_Chain_Supplier_Detail[10].name" class="activedata">
+                                {{selectedOrder}}
+                            </span>
+                        </ng-container>
+                    </span>
+                    <span *ngIf="indicatorConfig.name == indicatorNameList.Supply_Chain_Supplier_Detail[8].name && selectedOrder" class="float-right">
+                        <i class="fas fa-redo" (click)="removeOrderSelection()"></i>
+                    </span>
+                </ng-template>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <span class="datatitle"> {{header.title}}</span>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngFor="let fltrs of header.filters">
+            <ng-container [ngSwitch]="fltrs.filtername">
+                <ng-container *ngSwitchCase="'quantitycost'">
+                    <div class="float-right">
+                        <span class="mr-3 formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[0]}"
+                            (click)="changeFilter(fltrs.filtername,fltrs.value[0])">{{fltrs.label[0]}}</span>
+                        <span class="formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[1]}"
+                            (click)="changeFilter(fltrs.filtername,fltrs.value[1])">{{fltrs.label[1]}}</span>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'information'">
+                    <i class="fas fa-info-circle fa-sm float-right"></i>
+                </ng-container>
+                <ng-container *ngSwitchCase="'dataview'">
+                    <div class="float-right">
+                        <p-dropdown [options]="dataDurationList" [(ngModel)]="selectedView" optionLabel="label"
+                            optionValue="value" (onChange)="onViewChange()" class="form-control"
+                            placeholder="Select View">
+                        </p-dropdown>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </p-header>
+    <ng-container [ngSwitch]="indicatorConfig.dashboardName">
+        <ng-container *ngSwitchCase="'Demand_Supply_Forecast'">
+            <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)" [ngClass]="'col-12'">
+                <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                    [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                    [subLegendCol]="chart.subLegendCol">
+                </app-indicator>
+            </div>
+            <div class="col-12" *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                Chart data not available for selected duration!
+            </div>
+            <div *ngIf="table" [ngClass]="'col-12'">
+                <app-chart-table [isChartComboTable]="chart ? true : false" [indId]="indicatorConfig.id"
+                    class="tabledata-record" [tableConfig]="table" [dashboardName]='indicatorConfig.dashboardName'
+                    [displayOrder]="indicatorConfig.displayOrder">
+                </app-chart-table>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="indicatorConfig.dashboardName == 'Demand_Supply_Gap' 
+        || indicatorConfig.dashboardName == 'Supply_Risk_Assessment' ? indicatorConfig.dashboardName : false">
+            <div class="row">
+                <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)"
+                    [ngClass]="table ? 'col-7 padd-right' : 'col'">
+                    <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                        [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol">
+                    </app-indicator>
+                </div>
+                <div *ngIf="indicatorConfig.id == 150 || indicatorConfig.id == 160"
+                    [ngClass]="table ? 'col-7 padd-right' : 'col'">
+                    <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                        [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                        [subLegendCol]="chart.subLegendCol">
+                    </app-indicator>
+                </div>
+                <ng-container *ngIf="(indicatorConfig.id == 150 || indicatorConfig.id == 160) ? false : true">
+                    <div *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)" class="col-7">
+                        Chart data not available for selected duration!
+                    </div>
+                </ng-container>
+                <div *ngIf="table" [ngClass]="chart ? 'col-5 padd-left' : 'col'">
+                    <app-chart-table [isChartComboTable]="chart ? true : false" [indId]="indicatorConfig.id"
+                        class="tabledata-record" [tableConfig]="table" [dashboardName]='indicatorConfig.dashboardName'>
+                    </app-chart-table>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'Supply_Chain_Supplier_Detail'">
+            <ng-container *ngIf="chart">
+                <div *ngIf="indicatorData ? (indicatorData.length > 0) : false" [class]="chart.type == 'solidgauge' ? 'chartdata-s' : ''">
+                    <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type" [yAxisCol]="chart.yAxisCol"
+                        [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol" [parentCol]="chart.parentCol"
+                        [xAxisTitle]="chart.xAxisTitle" [yAxisTitle]="chart.yAxisTitle">
+                    </app-indicator>
+                </div>
+                <div *ngIf="indicatorData ? (indicatorData.length == 0) : false" class="pt-3">
+                    Chart data not available for selected duration!
+                </div>
+            </ng-container>
+            <ng-container *ngIf="icon">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <i class="fas fa-truck-moving fa-2x col-4 mt-4"
+                                [ngClass]="transportRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            <i class="fas fa-smog fa-2x col-4 mt-4"
+                                [ngClass]="weatherRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            <i class="fas fa-life-ring fa-2x col-4 mt-4"
+                                [ngClass]="lifeRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            <i class="fas fa-money-bill-alt fa-2x col-4 mt-4"
+                                [ngClass]="moneyRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            <i class="fas fa-search-location fa-2x col-4 mt-4"
+                                [ngClass]="locationRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                            <i class="fas fa-file-alt fa-2x col-4 mt-4"
+                                [ngClass]="documentRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-arrow-up fa-5x mt-4" [ngClass]="totalRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="text">
+                <div class="align-middle text-center h-120">
+                    {{dri}}
+                </div>
+            </ng-container>
+            <ng-container *ngIf="table">
+                <app-chart-table [isChartComboTable]="false" [indId]="indicatorConfig.id"
+                    [dashboardName]='indicatorConfig.dashboardName' class="tabledata-record" [tableConfig]="table">
+                </app-chart-table>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <div class="row">
+                <div *ngIf="chart && (indicatorData ? (indicatorData.length > 0) : false)"
+                    [ngClass]="table ? 'col-4' : 'col'">
+                    <div>
+                        <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type"
+                            [yAxisCol]="chart.yAxisCol" [xAxisCol]="chart.xAxisCol" [legendCol]="chart.legendCol"
+                            [parentCol]="chart.parentCol">
+                        </app-indicator>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="chart && (indicatorData ? (indicatorData.length == 0) : false)">
+                    Chart data not available for selected duration!
+                </div>
+                <div *ngIf="table" [ngClass]="chart ? 'col-8' : 'col'">
+                    <app-chart-table [isChartComboTable]="chart ? true : false" [indId]="indicatorConfig.id"
+                        [dashboardName]='indicatorConfig.dashboardName' class="tabledata-record" [tableConfig]="table">
+                    </app-chart-table>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</p-card> -->
