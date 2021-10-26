@@ -4,7 +4,7 @@ import { AbstractChart } from '../abstract-chart';
 import * as Highcharts from 'highcharts';
 import { colors, IndicatorsAs, themes } from '../../chartConstants';
 import { Subscription } from 'rxjs';
-import { ShortNumberPipe } from '../../../../../@theme/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
 import { ChartService } from '../../chart.service';
 import * as moment from 'moment';
 import highchartmore from 'highcharts/highcharts-more';

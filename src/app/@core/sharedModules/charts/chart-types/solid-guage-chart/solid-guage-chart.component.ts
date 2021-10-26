@@ -4,7 +4,7 @@ import { AbstractChart } from '../abstract-chart';
 import more from 'highcharts/highcharts-more';
 import solidguage from 'highcharts/modules/solid-gauge';
 import { ChartService } from '../../chart.service';
-import { ShortNumberPipe } from '../../../../../@theme/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
 more(Highcharts);
 solidguage(Highcharts);
 

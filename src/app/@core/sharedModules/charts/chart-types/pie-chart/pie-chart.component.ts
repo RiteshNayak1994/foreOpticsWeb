@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { ShortNumberPipe } from '../../../../../@theme/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
 import { ChartService } from '../../chart.service';
 import { colors, IndicatorsAs } from '../../chartConstants';
 import { AbstractChart } from '../abstract-chart';

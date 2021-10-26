@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ShortNumberPipe } from '../../../../../@theme/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
 import { ChartService } from '../../chart.service';
 import { colors, IndicatorsAs } from '../../chartConstants';
 import { AbstractChart } from '../abstract-chart';

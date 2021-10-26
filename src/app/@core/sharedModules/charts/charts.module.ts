@@ -19,9 +19,9 @@ import { IndicatorComponent } from './indicator/indicator.component';
 import { ChartviewComponent } from './chartview/chartview.component';
 import { ChartTableComponent } from './chart-table/chart-table.component';
 import { ComboIndicatorComponent } from './combo-indicator/combo-indicator.component';
-import { DateFormatPipeModule } from '../../../@theme/pipes/date-format-pipe/date-format-pipe.module';
+import { DateFormatPipeModule } from '../../../@core/pipes/date-format-pipe/date-format-pipe.module';
 
-import { ShortNumberModule } from '../../../@theme/pipes/short-number/short-number.module';
+import { ShortNumberModule } from '../../../@core/pipes/short-number/short-number.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 @NgModule({
