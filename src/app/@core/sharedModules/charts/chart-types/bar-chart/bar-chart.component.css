@@ -1,6 +1,0 @@
-:host ::ng-deep .highcharts-scrollbar:focus{
-    background-color: #dad8d8;
-}
-:host ::ng-deep .highcharts-drillup-button{
-    display: none;
-}

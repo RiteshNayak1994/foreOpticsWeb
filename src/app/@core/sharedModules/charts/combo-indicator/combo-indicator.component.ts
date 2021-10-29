@@ -441,7 +441,7 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.indicatorConfig.name == this.indicatorNameList.Risk_Trend[1].name) {
       headerText = "Time-Phased " + headerText + " Score";
     }
-    let fixedText = ' <span class="datatitle">' + headerText;
+    let fixedText = headerText;
     let toggleText = '';
 
     if (this.indicatorConfig.dashboardName == DashboardNamesList.SupplyChainSupplierDetail) {
@@ -453,7 +453,7 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
       }
 
     }
-    fixedText += "</span>";
+    // fixedText += "</span>";
     this.headerElement = fixedText + toggleText;
   }
 

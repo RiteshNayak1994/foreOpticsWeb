@@ -7,3 +7,7 @@
     padding-top: nb-theme(layout-padding-top);
   }
 }
+
+:host ::ng-deep .columns nb-layout-column{
+  padding: 1.5rem 0rem 0.5rem 0rem !important;
+}

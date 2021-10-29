@@ -1,252 +1,40 @@
-@import "src/scss/_variables.scss";
+@import '../../../../../scss/variables';
 
-.dotStyle{
-    width: 40px;
-    border: none !important;
-    background-color: white !important;
+.dark-green{
+    color: $dark-green;
 }
-td{
-    word-break: break-all;
-}
-.classAGL, .classRES, .classREL {
-    width: 10% !important;
-    text-align: right;
+.red-prog{
+    color: $red-prog;
 }
 
-.classDAM {
-    width: 11% !important;
-    text-align: right;
+// To enable providing custom width to columns of primeNg table - start
+:host ::ng-deep{
+    .p-datatable-scrollable .p-datatable-tbody>tr, 
+    .p-datatable-scrollable .p-datatable-tfoot>tr, 
+    .p-datatable-scrollable .p-datatable-thead>tr{
+        display: table;
+    }
+    .p-datatable-scrollable .p-datatable-tbody>tr>td, 
+    .p-datatable-scrollable .p-datatable-tfoot>tr>td,
+    .p-datatable-scrollable .p-datatable-thead>tr>th{
+        display: table-cell;
+    }
 }
-
-.classQty, .classCost{
-    width: 13% !important;
-    text-align: right;
+// To enable providing custom width to columns of primeNg table - end
+.classDamVariance, .classDam, .classOrderedQty, .classPoLine, .classDueDate {
+        text-align: right !important;
 }
-
-.classCostPerQuantity{
-    width: 19% !important;
-    text-align: right;
-}
-
-.cellContentBold, .classParts, .classProductFamily, .classPlatformName{
-    font: 700 14px/20px Muli !important;
-    color: #000;
-    white-space: inherit !important;
-}
-
-.cellContentBold:hover{
-    cursor: default !important;
-    color: #000 !important;
-}
-
 .classSuppliers{
-    text-decoration: none;
-    color: #000;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-}
-
-#charTable_36 tr{
-    cursor: pointer;
-}
-
-.classProductFamily, .classPlatformName {
-    text-transform: uppercase;
-}
-.starStyle{
-    color: #afd480;
-}
-.green{
-    background-color: #afd480 !important;
-}
-.yellow{
-    background-color: #ffeb84 !important;
-}
-.red{
-    background-color: #f8696b !important;
-}
-.greenText{
-    color: $dark-green !important;
-}
-.lightGreen{
-    color: $green-prog;
-}
-.yellowText{
-    color: $light-yellow !important;
-}
-.redText{
-    color: $red-prog !important;
-}
-.lightRed{
-    color: $light-red !important;
-}
-.classDates{
-    width: 100px;
-    text-align: left;
-}
-
-.classDatesTrend{
-    width: 210px;
-    text-align: center;
-}
-
-.classParts{
-    width: 180px;
-}
-.classLocation{
-    width: 90px;
-}
-.classRatings{
-    width: 135px;
-    text-align: right;
-}
-.classDemand,.classGap{
-    width: 80px;
-    text-align: right;
-    
-}
-
-.classDemandTrend,.classGap, .classSupplyTrend{
-    width: 70px;
-    text-align: right;
-    
-}
-
-.classSupply, .classCapacity{
-    width: 150px;
-    text-align: right;
-    white-space:normal !important;
-}
-.classCycleStk, .classSafetyStk, .classOnHandInventory, .classTargetInventory{
-    text-align: right;
-    white-space:normal !important;
-}
-#charTable_Demand_Supply_Forecast .classGap {
-    cursor: pointer;
-}
-
-.qtyClass, .costClass{
-    width: 18%;
-    text-align: right;
-}
-.recClass{
-    width: 10%;
-    text-align: center;
-}
-.chkBoxClass{
-    width: 10%;
-}
-.orderClass, .itemClass{
-    font: 700 14px/20px Muli;
-    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .classDamVariance{
-    width: 46%;
-    text-align: right;
+    width: 35%;
 }
-.classOrderedQty, .classPoLine, .classPN{
+.classDueDate, .classPO{
+    width: 15%;
+}
+.classPoLine, .classOrderedQty, .classDam{
     width: 10%;
-    text-align: right;
 }
-.classPartNumber {
-    width: 11%;
-    text-align: left;
-}
-.classDueDate{
-    width: 13%;
-    text-align: center;
-}
-@media screen and (max-width: 768px){
-    :host ::ng-deep .riskProfileTable.ui-table {
-        .ui-table-thead .classDam{
-            width: 10%;
-            text-align: left;
-        }
-        .ui-table-tbody .classDam{
-            width: 10%;
-            text-align: left; 
-        }
-    }   
-}
-@media screen and (min-width: 769px){
-    :host ::ng-deep .riskProfileTable.ui-table {
-        .ui-table-thead .classDam{
-            width: 10%;
-            text-align: right;
-        }
-        .ui-table-tbody .classDam{
-            width: 10%;
-            text-align: right; 
-        }
-    }  
-}
-
-// risk trend table styling - starts
-.classAgility, .classReliability, .classResponsiveness,  .classEs, .classFs, .classQs {
-    width: 7%;
-    text-align: center;
-    word-break: break-word;
-    padding: 0 !important;
-}
-.classInfoGain{
-    width: 10%;
-    text-align: center;
-}
-.classCheckBox{
-    width: 4%;
-    text-align: center;
-}
-@media screen and (max-width: 768px){
-    :host ::ng-deep .riskTrendTable.ui-table {
-        .ui-table-thead .classDam{
-            text-align: left;
-            padding: 0 !important;
-        }
-        .ui-table-tbody .classDam{
-            text-align: left; 
-            padding: 0 !important;
-        }
-    }  
-}
-@media screen and (min-width: 769px){
-    :host ::ng-deep .riskTrendTable.ui-table {
-        .ui-table-thead .classDam{
-            width: 7%;
-            text-align: center;
-            padding: 0 !important;
-        }
-        .ui-table-tbody .classDam{
-            width: 7%;
-            text-align: center; 
-            padding: 0 !important;
-        }
-    } 
-}
-.externalRisk:hover{
-    cursor: pointer;   
-}
-// --- Heat Map for table styling - start
-.greenhm{
-    background-color: #afd480 !important;
-    padding: 11px 5px 11px 0px;
-}
-.yellowhm{
-    background-color: #ffeb84 !important;
-    padding: 11px 5px 11px 0px;
-}
-.redhm{
-    background-color: #f8696b !important;
-    padding: 11px 5px 11px 0px;
-}
-.classSuppliers > .otherColumn{
-    margin-left: 0 !important;
-}
-.classInfoGain > .otherColumn{
-    margin-left: 0 !important;
-} 
-.classExternalRisk  > .otherColumn{
-    margin-left: 0 !important;
-} 
-// --- Heat Map for table styling - end
-// risk trend table styling - ends

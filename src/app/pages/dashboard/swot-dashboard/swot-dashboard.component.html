@@ -4,17 +4,17 @@
         <div class="col-2">
             <label class="mb-0">Time Span</label>
             <p-dropdown [options]="timeSpanList" formControlName="selectedTimeSpan" (onChange)="onTimeSpanChange()"
-                class="form-control" placeholder="Select Time Span"></p-dropdown>
+                class="" placeholder="Select Time Span"></p-dropdown>
         </div>
         <div class="col-2">
             <label class="mb-0">Buyer</label>
             <p-dropdown [options]="buyerList" formControlName="selectedBuyer" optionLabel="name"
-                (onChange)="onBuyerChange()" class="form-control" placeholder="Select Buyer"></p-dropdown>
+                (onChange)="onBuyerChange()" class="" placeholder="Select Buyer"></p-dropdown>
         </div>
         <div *ngIf="isPartsView" class="col-2">
             <label class="mb-0">Parts</label>
             <p-dropdown [options]="partsList" formControlName="selectedPart" optionLabel="partName"
-                (onChange)="onPartChange()" class="form-control" placeholder="Select Parts"></p-dropdown>
+                (onChange)="onPartChange()" class="" placeholder="Select Parts"></p-dropdown>
         </div>
         <div [ngClass]="isPartsView ? 'col-6' : 'col-8'">
             <p-radioButton label="By Parts" name="viewType" value="parts" formControlName="selectedViewType"

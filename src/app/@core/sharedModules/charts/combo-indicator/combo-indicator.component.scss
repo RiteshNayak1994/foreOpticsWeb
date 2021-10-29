@@ -1,117 +1,72 @@
-:host ::ng-deep .ui-card{
-    height: 100% !important;
+// ng-prime - card - start
+:host ::ng-deep{
+    .customCard.p-card{
+        padding: 0 0.5rem; 
+        max-height: 395px;
+        height: 100%;
+    }
+    .p-card-body{
+        padding: 0;
+    }
+    .p-card-content{
+        padding: 0.5rem 0;
+    }
+    .p-card-header{
+        flex: 0 0 100%;
+        padding: 8px 0 0 0;
+    }
 }
-:host ::ng-deep .activedata{
-    color: #fdb813;
+// ng-prime - card - end
+
+// primeNg table - start
+:host ::ng-deep .p-datatable-wrapper{
+    width: 100%;
 }
-.posRiskTitle{
-    position: absolute;
-    top: 6%;
-    left: 46%;
+// primeNg table - end
+
+// ng-prime - icon button - start
+:host ::ng-deep{
+    .iconButton.p-button-icon-only{
+        width: 32px;
+        height: 32px;
+        border-radius: 18px;
+    }
+    .float-right.p-button-icon-only{
+        float: right;
+    }
 }
-.drillDown{
+// ng-prime - icon button - end
+
+// primeng - card header dropdown - start
+:host ::ng-deep{
+    .filterDropdown.p-dropdown{
+        float: right;
+    }
+    .RarEsFsQs.p-dropdown{
+        min-width: 125px;
+    }
+    .filterDropdown > .p-inputtext{
+        padding: 0.25rem 0.5rem;
+    }
+}
+// primeng - card header dropdown - end
+
+// general styling - start
+
+.float-right{
+    float: right;
+}
+.iconButton{
+    width: 32px;
+    height: 32px;
     border: none;
-    background: transparent;
-    padding: 0 0 0 5px;
-    margin-left: 5px;
-    color: #797878;
+    border-radius: 18px;
+    color: #fff;
+    background-color: #6c757d;
 }
-.dropdown-item{
-    font: 12px Muli;
+// --> card title
+.cardTitle{
+    font-weight: 500;
+    line-height: 2;
 }
-.h-120{
-    font-size: 60px;
-    font-weight: 900;
-    line-height: 120px;
-    color: #134e7b;
-    padding-right: 15px;
-}
-.highRisk{
-    color: #ffa600;
-}
-.lowRisk{
-    color: #259c29;
-}
-.fa-redo:hover{
-    cursor: pointer;
-}
-.fa-arrow-alt-circle-left:hover{
-    cursor: pointer;
-}
-:host ::ng-deep .ui-dropdown .ui-dropdown-panel{
-    height: auto !important;
-    padding: 0px !important;
-}
-:host ::ng-deep .ui-dropdown-panel .ui-dropdown-items{
-    padding: 0px !important;
-}
-.riskFactor .form-control{
-    min-width: 70px !important;
-    border: none !important;
-}
-
-.RARESFSQS .form-control{
-    min-width: 130px !important;
-    border: none !important;
-}
-
-:host ::ng-deep .ui-dropdown{
-    height: 28px !important;
-    padding: 4px 10px !important;
-}
-// styling for weekly, monthly, quaterly selector - start
-:host ::ng-deep .ui-button-text{
-    padding: 0.2em 0.8em !important;
-}
-:host ::ng-deep .timeSelector.ui-selectbutton.ui-corner-all{
-    border: 1px solid #ffc553 !important;
-    border-radius: 5px !important;
-    height: 28px !important;
-    padding: 0.1em !important;
-    .ui-button{
-        background-color: #fff !important;
-        border: none !important;
-    }
-    .ui-button.ui-state-active{
-        background-color: #ffc553 !important;
-        border-color: #ffc553 !important;
-        color: #fff !important;
-        border-radius: 5px;
-    }
-} 
-// styling for weekly, monthly, quaterly selector - end
-
-// responsiveness for Pane 2 - Widget 2 - Risk Factor Filter - start
-@media screen and (max-width: 768px){
-    .riskFactor{
-        margin-right: 0;
-        margin-top: 0.5rem !important;
-    }
-}
-@media screen and (min-width: 769px){
-    .riskFactor{
-        margin-right: 0.5rem !important;
-    }
-}
-// responsiveness for Pane 2 - Widget 2 - Risk Factor Filter - end
-
-// sort button styling - start
-:host ::ng-deep .sortBtn.ui-button-icon-only{
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    background-color: #dadada;
-    border: none;
-    color: #333;
-}
-// sort button styling - end
-// reset selected supplier - Risk Trend - start
-.resetSupplierSelection{
-    width: 27px;
-    height: 27px;
-    border-radius: 15px;
-    background-color: #dadada;
-    border: none;
-    color: #333;
-}
-// reset selected supplier - Risk Trend - end
+// general styling - end

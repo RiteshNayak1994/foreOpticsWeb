@@ -37,6 +37,9 @@ export class BarChartComponent extends AbstractChart implements OnInit {
   }
 
   ngOnInit(): void {
+    $( window ).resize(function() {
+      console.log('test');
+    });
     let subscription;
     subscription = this.chartService.indicatorData.subscribe((iData: any) => {
       if (iData.indicatorId == this.indId) {
@@ -124,6 +127,9 @@ export class BarChartComponent extends AbstractChart implements OnInit {
         },
         height: 325,
         marginLeft: 150
+      },
+      title:{
+        text: ''
       },
       drilldown: {
         activeAxisLabelStyle: {

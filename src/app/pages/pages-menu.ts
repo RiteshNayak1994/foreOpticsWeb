@@ -3,19 +3,19 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Risk Profile',
-    icon: 'fas fa-chalkboard',
+    icon: {icon: 'chalkboard', pack: 'fas'},
     link: 'dashboard/riskProfile',
     home: true,
   },
   {
     title: 'Risk Trend',
-    icon: 'fas fa-chart-line',
+    icon: {icon: 'chart-line', pack: 'fas'},
     link: 'dashboard/riskTrend',
     home: true,
   },
   {
     title: 'Forecasting',
-    icon: 'fas fa-chart-area',
+    icon: {icon: 'chart-area', pack: 'fas'},
     link: 'dashboard/forecast',
     home: true,
   }

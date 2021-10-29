@@ -3,13 +3,13 @@
         <ng-container *ngSwitchCase="dashboardNamesList.RiskTrend">
             <p-table *ngIf="showRiskFactorTable" [id]="'charTable_'+indId" [columns]="cols" [value]="tableData"
                 [scrollable]="true" scrollHeight="265px" dataKey="SupplierID" [(selection)]="selectedSuppliers"
-                styleClass="riskTrendTable" [responsive]="true">
+                [responsive]="true">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <ng-container *ngFor="let col of columns">
-                            <th *ngIf="col.visibility == 'visible'" [ngClass]="col.className" class="cellContentBold"
+                            <th *ngIf="col.visibility == 'visible'" [ngClass]="col.className"
                                 [pSortableColumn]="col.sort ? col.data : null">
-                                <span class="ml-4 otherColumn">{{col.title}}</span>
+                                <span>{{col.title}}</span>
                                 <p-sortIcon *ngIf="col.sort && ['number'].includes(col.dataType)" [field]="col.data">
                                 </p-sortIcon>
                                 <p-sortIcon *ngIf="col.sort && ['string','date'].includes(col.dataType)"
@@ -23,7 +23,7 @@
                     <tr>
                         <ng-container *ngFor="let col of columns">
                             <td *ngIf="col.visibility == 'visible'" [ngClass]="col.className">
-                                <span class="ui-column-title">{{col.title}}</span>
+                                <!-- <span class="ui-column-title">{{col.title}}</span> -->
                                 <ng-container [ngSwitch]="col.data">
                                     <ng-container *ngSwitchCase="'Supplier'">
                                         {{rowData[col.data]}}
@@ -34,32 +34,32 @@
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'InfoGainLoss'">
                                         <span *ngIf="rowData[col.data] > 0;else negativeValue">
-                                            <i class="fas fa-arrow-circle-up fa-lg lightGreen"></i>
+                                            <i class="fas fa-arrow-circle-up fa-lg"></i>
                                         </span>
                                         <ng-template #negativeValue>
-                                            <i class="fas fa-arrow-circle-down fa-lg lightRed"></i>
+                                            <i class="fas fa-arrow-circle-down fa-lg"></i>
                                         </ng-template>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'ExternalRisk'">
                                         <span *ngFor="let risk of  rowData[col.data]; let i = index"
-                                            [title]="riskName[i]" class="externalRisk mr-1"
+                                            [title]="riskName[i]"
                                             (click)="loadRiskTrend(rowData, i)">
                                             <ng-container *ngIf="risk == 1">
-                                                <i class="fas fa-circle fa-lg lightGreen"></i>
+                                                <i class="fas fa-circle fa-lg"></i>
                                             </ng-container>
                                             <ng-container *ngIf="risk == 0">
-                                                <i class="fas fa-circle fa-lg lightRed"></i>
+                                                <i class="fas fa-circle fa-lg"></i>
                                             </ng-container>
                                         </span>
                                     </ng-container>
                                     <ng-container *ngSwitchDefault>
-                                        <div *ngIf="rowData[col.data] >= 0.8" class="greenhm">
+                                        <div *ngIf="rowData[col.data] >= 0.8">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
-                                        <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8" class="yellowhm">
+                                        <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
-                                        <div *ngIf="rowData[col.data] < 0.7" class="redhm">
+                                        <div *ngIf="rowData[col.data] < 0.7">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
                                     </ng-container>
@@ -72,10 +72,10 @@
         </ng-container>
         <ng-container *ngSwitchCase="dashboardNamesList.RiskProfile">
             <p-table [id]="'charTable_'+indId" [columns]="cols" [value]="tableData" [scrollable]="true"
-                scrollHeight="265px" styleClass="riskProfileTable" [responsive]="true">
+                scrollHeight="340px" [responsive]="true" [responsiveLayout]="stack" styleClass="riskProfile">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th *ngFor="let col of columns" [ngClass]="col.className" class="cellContentBold"
+                        <th *ngFor="let col of columns" [ngClass]="col.className"
                             [pSortableColumn]="col.sort ? col.data : null">
                             <p-sortIcon *ngIf="col.sort && ['number'].includes(col.dataType)" [field]="col.data">
                             </p-sortIcon>
@@ -86,18 +86,18 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr class="rowCustomClick" (click)="rowClick(rowData)">
+                    <tr (click)="rowClick(rowData)">
                         <td *ngFor="let col of columns" [ngClass]="col.className">
                             <ng-container [ngSwitch]="col.data">
-                                <span class="ui-column-title">{{col.title}}</span>
+                                <span class="p-column-title">{{col.title}}</span>
                                 <ng-container *ngSwitchCase="'DamVariance'">
                                     <span *ngIf="rowData[col.data] > 0;else negativeValue">
-                                        <i class="fas fa-arrow-up greenText"></i>
-                                        <span class="ml-1">{{mathInstance.abs(rowData[col.data]) | number:'.2'}}</span>
+                                        <i class="fas fa-arrow-up red-prog"></i>
+                                        <span>{{mathInstance.abs(rowData[col.data]) | number:'.2'}}</span>
                                     </span>
                                     <ng-template #negativeValue>
-                                        <i class="fas fa-arrow-down redText"></i>
-                                        <span class="redText ml-1">{{mathInstance.abs(rowData[col.data])}}</span>
+                                        <i class="fas fa-arrow-down dark-green"></i>
+                                        <span>{{mathInstance.abs(rowData[col.data])}}</span>
                                     </ng-template>
                                 </ng-container>
                                 <ng-container
@@ -123,7 +123,7 @@
                     <tr>
                         <ng-container *ngFor="let col of columns">
                             <th *ngIf="col.visibility == 'visible'" [pSortableColumn]="col.sort ? col.data : null"
-                                [ngClass]="col.className" class="cellContentBold">
+                                [ngClass]="col.className">
                                 <p-sortIcon *ngIf="col.sort" [field]="col.data"></p-sortIcon>
                                 {{col.title}}
                             </th>
@@ -163,7 +163,7 @@
                                     </p-radioButton>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'rec'">
-                                    <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm green-text"></i>
+                                    <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm"></i>
                                 </ng-container>
                                 <ng-container *ngSwitchDefault>
                                     {{rowData[col.data]}}
@@ -181,7 +181,7 @@
                     <tr *ngIf="headCols">
                         <ng-container *ngFor="let hcol of headCols">
                             <th *ngIf="hcol.visibility == 'visible'" [pSortableColumn]="hcol.sort ? hcol.data : null"
-                                [ngClass]="hcol.className" class="cellContentBold" [attr.rowspan]="hcol.rowspan"
+                                [ngClass]="hcol.className" [attr.rowspan]="hcol.rowspan"
                                 [attr.colspan]="hcol.colspan">
                                 <p-sortIcon *ngIf="hcol.sort" [field]="hcol.data"></p-sortIcon>
                                 {{hcol.title}}
@@ -189,12 +189,12 @@
                         </ng-container>
                     </tr>
                     <tr>
-                        <th class="dotStyle" *ngIf="isChartComboTable && dashboardName != 'Demand_Supply_Forecast' && 
+                        <th *ngIf="isChartComboTable && dashboardName != 'Demand_Supply_Forecast' && 
                                             dashboardName != 'Demand_Supply_Gap'"> </th>
                         <ng-container *ngFor="let col of cols">
                             <th *ngIf="col.visibility == 'visible' && (col.showInHeader == undefined || col.showInHeader == true)"
                                 [pSortableColumn]="col.sort ? col.data : null" [ngClass]="col.className"
-                                class="cellContentBold" [attr.rowspan]="col.rowspan" [attr.colspan]="col.colspan">
+                                [attr.rowspan]="col.rowspan" [attr.colspan]="col.colspan">
                                 <p-sortIcon *ngIf="col.sort" [field]="col.data"></p-sortIcon>
                                 {{col.title}}
                             </th>
@@ -203,10 +203,10 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr>
-                        <td class="dotStyle" [style.color]="rowData.color"
+                        <td [style.color]="rowData.color"
                             *ngIf="isChartComboTable && dashboardName != 'Demand_Supply_Forecast' && 
                                                                                     dashboardName != 'Demand_Supply_Gap'">
-                            <i class=" fas fa-circle"></i>
+                            <i class="fas fa-circle"></i>
                         </td>
                         <ng-container *ngFor="let col of cols">
                             <ng-container *ngIf="col.visibility == 'visible'">
@@ -226,7 +226,7 @@
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'rec'">
                                         <td [class]="col.className">
-                                            <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm green-text"></i>
+                                            <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm"></i>
                                         </td>
                                     </ng-container>
                                     <ng-container *ngSwitchDefault>
