@@ -1,0 +1,23 @@
+// prime ng input override - start
+:host ::ng-deep{
+    .multiSelectOverride.p-multiselect,
+    .dropDownOverride.p-dropdown {
+        width: 100%;
+        max-width: 230px;
+    }
+}
+// prime ng input override - end
+
+// general styling - start
+.pt-21{
+    padding-top: 21px;
+}
+// filter supplier - start
+.supplierMultiSelect{
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    width: 115px;
+}
+// filter supplier - end
+// general styling - end

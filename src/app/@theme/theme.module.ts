@@ -14,8 +14,6 @@ import {
   NbIconModule,
   NbThemeModule,
 } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbSecurityModule } from '@nebular/security';
 import { DropdownModule } from 'primeng/dropdown';
 
 import {
@@ -50,11 +48,9 @@ const NB_MODULES = [
   NbSearchModule,
   NbSidebarModule,
   NbContextMenuModule,
-  NbSecurityModule,
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
-  NbEvaIconsModule,
   DropdownModule,
   FormsModule
 ];

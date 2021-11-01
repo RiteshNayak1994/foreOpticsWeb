@@ -2,18 +2,18 @@
     <div class="row">
         <div class="col-12 entity-search-area">
             <div class="row">
-                <div class="col-12 mb-2">
-                    <span class="fw-bold fs-4">Supplier Risk Profiling</span>
+                <div class="col-12 lineHeight28">
+                    <span class="fw-600 fs-4">Supplier Risk Profiling</span>
                     <button class="filterIcon" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
                         <i class="fas fa-filter"></i>
                     </button>
                 </div>
-                <app-dashboard-filter class="col-12" (filterEvent)="getSelectedFilters($event)"></app-dashboard-filter>
+                <app-dashboard-filter class="col-12 mt-2" (filterEvent)="getSelectedFilters($event)"></app-dashboard-filter>
             </div>
         </div>
         <div class="container-fluid page-content animated fadeIn entity-main">
             <div class="row mb-3">
-                <div *ngFor="let widget of indicatorList" [id]="'widgetStyle_'+widget.id" class="mt-3 swotsection h-385"
+                <div *ngFor="let widget of indicatorList" [id]="'widgetStyle_'+widget.id" class="mt-3"
                     [ngClass]="widget.widgetSize.bsWidth">
                     <app-combo-indicator [indicatorConfig]="widget" [SCfilterObj]="filterObj">
                     </app-combo-indicator>

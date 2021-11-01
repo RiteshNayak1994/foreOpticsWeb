@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { ChartService } from '../chart.service';
-import { colors, DashboardNamesList, RiskDisplayNameList } from '../chartConstants';
+import { colors, DashboardNamesList, IndicatorNameList, RiskDisplayNameList } from '../chartConstants';
 import * as moment from 'moment';
 import { inventoryTableData } from './inventoryDataTable';
 import { Router } from '@angular/router';
@@ -45,6 +45,7 @@ export class ChartTableComponent implements OnInit, OnDestroy {
   selectedSuppliersID = [];
   riskName = RiskDisplayNameList;
   dashboardNamesList = DashboardNamesList;
+  indicatorNameList = IndicatorNameList;
 
   constructor(
     private chartService: ChartService,

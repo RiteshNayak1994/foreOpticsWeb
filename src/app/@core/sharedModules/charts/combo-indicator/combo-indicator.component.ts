@@ -407,10 +407,11 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onRiskFactorChange(filterName: string) {
-    this.header.title = this.riskFactorOptions.find((fac) => fac.value == this.selectedRiskFactor.value).caption;
+    let riskFactorValue : any = this.selectedRiskFactor;
+    this.header.title = this.riskFactorOptions.find((fac) => fac.value == riskFactorValue).caption;
 
     let indicatorId = this.indicatorConfig.id;
-    let filterValue = this.selectedRiskFactor.value ? this.selectedRiskFactor.value : this.selectedRiskFactor.toString();
+    let filterValue = riskFactorValue ? riskFactorValue : this.selectedRiskFactor.toString();
     this.header.filters.find(f => f.filtername == filterName).selectedValue = filterValue;
     this.chartService.setFilterConfig({ filterName, filterValue, indicatorId });
     //console.log(this.selectedRiskFilter);

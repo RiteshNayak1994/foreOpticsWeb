@@ -31,3 +31,25 @@
 
   @include nb-overrides();
 };
+
+// utilities - start
+.fw-600{
+  font-weight: 600;
+}
+// utilities - end
+
+// -- app styling - starts
+// dashboard common filter styling - start
+.filterIcon{
+  height: 32px;
+  width: 32px;
+  border: solid 2px;
+  border-radius: 18px;
+  line-height: 1px;
+  float: right;
+}
+.lineHeight28{
+  line-height: 28px;
+}
+// dashboard common filter styling - end
+// -- app styling - ends

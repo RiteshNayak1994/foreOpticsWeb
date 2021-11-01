@@ -20,20 +20,23 @@
                     </span>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.DataView">
-                    <div *ngIf="indicatorConfig.name != indicatorNameList.Risk_Trend[2].name || showTableBackBtn">
+                    <ng-container
+                        *ngIf="indicatorConfig.name != indicatorNameList.Risk_Trend[2].name || showTableBackBtn">
                         <!-- <p-dropdown [options]="dataDurationList" [(ngModel)]="selectedView" optionLabel="label"
                             optionValue="value" (onChange)="onViewChange()" class=""
                             placeholder="Select View">
                         </p-dropdown> -->
-                        <p-selectButton [options]="dataDurationList" [(ngModel)]="header.selectedView"
-                            (onChange)="onViewChange()" optionLabel="label">
-                        </p-selectButton>
-                    </div>
+                        <div class="divWrapper float-right me-1">
+                            <p-selectButton styleClass="customSelectButton" [options]="dataDurationList"
+                                [(ngModel)]="header.selectedView" (onChange)="onViewChange()" optionLabel="label">
+                            </p-selectButton>
+                        </div>
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.RiskFactor">
-                    <div>
-                        <p-dropdown [options]="riskFactorOptions" [(ngModel)]="selectedRiskFactor" class=""
-                            optionLabel="label" optionValue="value" (onChange)="onRiskFactorChange(fltrs.filtername)">
+                    <div class="divWrapper float-right me-1">
+                        <p-dropdown [options]="riskFactorOptions" [(ngModel)]="selectedRiskFactor" styleClass="filterDropdown"
+                            (onChange)="onRiskFactorChange(fltrs.filtername)">
                         </p-dropdown>
                     </div>
                 </ng-container>
@@ -43,19 +46,23 @@
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.RarEsFsQs">
-                    <p-dropdown [options]="riskProfileFilterOptions" [(ngModel)]="selectedRiskFilter"
-                        styleClass="filterDropdown RarEsFsQs" (onChange)="onRiskFilterChange(fltrs.filtername)">
-                    </p-dropdown>
+                    <div class="divWrapper float-right">
+                        <p-dropdown [options]="riskProfileFilterOptions" [(ngModel)]="selectedRiskFilter"
+                            styleClass="filterDropdown RarEsFsQs" (onChange)="onRiskFilterChange(fltrs.filtername)">
+                        </p-dropdown>
+                    </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Sort">
                     <!-- <p-button styleClass="sortBtn" class="float-right ml-2" icon="fas fa-sort" (onClick)="onSortClick()"></p-button> -->
-                    <p-toggleButton (onChange)="onSortClick()" styleClass="iconButton float-right"
-                        [offIcon]="'pi pi-sort-amount-down-alt'" [onIcon]="'pi pi-sort-amount-down'"
-                        [(ngModel)]="!isAscending">
-                    </p-toggleButton>
+                    <div class="divWrapper float-right">
+                        <p-toggleButton (onChange)="onSortClick()" styleClass="iconButton"
+                            [offIcon]="'pi pi-sort-amount-down-alt'" [onIcon]="'pi pi-sort-amount-down'"
+                            [(ngModel)]="!isAscending">
+                        </p-toggleButton>
+                    </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Back">
-                    <span *ngIf="showTableBackBtn" class="iconButton float-right">
+                    <span *ngIf="showTableBackBtn" class="iconButton float-right me-1">
                         <i class="fas fa-arrow-alt-circle-left fa-2x" (click)="removeBackBtn()"></i>
                     </span>
                 </ng-container>
@@ -70,8 +77,8 @@
                     </span>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Export">
-                    <button pTooltip="Export to Excel" tooltipPosition="left" class="iconButton float-right"
-                        (click)="exportClick()">
+                    <button pTooltip="Export to Excel" tooltipPosition="left"
+                        class="iconButton backBtnBorder float-right" (click)="exportClick()">
                         <i class="pi pi-file-excel"></i></button>
                 </ng-container>
             </ng-container>

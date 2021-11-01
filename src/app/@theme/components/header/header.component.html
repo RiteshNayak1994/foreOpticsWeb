@@ -1,8 +1,7 @@
 <div class="header-container">
   <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </a>
+    <button (click)="toggleSidebar()" class="fas fa-bars sideBarToggleBtn me-3">
+    </button>
     <a class="logo" href="#" (click)="navigateHome()">ForeOptics</a>
   </div>
   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">

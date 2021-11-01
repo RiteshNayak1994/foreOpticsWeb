@@ -72,7 +72,7 @@ export class DashboardFilterComponent implements OnInit {
   getSupplyChainFilterData() {
     this.commonHelper.showLoader();
     this.filterService.getSupplyChainFilterData().then(
-      (response) => {
+      (response) => { 
         this.toBeFilterData = response;
         this.onTimeSpanChange();
         this.getPreservedFilterData();

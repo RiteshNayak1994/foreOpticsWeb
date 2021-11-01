@@ -31,17 +31,11 @@
         height: 32px;
         border-radius: 18px;
     }
-    .float-right.p-button-icon-only{
-        float: right;
-    }
 }
 // ng-prime - icon button - end
 
 // primeng - card header dropdown - start
 :host ::ng-deep{
-    .filterDropdown.p-dropdown{
-        float: right;
-    }
     .RarEsFsQs.p-dropdown{
         min-width: 125px;
     }
@@ -51,8 +45,20 @@
 }
 // primeng - card header dropdown - end
 
+// primeng - custom Select Button - start
+:host ::ng-deep {
+    .customSelectButton .p-button{
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+// primeng - custom Select Button - end
+
 // general styling - start
 
+.divWrapper{
+    display: inline;
+}
 .float-right{
     float: right;
 }
@@ -61,8 +67,14 @@
     height: 32px;
     border: none;
     border-radius: 18px;
-    color: #fff;
-    background-color: #6c757d;
+    color: inherit;
+    background-color: inherit;
+    cursor: pointer;
+}
+.backBtnBorder{
+    border: solid 2px !important;
+    border-color: inherit;
+    line-height: 1px;
 }
 // --> card title
 .cardTitle{

@@ -1,40 +1,75 @@
 @import '../../../../../scss/variables';
 
+// color classes - start
 .dark-green{
     color: $dark-green;
 }
 .red-prog{
     color: $red-prog;
 }
+// color classes - end
 
 // To enable providing custom width to columns of primeNg table - start
 :host ::ng-deep{
+    .p-datatable-scrollable .p-datatable-thead{
+        top: -1px;
+    }
+    .p-datatable-scrollable .p-datatable-tbody, 
+    .p-datatable-scrollable .p-datatable-tfoot, 
+    .p-datatable-scrollable .p-datatable-thead{
+        display: revert;
+    }
     .p-datatable-scrollable .p-datatable-tbody>tr, 
     .p-datatable-scrollable .p-datatable-tfoot>tr, 
     .p-datatable-scrollable .p-datatable-thead>tr{
-        display: table;
+        display: revert;
     }
     .p-datatable-scrollable .p-datatable-tbody>tr>td, 
     .p-datatable-scrollable .p-datatable-tfoot>tr>td,
     .p-datatable-scrollable .p-datatable-thead>tr>th{
-        display: table-cell;
+        display: revert;
     }
 }
 // To enable providing custom width to columns of primeNg table - end
-.classDamVariance, .classDam, .classOrderedQty, .classPoLine, .classDueDate {
-        text-align: right !important;
-}
-.classSuppliers{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+// for Risk Profile dashboard table - start
+.classDamVariance, .classOrderedQty, .classPoLine, .classDueDate {
+    text-align: right !important;
 }
 .classDamVariance{
-    width: 35%;
+    width: 42%;
 }
 .classDueDate, .classPO{
     width: 15%;
 }
-.classPoLine, .classOrderedQty, .classDam{
+.classPoLine, .classOrderedQty{
     width: 10%;
 }
+.clippedSupplierName{
+    width: 230px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+:host ::ng-deep {
+    .riskProfileTable .classDam{
+        width: 10% !important;
+        text-align: right !important;
+    }
+}
+// for Risk Profile dashboard table - end
+
+// Risk Trend dashboard - start
+.classInfoGain{
+    text-align: center !important;
+}
+:host ::ng-deep {
+    .riskTrendTable .classDam{
+        width: auto !important;
+        text-align: center !important;
+    }
+    .riskTrendTable .clippedSupplierName{
+        width: auto;
+    }
+}
+// Risk Trend dashboard - end

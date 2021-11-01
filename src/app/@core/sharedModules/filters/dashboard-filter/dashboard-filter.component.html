@@ -1,14 +1,16 @@
 <div class="row collapse" id="filterCollapse">
     <div class="col">
-        <label class="mb-0">Time Span</label>
-        <p-dropdown class="" [options]="timeSpans" [(ngModel)]="selectedTimeSpan"
-            (onChange)="onTimeSpanChange()">
-        </p-dropdown>
+        <label>Time Span</label>
+        <div>
+            <p-dropdown styleClass="dropDownOverride" [options]="timeSpans" [(ngModel)]="selectedTimeSpan" (onChange)="onTimeSpanChange()">
+            </p-dropdown>
+        </div>
     </div>
     <div class="col">
         <label class="mb-0">Buyers</label>
-        <div class="input-group entity-dropdown custom-dropdown-muliselect">
-            <p-multiSelect [options]="buyersList" [(ngModel)]="selectedBuyers"
+        <div>
+            <p-multiSelect [options]="buyersList" [(ngModel)]="selectedBuyers" styleClass="multiSelectOverride"
+                [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
                 optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.buyer)">
             </p-multiSelect>
         </div>
@@ -16,42 +18,44 @@
     <div class="col">
         <label class="mb-0">Suppliers</label>
         <div>
-            <p-multiSelect [options]="supplierList" [(ngModel)]="selectedSupplier"
+            <p-multiSelect [options]="supplierList" [(ngModel)]="selectedSupplier" styleClass="multiSelectOverride"
                 optionLabel="name" [virtualScroll]="true" (onChange)="onFilterChange(filterName.supplier)"
-                [maxSelectedLabels]="1">
+                [maxSelectedLabels]="0" [selectedItemsLabel]="'{0} items selected'">
                 <ng-template let-supplier let-i="index" pTemplate="item">
-                    <span pTooltip="{{supplier.label}}">{{supplier.label}}</span>
+                    <span class="supplierMultiSelect" pTooltip="{{supplier.name}}">{{supplier.name}}</span>
                 </ng-template>
             </p-multiSelect>
         </div>
     </div>
     <div class="col">
         <label class="mb-0">Commodity</label>
-        <div class="input-group entity-dropdown custom-dropdown-muliselect">
-            <p-multiSelect [options]="commodityList" [(ngModel)]="selectedCommodity"
+        <div>
+            <p-multiSelect [options]="commodityList" [(ngModel)]="selectedCommodity" styleClass="multiSelectOverride"
+                [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
                 optionLabel="name" (onChange)="onFilterChange(filterName.commodity)">
             </p-multiSelect>
         </div>
     </div>
     <div class="col">
         <label class="mb-0">PO line</label>
-        <div class="input-group entity-dropdown custom-dropdown-muliselect">
-            <p-multiSelect [options]="poLineList" [(ngModel)]="selectedPoLine"
+        <div>
+            <p-multiSelect [options]="poLineList" [(ngModel)]="selectedPoLine" styleClass="multiSelectOverride"
+                [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
                 optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.POLine)">
             </p-multiSelect>
         </div>
     </div>
     <div class="col">
         <label class="mb-0">Part Number</label>
-        <div class="input-group entity-dropdown custom-dropdown-muliselect">
-            <p-multiSelect [options]="partNumberList" [(ngModel)]="selectedPartNumber"
+        <div>
+            <p-multiSelect [options]="partNumberList" [(ngModel)]="selectedPartNumber" styleClass="multiSelectOverride"
                 optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.PN)"
-                [maxSelectedLabels]="1">
+                [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'">
             </p-multiSelect>
         </div>
     </div>
     <div class="col pt-21">
         <p-button label="Apply" (click)="sendFilterData()"></p-button>
-        <p-button #reset icon="fas fa-undo-alt" class="ml-1" (click)="resetFilters()"></p-button>
+        <p-button #reset icon="fas fa-undo-alt" class="ms-1" (click)="resetFilters()"></p-button>
     </div>
 </div>

@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   ) {
     this.iconLibrary.registerFontPack('fas',{packClass: 'fas', iconClassPrefix: 'fa'});
     this.iconLibrary.registerFontPack('fab',{packClass: 'fab', iconClassPrefix: 'fa'});
+    this.iconLibrary.registerFontPack('pi',{packClass: 'pi', iconClassPrefix: 'pi'});
     this.iconLibrary.setDefaultPack('fas');
   }
 

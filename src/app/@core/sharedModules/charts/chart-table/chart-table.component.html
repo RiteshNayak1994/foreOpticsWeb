@@ -2,8 +2,8 @@
     <ng-container [ngSwitch]="dashboardName">
         <ng-container *ngSwitchCase="dashboardNamesList.RiskTrend">
             <p-table *ngIf="showRiskFactorTable" [id]="'charTable_'+indId" [columns]="cols" [value]="tableData"
-                [scrollable]="true" scrollHeight="265px" dataKey="SupplierID" [(selection)]="selectedSuppliers"
-                [responsive]="true">
+                [scrollable]="true" scrollHeight="330px" dataKey="SupplierID" [(selection)]="selectedSuppliers"
+                [responsive]="true" styleClass="riskTrendTable">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <ng-container *ngFor="let col of columns">
@@ -23,10 +23,12 @@
                     <tr>
                         <ng-container *ngFor="let col of columns">
                             <td *ngIf="col.visibility == 'visible'" [ngClass]="col.className">
-                                <!-- <span class="ui-column-title">{{col.title}}</span> -->
+                                <span class="p-column-title">{{col.data}}</span>
                                 <ng-container [ngSwitch]="col.data">
                                     <ng-container *ngSwitchCase="'Supplier'">
-                                        {{rowData[col.data]}}
+                                        <div class="clippedSupplierName">
+                                            {{rowData[col.data]}}
+                                        </div>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'SupplierID'">
                                         <p-tableCheckbox #checkBoxEle (click)="selectSupplierCheckboxClick(checkBoxEle, rowData)" [value]="rowData">
@@ -34,15 +36,15 @@
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'InfoGainLoss'">
                                         <span *ngIf="rowData[col.data] > 0;else negativeValue">
-                                            <i class="fas fa-arrow-circle-up fa-lg"></i>
+                                            <i class="fas fa-arrow-circle-up fa-lg dark-green"></i>
                                         </span>
                                         <ng-template #negativeValue>
-                                            <i class="fas fa-arrow-circle-down fa-lg"></i>
+                                            <i class="fas fa-arrow-circle-down fa-lg red-prog"></i>
                                         </ng-template>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'ExternalRisk'">
                                         <span *ngFor="let risk of  rowData[col.data]; let i = index"
-                                            [title]="riskName[i]"
+                                            [title]="riskName[i]" class="me-1"
                                             (click)="loadRiskTrend(rowData, i)">
                                             <ng-container *ngIf="risk == 1">
                                                 <i class="fas fa-circle fa-lg"></i>
@@ -72,7 +74,7 @@
         </ng-container>
         <ng-container *ngSwitchCase="dashboardNamesList.RiskProfile">
             <p-table [id]="'charTable_'+indId" [columns]="cols" [value]="tableData" [scrollable]="true"
-                scrollHeight="340px" [responsive]="true" [responsiveLayout]="stack" styleClass="riskProfile">
+                scrollHeight="340px" responsiveLayout="stack" styleClass="riskProfileTable">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th *ngFor="let col of columns" [ngClass]="col.className"
@@ -88,16 +90,16 @@
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr (click)="rowClick(rowData)">
                         <td *ngFor="let col of columns" [ngClass]="col.className">
+                            <span class="p-column-title">{{col.data}}</span>
                             <ng-container [ngSwitch]="col.data">
-                                <span class="p-column-title">{{col.title}}</span>
                                 <ng-container *ngSwitchCase="'DamVariance'">
                                     <span *ngIf="rowData[col.data] > 0;else negativeValue">
-                                        <i class="fas fa-arrow-up red-prog"></i>
-                                        <span>{{mathInstance.abs(rowData[col.data]) | number:'.2'}}</span>
+                                        <i class="fas fa-arrow-up dark-green"></i>
+                                        <span class="ms-1">{{mathInstance.abs(rowData[col.data]) | number:'.2'}}</span>
                                     </span>
                                     <ng-template #negativeValue>
-                                        <i class="fas fa-arrow-down dark-green"></i>
-                                        <span>{{mathInstance.abs(rowData[col.data])}}</span>
+                                        <i class="fas fa-arrow-down red-prog"></i>
+                                        <span class="ms-1 red-prog">{{mathInstance.abs(rowData[col.data])}}</span>
                                     </ng-template>
                                 </ng-container>
                                 <ng-container
@@ -106,6 +108,14 @@
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'DAM'">
                                     {{rowData[col.data] | number:'.2'}}
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'SupplierName'">
+                                    <div *ngIf="indicatorName == indicatorNameList.Risk_Profile[2].name;else supplierNameElse" class="clippedSupplierName">
+                                        {{rowData[col.data]}}
+                                    </div>
+                                    <ng-template #supplierNameElse>
+                                        {{rowData[col.data]}}
+                                    </ng-template>
                                 </ng-container>
                                 <ng-container *ngSwitchDefault>
                                     {{rowData[col.data]}}

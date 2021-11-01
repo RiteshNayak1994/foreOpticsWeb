@@ -3,7 +3,7 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Risk Profile',
-    icon: {icon: 'chalkboard', pack: 'fas'},
+    icon: {icon: 'desktop', pack: 'fas'},
     link: 'dashboard/riskProfile',
     home: true,
   },

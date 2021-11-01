@@ -270,7 +270,6 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
     });
     this.themeService.highChartTheme.subscribe(
       (theme: any) => {
-        console.log(theme);
         if (theme == 'default') {
           tmpThis.chart.update(themes.defaultTheme);
         }
