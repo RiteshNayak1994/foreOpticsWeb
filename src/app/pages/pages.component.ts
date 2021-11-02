@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { MENU_ITEMS } from './pages-menu';
+import * as $ from "jquery";
 
 @Component({
   selector: 'ngx-pages',
@@ -14,5 +15,11 @@ import { MENU_ITEMS } from './pages-menu';
 })
 export class PagesComponent {
 
+  ngAfterViewInit() {
+    $('nb-sidebar').removeClass("expanded");
+    $('nb-sidebar').addClass("compacted");
+  }
+
   menu = MENU_ITEMS;
+
 }

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { enumPermissions } from '../../@core/common-helper';
+import { ProfileService } from './profile/profile.service';
 
 const routes: Routes = [
     {
@@ -32,6 +33,9 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(routes),
+    ],
+    providers:[
+        ProfileService
     ],
     exports: [],
     declarations: []

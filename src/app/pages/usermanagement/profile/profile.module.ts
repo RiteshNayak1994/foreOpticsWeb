@@ -12,6 +12,8 @@ import { ConfirmationDialogModule } from '../../../@core/sharedModules/confirmat
 import { AuthGuard } from '../../auth/auth.guard';
 import { enumPermissions } from '../../../@core/common-helper';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileService } from './profile.service';
+import { CommonService } from '../../../@core/sharedServices/common.service';
 
 const routes: Routes = [
     {
@@ -40,6 +42,8 @@ const routes: Routes = [
         TranslateModule
     ],
     providers: [
+        ProfileService,
+        CommonService
     ],
     entryComponents: [
     ]

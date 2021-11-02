@@ -27,11 +27,13 @@ import { RiskProfileDashboardComponent } from './risk-profile-dashboard/risk-pro
 import { FiltersModule } from '../../@core/sharedModules/filters/filters.module';
 import { RiskTrendDasboardComponent } from './risk-trend-dasboard/risk-trend-dasboard.component';
 import { ForecastDashboardV2Component } from './forecast-dashboard-v2/forecast-dashboard-v2.component'
+import { DashboardService } from '../../@core/sharedServices/dashboard.service';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'riskProfile'
+        redirectTo: 'riskProfile',
+        component: RiskProfileDashboardComponent
     },
     {
         path: 'supplierRisk',
@@ -49,10 +51,6 @@ const routes: Routes = [
         path: 'forecast',
         component: ForecastDashboardV2Component,
     },
-    // {
-    //     path: 'forecast',
-    //     component: ForecastDashboardComponent,
-    // },
     {
         path: 'supplierDetail/:id',
         component: SupplierDashboardComponent,
@@ -89,6 +87,12 @@ const routes: Routes = [
         HighchartsChartModule,
 
         RouterModule.forChild(routes)
+    ],
+    providers: [
+        DashboardService
+    ],
+    exports:[
+        RouterModule
     ]
 
 })

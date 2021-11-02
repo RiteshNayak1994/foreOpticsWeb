@@ -225,7 +225,6 @@ export class ChartTableComponent implements OnInit, OnDestroy {
 
           if (this.dashboardName == DashboardNamesList.RiskTrend)
             iData.indicatorData.forEach(i => i["ExternalRisk"] = JSON.parse(i["ExternalRisk"]));
-
           this.tableData = iData.indicatorData;
           this.tableData.forEach((td, i) => td["color"] = colors[i]);
         }

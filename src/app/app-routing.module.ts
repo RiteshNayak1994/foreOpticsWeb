@@ -11,9 +11,7 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
     canActivate: [AuthGuard]
-  },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  }
 ];
 
 const config: ExtraOptions = {

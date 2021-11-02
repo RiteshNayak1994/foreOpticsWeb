@@ -11,13 +11,13 @@ import { PaginatorModule } from 'primeng/paginator';
 // Import your AvatarModule
 import { AvatarModule } from 'ngx-avatar';
 
-import { ActivePipeModule } from '../../../@theme/pipes/active-pipe/active-pipe-module';
+import { ActivePipeModule } from '../../../@core/pipes/active-pipe/active-pipe-module';
 import { ImageAreaSelectModule } from '../../../@core/sharedModules/image-area-select/image-area-select.module';
 import { ConfirmationDialogModule } from '../../../@core/sharedModules/confirmation-dialog/confirmation-dialog.module';
 
 import { UserListComponent } from './user-list/user-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
-import { AvatarPersonNamePipeModule } from '../../../@theme/pipes/avatar-person-name/avatar-person-name-pipe-module';
+import { AvatarPersonNamePipeModule } from '../../../@core/pipes/avatar-person-name/avatar-person-name-pipe-module';
 import { UserResetPasswordDialogComponent } from './user-reset-password-dialog/user-reset-password-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';

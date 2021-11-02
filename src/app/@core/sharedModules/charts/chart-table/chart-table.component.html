@@ -46,11 +46,14 @@
                                         <span *ngFor="let risk of  rowData[col.data]; let i = index"
                                             [title]="riskName[i]" class="me-1"
                                             (click)="loadRiskTrend(rowData, i)">
-                                            <ng-container *ngIf="risk == 1">
-                                                <i class="fas fa-circle fa-lg"></i>
+                                            <ng-container *ngIf="risk >= 0.8">
+                                                <i class="fas fa-circle fa-lg lightRed"></i>
                                             </ng-container>
-                                            <ng-container *ngIf="risk == 0">
-                                                <i class="fas fa-circle fa-lg"></i>
+                                            <ng-container *ngIf="risk >= 0.7 && risk < 0.8">
+                                                <i class="fas fa-circle fa-lg lightYellow"></i>
+                                            </ng-container>
+                                            <ng-container *ngIf="risk < 0.7">
+                                                <i class="fas fa-circle fa-lg lightGreen"></i>
                                             </ng-container>
                                         </span>
                                     </ng-container>

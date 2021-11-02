@@ -1,22 +1,24 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
 import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
     {
-      path: 'dashboard',
-      loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    },
-    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
     },
+    {
+      path: 'dashboard',
+      loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    },
+    {
+      path: 'profile',
+      loadChildren: () => import('./usermanagement/profile/profile.module').then(m => m.ProfileModule)
+    }
   ],
 }];
 

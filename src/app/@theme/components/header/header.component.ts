@@ -4,6 +4,7 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 import { UserData } from '../../../@core/data/users';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as $ from "jquery";
 
 import { ThemeService } from '../../../@core/sharedServices/theme.service';
 
@@ -80,10 +81,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
-
-    return false;
+  toggleSidebar() {
+    if($('nb-sidebar').hasClass('compacted')){
+      $('nb-sidebar').removeClass('compacted');
+      $('nb-sidebar').addClass('expanded');
+    }
+    else{
+      $('nb-sidebar').removeClass('expanded');
+      $('nb-sidebar').addClass('compacted');
+    }
   }
 
   navigateHome() {

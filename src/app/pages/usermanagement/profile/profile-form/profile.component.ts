@@ -141,12 +141,12 @@ export class ProfileComponent extends AppSettings implements OnInit {
       this.addressId = response['addressId'];
       this.profile = response as Profile;
       this.copyOfProfile = this._commonHelper.cloningObject(this.profile);
-      if(this.countries && this.countries.length > 0){
-        let country= this.countries.filter(C => C.name == (this.CheckNullOrUndefined(this.profile.addresses.country) ? this.profile.addresses.country : this.DefaultCountry)).map(C => {return C.id })[0];
-        if(country > 0){
-          this.getStates(country);
-        }
-      }
+      // if(this.countries && this.countries.length > 0){
+      //   let country= this.countries.filter(C => C.name == (this.CheckNullOrUndefined(this.profile.addresses.country) ? this.profile.addresses.country : this.DefaultCountry)).map(C => {return C.id })[0];
+      //   if(country > 0){
+      //     this.getStates(country);
+      //   }
+      // }
 
       if (this.profile.addresses != null) {
         this.selectedStateCode = this.profile.addresses.stateCode;
