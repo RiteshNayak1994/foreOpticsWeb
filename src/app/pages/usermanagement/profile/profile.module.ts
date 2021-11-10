@@ -15,12 +15,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ProfileService } from './profile.service';
 import { CommonService } from '../../../@core/sharedServices/common.service';
 
+import { CardModule } from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+
 const routes: Routes = [
     {
         path: '**',
-        component: ProfileComponent,   
+        component: ProfileComponent,
         canActivate: [AuthGuard],
-        data: { permission: enumPermissions.EditProfile }    
+        data: { permission: enumPermissions.EditProfile }
     }
 ];
 
@@ -32,14 +37,18 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        BsDropdownModule,                    
+        BsDropdownModule,
         NgbModule,
         RouterModule.forChild(routes),
         NgxMaskModule.forRoot({}),
 
         ImageAreaSelectModule,   //Image select with crop
         ConfirmationDialogModule, //For confirmation Dialog
-        TranslateModule
+        TranslateModule,
+        CardModule,
+        InputTextModule,
+        PasswordModule,
+        DropdownModule
     ],
     providers: [
         ProfileService,
@@ -48,4 +57,4 @@ const routes: Routes = [
     entryComponents: [
     ]
 })
-export class ProfileModule {}
+export class ProfileModule { }

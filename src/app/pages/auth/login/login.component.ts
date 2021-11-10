@@ -218,8 +218,4 @@ export class LoginComponent extends AppSettings implements OnInit {
         this.changePasswordForm.patchValue({ id: this.userId });
         this.changePasswordForm.patchValue({ oldPassword: this.loginForm.controls.password.value });
     }
-
-    isShowLoadingPanel() {
-        return this._commonHelper.showLoadingPanel > 0;
-    }
 }

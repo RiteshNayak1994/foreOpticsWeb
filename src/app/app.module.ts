@@ -18,12 +18,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import {
-  NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
   NbMenuModule,
   NbSidebarModule,
-  NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
 
@@ -43,10 +41,6 @@ export function translateHttpLoaderFactory(httpClient: HttpClient) {
     NbDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
-    NbToastrModule.forRoot(),
-    NbChatModule.forRoot({
-      messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-    }),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

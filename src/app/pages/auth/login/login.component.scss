@@ -1,8 +1,8 @@
-/*@import "src/scss/_variables.scss";
-@import "src/scss/_custom.scss";*/
+@import '../../../../scss/variables';
 
-$clr-white: #fff;
-
+.dark-blue{
+    color: $dark-blue !important;
+}
 
 login {
     background: $clr-white;
@@ -114,8 +114,21 @@ login {
                 font-size: 24px
             }
 
-            .btn-link{ color: #1D2D44; }
+            .btn-link{ color: #1D2D44; text-decoration: none; }
             .btn-link:hover { color: #116fbf; }
         }
     }
+}
+
+.loginLabel {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(62, 62, 60);
+    padding-bottom: 5px;
+}
+.loginBtn{
+    width: 100%;
+    color: #fff;
+    font-weight: 500;
+    background-color: #e68f0e;
 }

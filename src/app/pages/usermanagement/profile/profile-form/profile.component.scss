@@ -1,0 +1,42 @@
+// profile icon styling - start
+.user-img{
+    margin: 35px auto 15px;
+    text-align: center;
+}
+.rounded-circle{
+    width: 96px;
+    height: 96px;
+    border-radius: 50% !important;
+}
+// profile icon styling - end
+
+// input - start
+
+.w-100{
+    width: 100%;
+}
+.ctryDropdownItem{
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    width: 400px;
+}
+// primeNg input override - start
+:host ::ng-deep{
+    .customProfileCard .p-card-body{
+        padding: 1rem;
+    }
+    .customPassword.p-password{
+        display: block;
+    }
+    .customPassword .p-inputtext{
+        width: 100%;
+    }
+    .customDropdown.p-dropdown{
+        display: flex;
+    }
+}
+// primeNg input override - end
+
+// input - end
+

@@ -1,13 +1,13 @@
 <div class="row collapse" id="filterCollapse">
     <div class="col">
-        <label>Time Span</label>
+        <label class="mb-1 fs13px">Time Span</label>
         <div>
             <p-dropdown styleClass="dropDownOverride" [options]="timeSpans" [(ngModel)]="selectedTimeSpan" (onChange)="onTimeSpanChange()">
             </p-dropdown>
         </div>
     </div>
     <div class="col">
-        <label class="mb-0">Buyers</label>
+        <label class="mb-1 fs13px">Buyers</label>
         <div>
             <p-multiSelect [options]="buyersList" [(ngModel)]="selectedBuyers" styleClass="multiSelectOverride"
                 [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="col">
-        <label class="mb-0">Suppliers</label>
+        <label class="mb-1 fs13px">Suppliers</label>
         <div>
             <p-multiSelect [options]="supplierList" [(ngModel)]="selectedSupplier" styleClass="multiSelectOverride"
                 optionLabel="name" [virtualScroll]="true" (onChange)="onFilterChange(filterName.supplier)"
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col">
-        <label class="mb-0">Commodity</label>
+        <label class="mb-1 fs13px">Commodity</label>
         <div>
             <p-multiSelect [options]="commodityList" [(ngModel)]="selectedCommodity" styleClass="multiSelectOverride"
                 [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="col">
-        <label class="mb-0">PO line</label>
+        <label class="mb-1 fs13px">PO line</label>
         <div>
             <p-multiSelect [options]="poLineList" [(ngModel)]="selectedPoLine" styleClass="multiSelectOverride"
                 [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} items selected'"
@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="col">
-        <label class="mb-0">Part Number</label>
+        <label class="mb-1 fs13px">Part Number</label>
         <div>
             <p-multiSelect [options]="partNumberList" [(ngModel)]="selectedPartNumber" styleClass="multiSelectOverride"
                 optionLabel="name" [virtualScroll]="true" itemSize="30" (onChange)="onFilterChange(filterName.PN)"

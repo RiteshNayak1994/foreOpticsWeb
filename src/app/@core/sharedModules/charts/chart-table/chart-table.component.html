@@ -31,7 +31,9 @@
                                         </div>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'SupplierID'">
-                                        <p-tableCheckbox #checkBoxEle (click)="selectSupplierCheckboxClick(checkBoxEle, rowData)" [value]="rowData">
+                                        <p-tableCheckbox #checkBoxEle
+                                            (click)="selectSupplierCheckboxClick(checkBoxEle, rowData)"
+                                            [value]="rowData">
                                         </p-tableCheckbox>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'InfoGainLoss'">
@@ -42,29 +44,43 @@
                                             <i class="fas fa-arrow-circle-down fa-lg red-prog"></i>
                                         </ng-template>
                                     </ng-container>
-                                    <ng-container *ngSwitchCase="'ExternalRisk'">
-                                        <span *ngFor="let risk of  rowData[col.data]; let i = index"
-                                            [title]="riskName[i]" class="me-1"
-                                            (click)="loadRiskTrend(rowData, i)">
-                                            <ng-container *ngIf="risk >= 0.8">
-                                                <i class="fas fa-circle fa-lg lightRed"></i>
-                                            </ng-container>
-                                            <ng-container *ngIf="risk >= 0.7 && risk < 0.8">
-                                                <i class="fas fa-circle fa-lg lightYellow"></i>
-                                            </ng-container>
-                                            <ng-container *ngIf="risk < 0.7">
-                                                <i class="fas fa-circle fa-lg lightGreen"></i>
-                                            </ng-container>
-                                        </span>
+                                    <ng-container
+                                        *ngSwitchCase="col.data == 'ExternalRisk'|| col.data == 'ES' || col.data == 'QS' ? col.data : false">
+                                        <ng-container *ngIf="col.data == 'ExternalRisk';else ElsePart">
+                                            <span *ngFor="let risk of  rowData[col.data]; let i = index"
+                                                class="externalRisk me-1" (click)="loadRiskTrend(rowData, i)">
+                                                <ng-container *ngIf="risk >= 0.8">
+                                                    <i class="fas fa-circle fa-lg lightRed"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="risk >= 0.7 && risk < 0.8">
+                                                    <i class="fas fa-circle fa-lg lightYellow"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="risk < 0.7">
+                                                    <i class="fas fa-circle fa-lg lightGreen"></i>
+                                                </ng-container>
+                                            </span>
+                                        </ng-container>
+                                        <ng-template #ElsePart>
+                                            <div *ngIf="rowData[col.data] >= 0.8" class="lightRedBg pd016">
+                                                {{rowData[col.data] | number:'.2'}}
+                                            </div>
+                                            <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8"
+                                                class="lightYellowBg pd016">
+                                                {{rowData[col.data] | number:'.2'}}
+                                            </div>
+                                            <div *ngIf="rowData[col.data] < 0.7" class="lightGreenBg pd016">
+                                                {{rowData[col.data] | number:'.2'}}
+                                            </div>
+                                        </ng-template>
                                     </ng-container>
                                     <ng-container *ngSwitchDefault>
-                                        <div *ngIf="rowData[col.data] >= 0.8">
+                                        <div *ngIf="rowData[col.data] >= 0.8" class="lightGreenBg pd016">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
-                                        <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8">
+                                        <div *ngIf="rowData[col.data] >= 0.7 && rowData[col.data] < 0.8" class="lightYellowBg pd016">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
-                                        <div *ngIf="rowData[col.data] < 0.7">
+                                        <div *ngIf="rowData[col.data] < 0.7" class="lightRedBg pd016">
                                             {{rowData[col.data] | number:'.2'}}
                                         </div>
                                     </ng-container>
@@ -113,7 +129,8 @@
                                     {{rowData[col.data] | number:'.2'}}
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'SupplierName'">
-                                    <div *ngIf="indicatorName == indicatorNameList.Risk_Profile[2].name;else supplierNameElse" class="clippedSupplierName">
+                                    <div *ngIf="indicatorName == indicatorNameList.Risk_Profile[2].name;else supplierNameElse"
+                                        class="clippedSupplierName">
                                         {{rowData[col.data]}}
                                     </div>
                                     <ng-template #supplierNameElse>
@@ -171,8 +188,8 @@
                         <td *ngFor="let col of cols" [class]="col.className">
                             <ng-container [ngSwitch]="col.data">
                                 <ng-container *ngSwitchCase="'id'">
-                                    <p-radioButton name="group2" [value]="rowData[col.data]"
-                                        [(ngModel)]="selectedOrder" (click)="handleOrderClick(rowData[col.data])">
+                                    <p-radioButton name="group2" [value]="rowData[col.data]" [(ngModel)]="selectedOrder"
+                                        (click)="handleOrderClick(rowData[col.data])">
                                     </p-radioButton>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'rec'">
@@ -194,8 +211,7 @@
                     <tr *ngIf="headCols">
                         <ng-container *ngFor="let hcol of headCols">
                             <th *ngIf="hcol.visibility == 'visible'" [pSortableColumn]="hcol.sort ? hcol.data : null"
-                                [ngClass]="hcol.className" [attr.rowspan]="hcol.rowspan"
-                                [attr.colspan]="hcol.colspan">
+                                [ngClass]="hcol.className" [attr.rowspan]="hcol.rowspan" [attr.colspan]="hcol.colspan">
                                 <p-sortIcon *ngIf="hcol.sort" [field]="hcol.data"></p-sortIcon>
                                 {{hcol.title}}
                             </th>

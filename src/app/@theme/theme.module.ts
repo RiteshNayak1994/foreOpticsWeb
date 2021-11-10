@@ -17,7 +17,6 @@ import {
 import { DropdownModule } from 'primeng/dropdown';
 
 import {
-  FooterComponent,
   HeaderComponent,
   LayoutDirectionSwitcherComponent,
   SearchInputComponent,
@@ -31,9 +30,7 @@ import {
   NumberWithCommasPipe,
 } from './pipes';
 import {
-  OneColumnLayoutComponent,
-  ThreeColumnsLayoutComponent,
-  TwoColumnsLayoutComponent,
+  OneColumnLayoutComponent
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
@@ -58,11 +55,8 @@ const COMPONENTS = [
   SwitcherComponent,
   LayoutDirectionSwitcherComponent,
   HeaderComponent,
-  FooterComponent,
   SearchInputComponent,
-  OneColumnLayoutComponent,
-  ThreeColumnsLayoutComponent,
-  TwoColumnsLayoutComponent,
+  OneColumnLayoutComponent
 ];
 const PIPES = [
   CapitalizePipe,

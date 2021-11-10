@@ -10,11 +10,20 @@
 .lightRed{
     color: $danger-red;
 }
+.lightRedBg{
+    background-color: $danger-red;    
+}
 .lightYellow{
     color: $yellow-prog;
 }
+.lightYellowBg{
+    background-color: $dark-yellow;    
+}
 .lightGreen{
     color: $light-green;
+}
+.lightGreenBg{
+    background-color: $light-green;    
 }
 // color classes - end
 
@@ -69,16 +78,22 @@
 // for Risk Profile dashboard table - end
 
 // Risk Trend dashboard - start
+.pd016{
+    padding: 16px 0;
+}
 .classInfoGain{
     text-align: center !important;
 }
 :host ::ng-deep {
-    .riskTrendTable .classDam{
-        width: auto !important;
-        text-align: center !important;
-    }
     .riskTrendTable .clippedSupplierName{
         width: auto;
+    }
+    .riskTrendTable{
+        .classDam, .classResponsiveness, .classAgility, .classReliability, .classEs, .classFs,.classQs {
+            padding: 0;
+            width: 6%;
+            text-align: center;
+        }
     }
 }
 // Risk Trend dashboard - end

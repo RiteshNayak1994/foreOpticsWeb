@@ -2,6 +2,7 @@
 
 // themes - our custom or/and out of the box themes
 @import 'themes';
+@import '../../../scss/variables';
 
 // framework component themes (styles tied to theme variables)
 @import '~@nebular/theme/styles/globals';
@@ -33,8 +34,22 @@
 };
 
 // utilities - start
+body a{
+  text-decoration: none !important;
+}
+body a:hover{
+  text-decoration: none !important;
+}
 .fw-600{
   font-weight: 600;
+}
+.fs13px{
+  font-size: 13px;
+}
+.mandatory:after {
+  content: "\002A";
+  color: #f00;
+  margin-left: 3px;
 }
 // utilities - end
 

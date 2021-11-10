@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { of as observableOf } from 'rxjs';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
-import { UserData } from './data/users';
-import { UserService } from './mock/users.service';
-import { MockDataModule } from './mock/mock-data.module';
 
 const socialLinks = [
   {
@@ -24,16 +21,6 @@ const socialLinks = [
     icon: 'twitter',
   },
 ];
-
-const DATA_SERVICES = [
-  { provide: UserData, useClass: UserService },
-];
-
-export const NB_CORE_PROVIDERS = [
-  ...MockDataModule.forRoot().providers,
-  ...DATA_SERVICES
-];
-
 @NgModule({
   imports: [
     CommonModule,
@@ -46,10 +33,7 @@ export class CoreModule {
 
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
-      ngModule: CoreModule,
-      providers: [
-        ...NB_CORE_PROVIDERS,
-      ],
+      ngModule: CoreModule
     };
   }
 }
