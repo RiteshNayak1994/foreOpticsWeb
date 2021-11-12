@@ -21,6 +21,11 @@ import { AvatarPersonNamePipeModule } from '../../../@core/pipes/avatar-person-n
 import { UserResetPasswordDialogComponent } from './user-reset-password-dialog/user-reset-password-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { UsersService } from './users.service';
+import { RolesService } from '../roles/role.service';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 const avatarColors = ["#FFB6C1", "#2c3e50", "#95a5a6", "#f39c12", "#1abc9c"];
 
@@ -42,7 +47,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         UserListComponent,
-        UserFormComponent,        
+        UserFormComponent,
         UserResetPasswordDialogComponent
     ],
     imports: [
@@ -51,7 +56,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         BsDropdownModule,
         NgbModule,
-        TranslateModule, 
+        TranslateModule,
 
         //Primeng
         TableModule,
@@ -68,9 +73,14 @@ const routes: Routes = [
         ActivePipeModule,       //Active pipe
         ImageAreaSelectModule,   //Image select with crop
         ConfirmationDialogModule, //For confirmation Dialog
-        MultiSelectModule
+        MultiSelectModule,
+        InputTextModule,
+        ButtonModule
     ],
-    providers: [],
+    providers: [
+        UsersService,
+        RolesService
+    ],
     entryComponents: [UserResetPasswordDialogComponent]
 
 })

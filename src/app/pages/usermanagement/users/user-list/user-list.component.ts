@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     //User list data source
-    dataSource: UserDetail[] = [];
+    dataSource: any[] = [];
     pagingParams: PagingParams;
     totalRecords: number;
 

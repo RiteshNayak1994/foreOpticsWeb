@@ -4,31 +4,54 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Risk Profile',
     icon: {icon: 'chalkboard', pack: 'fas'},
-    link: '/dashboard/riskProfile',
-    home: true,
+    link: '/dashboard/riskProfile'
   },
   {
     title: 'Risk Trend',
     icon: {icon: 'chart-line', pack: 'fas'},
-    link: '/dashboard/riskTrend',
-    home: true,
+    link: '/dashboard/riskTrend'
   },
   {
     title: 'Forecasting',
     icon: {icon: 'chart-area', pack: 'fas'},
-    link: '/dashboard/forecast',
-    home: true,
+    link: '/dashboard/forecast'
   },
   {
     title: 'Profile',
     icon: {icon: 'user-circle', pack: 'fas'},
-    link: '/profile',
-    home: true,
+    link: '/profile'
   },
   {
     title: 'Logout',
     icon: {icon: 'power-off', pack: 'fas'},
-    link: '/auth/logout',
-    home: true,
+    link: '/auth/logout'
+  },
+  {
+    title: 'Settings',
+    group: true
+  },
+  {
+    title: 'User Management',
+    icon: {icon: 'users-cog', pack: 'fas'},
+    children:[
+      {
+        title: 'Users',
+        link: '/uram/users',
+      },
+      {
+        title: 'Roles',
+        link: '/uram/roles'
+      },
+      {
+        title: 'Permission Sets',
+        link: '/uram/permissionsets'
+      },
+      {
+        title: 'Permissions',
+        link: '/uram/permissions'
+      }
+    ]
   }
+
+
 ];

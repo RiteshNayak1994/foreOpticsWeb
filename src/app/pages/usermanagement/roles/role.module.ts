@@ -7,13 +7,16 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TableModule } from 'primeng/table';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { PaginatorModule } from 'primeng/paginator';
-import { NgxPopper } from 'angular-popper';
 
-import { ActivePipeModule } from '../../../@theme/pipes/active-pipe/active-pipe-module';
+import { ActivePipeModule } from '../../../@core/pipes/active-pipe/active-pipe-module';
 import { ConfirmationDialogModule } from '../../../@core/sharedModules/confirmation-dialog/confirmation-dialog.module';
 import { RoleFormComponent } from './role-form/role-form.component';
 import { RoleListComponent } from './role-list/role-list.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RolesService } from './role.service';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 const routes: Routes = [
     {
@@ -41,7 +44,6 @@ const routes: Routes = [
         ReactiveFormsModule,
         BsDropdownModule,        
         NgbModule,
-        NgxPopper,
         TranslateModule,
 
         //primeng
@@ -53,8 +55,12 @@ const routes: Routes = [
 
         ActivePipeModule, //Active pipe
         ConfirmationDialogModule, //For confirmation Dialog
+        InputTextModule,
+        ButtonModule
     ],
-    providers: [],
+    providers: [
+        RolesService
+    ],
     entryComponents: []
 })
 export class RolesModule {}

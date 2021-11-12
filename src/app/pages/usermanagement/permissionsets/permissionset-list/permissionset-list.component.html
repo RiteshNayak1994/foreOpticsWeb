@@ -1,17 +1,16 @@
 <!-- Page Header Start -->
-<div class="page-header">
-  <h4><span class="header-text"></span>
-  </h4>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm col-12 mb-sm-0 mb-3 mg-title w-mobile">
-        <h4><span class="header-text">{{ 'URAM.PERMISSION_SET.LIST.TITLE' | translate }}</span></h4>
-      </div>
-      <div class="col-sm col-12 w-mobile">
-        <div class="btn-view" *ngIf="isAddPermissionSet">
-          <button id="btn-add-permission-set" class="btn btn-primary" type="button" (click)="addPermissionSet()"><i
-              class="icon-plus font-semibold mr-1"></i>{{ 'URAM.PERMISSION_SET.LIST.ADD_PERMISSION_SET' | translate }}</button>
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <span class="fw-600 fs-4">{{ 'URAM.PERMISSION_SET.LIST.TITLE' | translate }}</span>
+    </div>
+    <div class="col">
+      <div *ngIf="isAddPermissionSet">
+        <button id="btn-add-permission-set" class="btn btn-primary float-end" type="button"
+          (click)="addPermissionSet()">
+          <i class="fas fa-plus-circle me-1"></i>
+          {{ 'URAM.PERMISSION_SET.LIST.ADD_PERMISSION_SET' | translate }}
+        </button>
       </div>
     </div>
   </div>
@@ -19,91 +18,93 @@
 <!-- Page Header End -->
 
 <!-- Page Content Start -->
-<div class="page-content animated fadeIn entity-main">
-  <div class="tbl-permission-set">
-
-    <!-- Table Header Start -->
-    <div class="entity-search-area">
-      <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 form-group">
-          <div class="search-panel">
-            <label class="font-weight-bold">{{ 'URAM.PERMISSION_SET.LIST.SEARCH' | translate }}</label>
-            <div class="inner-addon">
-              <i class="fas fa-search dark-grey" aria-hidden="true"></i>
-              <input #searchTextInput type="text" id="txt-search-text" class="form-control entity-search-control"
-                size="50" placeholder="" [(ngModel)]="permissionSetSearchFilter.searchText" />
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-xl-2 col-lg-6 col-sm-3 col-6">
-          <button id="btn-reset" class="btn btn-outline-secondary btn-mg btn-reset-filter" type="button"
-            (click)="onResetAllFilters()" [disabled]="(permissionSetSearchFilter.searchText == '' ? true : false)">
-            {{'URAM.PERMISSION_SET.LIST.BUTTON_RESET' | translate}}
-          </button>
-        </div>
+<div class="container-fluid">
+  <!-- Table Header Start -->
+  <div class="row mb-3">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+      <label class="mb-1 fs13px">{{ 'URAM.PERMISSION_SET.LIST.SEARCH' | translate }}</label>
+      <div class="p-input-icon-right w-100">
+        <input #searchTextInput pInputText type="text" id="txt-search-text" class="w-100 customInputText"
+          [(ngModel)]="permissionSetSearchFilter.searchText" />
       </div>
     </div>
-
-    <!-- Table Header End -->
-
-    <!-- Table Start -->
-    <p-table #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource" sortField="name"
-      class="tbl-scrollable" [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadPermissionSets()"
-      [totalRecords]="totalRecords" [scrollable]="true" [ngClass]="totalRecords==1 ? 'overflow-visible' : ''">
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
-            class="{{col.field}} {{col.class}}">
-            {{col.header | translate }}
-            <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
-          <td class="font-bold name"><span class="ui-column-title">{{columns[0].header}}</span>
-            <a [routerLink]="['/settings/uram/permissionsets', rowData.id]"
-              class="dark-blue font-weight-bold no-underline"
-              [ngClass]="{disabled: !isViewPermissionSet}">{{rowData.name}}
-            </a>
-          </td>
-          <td class="permissionName"><span
-              class="ui-column-title">{{columns[1].header}}</span>{{rowData.permissionName}}</td>
-          <!-- <td class="isActive"><span class="ui-column-title">{{columns[2].header}}</span>{{rowData.isActive | active}}
-          </td> -->
-          <td class="grid-dropdown" *ngIf="isShowActionColumn">
-            <div class="dropdown drop-no-arrow">
-              <button class="btn btn-small lighter--grey dropdown-toggle" id="dropdownMenu" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="icon-options icons"></i>
-              </button>
-
-              <div class="dropdown-menu less-transform-menu" aria-labelledby="dropdownMenu">
-                <a *ngIf="isViewPermissionSet && isEditPermissionSet" id="link-edit"
-                  (click)="editPermissionSet(rowData.id)" class="dropdown-item menu--item"><i
-                    class="fas fa-pencil-alt pd-menu-icon"></i>
-                  {{ 'URAM.PERMISSION_SET.LIST.BUTTON_EDIT' | translate }}</a>
-                <a *ngIf="isViewPermissionSet && isDeletePermissionSet" id="link-remove"
-                  (click)="deletePermissionSet(rowData.id)" class="dropdown-item menu--item"><i
-                    class="far fa-trash-alt pd-menu-icon"></i>
-                  {{ 'URAM.PERMISSION_SET.LIST.BUTTON_REMOVE' | translate }}</a>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <!-- Table End -->
-
-    <!-- Paginator Start -->
-    <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
-      class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
-      (onPageChange)="loadPermissionSets()" [totalRecords]="totalRecords"></p-paginator>
-    <div *ngIf="totalRecords == 0" class="table-no-record text-center">
-      <div>{{ 'URAM.PERMISSION_SET.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
+    <div class="col-xl-2 col-lg-6 col-sm-3 col-6">
+      <button id="btn-reset" class="btn btn-outline-secondary mt-4" type="button" (click)="onResetAllFilters()"
+        [disabled]="(permissionSetSearchFilter.searchText == '' ? true : false)">
+        {{'URAM.PERMISSION_SET.LIST.BUTTON_RESET' | translate}}
+      </button>
     </div>
-    <!-- Paginator End -->
-
   </div>
+  <!-- Table Header End -->
+
+  <!-- Table Start -->
+  <p-table #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource" sortField="name"
+    [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadPermissionSets()" [totalRecords]="totalRecords" [scrollable]="true"
+    [ngClass]="totalRecords==1 ? 'overflow-visible' : ''">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
+          class="{{col.field}} {{col.class}}">
+          {{col.header | translate }}
+          <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td>
+          <span class="p-column-title">
+            {{columns[0].header}}
+          </span>
+          <a [routerLink]="['/settings/uram/permissionsets', rowData.id]" class="dark-blue"
+            [ngClass]="{disabled: !isViewPermissionSet}">
+            {{rowData.name}}
+          </a>
+        </td>
+        <td>
+          <span class="p-column-title">
+            {{columns[1].header}}
+          </span>
+          {{rowData.permissionName}}
+        </td>
+        <!-- <td class="isActive"><span class="p-column-title">{{columns[2].header}}</span>{{rowData.isActive | active}}
+          </td> -->
+        <td *ngIf="isShowActionColumn">
+
+          <div class="dropdown">
+            <button pButton icon="fas fa-wrench" class="yellow-500Bg p-button-rounded p-button-sm" type="button"
+              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a *ngIf="isViewPermissionSet && isEditPermissionSet" id="link-edit"
+                  (click)="editPermissionSet(rowData.id)" class="dropdown-item dark-blue">
+                  <i class="fas fa-pencil-alt me-1"></i>
+                  {{ 'URAM.PERMISSION_SET.LIST.BUTTON_EDIT' | translate }}</a>
+              </li>
+              <li>
+                <a *ngIf="isViewPermissionSet && isDeletePermissionSet" id="link-remove"
+                  (click)="deletePermissionSet(rowData.id)" class="dropdown-item dark-blue">
+                  <i class="far fa-trash-alt me-1"></i>
+                  {{ 'URAM.PERMISSION_SET.LIST.BUTTON_REMOVE' | translate }}</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <!-- Table End -->
+
+  <!-- Paginator Start -->
+  <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
+    class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
+    (onPageChange)="loadPermissionSets()" [totalRecords]="totalRecords"></p-paginator>
+  <div *ngIf="totalRecords == 0" class="table-no-record text-center">
+    <div>{{ 'URAM.PERMISSION_SET.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
+  </div>
+  <!-- Paginator End -->
+
 </div>
+
 <!-- Page Content End -->

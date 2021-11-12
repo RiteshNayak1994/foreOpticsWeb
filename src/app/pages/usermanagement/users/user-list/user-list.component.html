@@ -1,15 +1,15 @@
 <!-- Page Header Start -->
-<div class="page-header">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <h4><span class="header-text">{{ 'URAM.USER.LIST.TITLE' | translate }}</span></h4>
-      </div>
-      <div class="col">
-        <div class="btn-view" *ngIf="isAddUser">
-          <button id="btn-add-user" class="btn btn-primary" type="button" (click)="addUser()"><i
-              class="icon-plus font-semibold mr-1"></i>{{ 'URAM.USER.LIST.ADD_USER' | translate }}</button>
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <span class="fw-600 fs-4">{{ 'URAM.USER.LIST.TITLE' | translate }}</span>
+    </div>
+    <div class="col">
+      <div *ngIf="isAddUser">
+        <button id="btn-add-user" class="btn btn-primary float-end" type="button" (click)="addUser()">
+          <i class="fas fa-plus-circle me-1"></i>
+          {{ 'URAM.USER.LIST.ADD_USER' | translate }}
+        </button>
       </div>
     </div>
   </div>
@@ -17,134 +17,157 @@
 <!-- Page Header End -->
 
 <!-- Page Content Start -->
-<div class="page-content animated fadeIn entity-main">
-  <div class="tbl-user-list">
-
-    <!-- Table Header Start -->
-    <div class="entity-search-area">
-      <div class="row">
-        <div class="col-xl-3 col-md-4 col-sm-5 form-group">
-          <div class="search-panel">
-            <label class="font-weight-bold">{{ 'URAM.USER.LIST.SEARCH' | translate }}</label>
-            <div class="inner-addon">
-              <i class="fas fa-search dark-grey" aria-hidden="true"></i>
-              <input #searchTextInput type="text" id="txt-search-text" class="form-control entity-search-control"
-                size="50" [(ngModel)]="userSearchFilter.searchText" />
-            </div>
-          </div>
-        </div>
-        <div class="col-xl col-md-4 col-sm-5 form-group filter-width">
-          <div class="search-panel">
-            <label>{{'URAM.USER.LIST.ROLE' | translate}}</label>
-            <div class="input-group entity-dropdown custom-dropdown-muliselect">
-              <p-multiSelect [options]="roleDataSource" class="entity-multiSelect" optionLabel="name" id="drp-role"
-                [maxSelectedLabels]="500" [showToggleAll]="false" [filter]="false" [showHeader]="false"
-                [(ngModel)]="userSearchFilter.selectedRoleIds" (onChange)="loadUsers()">
-              </p-multiSelect>
-              <div class="entity-stage-count">
-                <span class="badge badge-light">{{ userSearchFilter.selectedRoleIds.length }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-xl-2 col-md-4 col-sm-2 col-6">
-          <button id="btn-reset" class="btn btn-outline-secondary btn-mg btn-reset-filter" type="button"
-            (click)="onResetAllFilters()"
-            [disabled]="(userSearchFilter.searchText == '' && userSearchFilter.selectedRoleIds.length == 0 ? true : false)">
-            {{'URAM.USER.LIST.BUTTON_RESET' | translate}}
-          </button>
-        </div>
+<div class="container-fluid">
+  <!-- Table Header Start -->
+  <div class="row mb-3">
+    <div class="col-xl-3 col-md-4 col-sm-5">
+      <div class="mb-1 fs13px">{{ 'URAM.USER.LIST.SEARCH' | translate }}</div>
+      <div class="p-input-icon-right w-100">
+        <input #searchTextInput pInputText type="text" id="txt-search-text" class="w-100 customInputText"
+          [(ngModel)]="userSearchFilter.searchText" />
       </div>
     </div>
-    <!-- Table Header End -->
+    <div class="col-xl-2 col-md-4 col-sm-5">
+      <div class="mb-1 fs13px">{{'URAM.USER.LIST.ROLE' | translate}}</div>
+      <p-multiSelect [options]="roleDataSource" optionLabel="name" id="drp-role" [maxSelectedLabels]="2"
+        [showHeader]="false" [(ngModel)]="userSearchFilter.selectedRoleIds" placeholder="Choose"
+        (onChange)="loadUsers()" styleClass="multiSelectOverride" [selectedItemsLabel]="'{0} items selected'">
+      </p-multiSelect>
+    </div>
+    <div class="col-xl col-md-4 col-sm-2 col-6">
+      <button id="btn-reset" class="btn btn-outline-secondary mt-4" type="button" (click)="onResetAllFilters()"
+        [disabled]="(userSearchFilter.searchText == '' && userSearchFilter.selectedRoleIds.length == 0 ? true : false)">
+        {{'URAM.USER.LIST.BUTTON_RESET' | translate}}
+      </button>
+    </div>
+  </div>
+  <!-- Table Header End -->
 
-    <!-- Table Start -->
-    <div class="userlisttable">
-      <p-table #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource" sortField="fullName"
-        class="tbl-scrollable tbl-users" [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadUsers()" [totalRecords]="totalRecords"
-        [autoLayout]="true" [scrollable]="true" [ngClass]="totalRecords==1 ? 'overflow-visible' : ''">
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
-              class="{{col.field}} {{col.class}}">
-              {{ col.header | translate }}
-              <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-          <tr>
-            <td class="font-bold fullName name-xs">
-              <div class="v--center">
-                <div class="flex--100">
-                  <img *ngIf="rowData.imagePath != null && rowData.imagePath.length > 0"
-                    class="rounded-circle avatar mr-2 float-left" src="{{ rowData.imagePath }}"
-                    onerror="this.src='assets/images/default/users/no-image.jpg';" />
-                  <ngx-avatar size="24" *ngIf="rowData.imagePath == null"
-                    class="cursor-pointer avatar-multi mr-2 float-left" name="{{ rowData.shortName }}">
-                  </ngx-avatar>
-                </div>
-                <div class="flex--100">
-                  <a [routerLink]="['/settings/uram/users', rowData.id]" class="dark-blue font-weight-bold no-underline"
-                    [ngClass]="{disabled: !isViewUser}">{{rowData.fullName}}
-                  </a>
-                </div>
-              </div>
-            </td>
-            <td class="text-wrap email"><span class="ui-column-title">{{columns[1].header}}</span><a href="mailto:{{rowData.email}}"> {{rowData.email}}</a></td>
-            <td class="text-nowrap phone"><span *ngIf="getPhoneNoPrefixCountryCode(rowData.phone) != null"
-                class="ui-column-title">{{columns[2].header}}</span><a id="link-phone"
-                href="{{ getPhoneNoWithHyperLink(rowData.phone) }}">{{ getPhoneNoPrefixCountryCode(rowData.phone) | mask:'+0 (000) 000-0000' }}</a>
-            </td>
-            <td class="roleName"><span class="ui-column-title">{{columns[3].header}}</span>{{rowData.roleName}}</td>
-            <td class="isActive"><span class="ui-column-title">{{columns[4].header}}</span><span
-                [ngClass]="rowData.isActive == 1 ? 'badge badge-primary badge--status' : 'badge badge-danger badge--status'">{{ rowData.isActive | active }}</span>
-            </td>
-            <!-- impersonate login -->
-            <td class="impersonate userlistimpersonate">
-              <button *ngIf="isShowImpersonateColumn && rowData.isActive == 1 && internalRoleRefType.Prospect != rowData.internalRoleID" class="btn btn-small btn-primary" (click)="onLoginImpersonate(rowData)">
-                login as
+  <!-- Table Start -->
+  <p-table #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource" sortField="fullName"
+    [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadUsers()" [totalRecords]="totalRecords" [autoLayout]="true"
+    [scrollable]="true" [ngClass]="totalRecords==1 ? 'overflow-visible' : ''" styleClass="customTable">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
+          class="{{col.field}} {{col.class}}">
+          {{ col.header | translate }}
+          <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td>
+          <div>
+            <img *ngIf="rowData.imagePath != null && rowData.imagePath.length > 0" class="rounded-circle avatar me-2"
+              src="{{ rowData.imagePath }}" onerror="this.src='assets/images/default/users/no-image.jpg';" />
+            <ngx-avatar size="24" *ngIf="rowData.imagePath == null" class="rounded-circle avatar me-2"
+              name="{{ rowData.shortName }}">
+            </ngx-avatar>
+          </div>
+          <div>
+            <a [routerLink]="['/settings/uram/users', rowData.id]" class="dark-blue"
+              [ngClass]="{disabled: !isViewUser}">
+              {{rowData.fullName}}
+            </a>
+          </div>
+        </td>
+        <td>
+          <span class="p-column-title">
+            {{columns[1].header}}
+          </span>
+          <a class="dark-blue" href="mailto:{{rowData.email}}"> {{rowData.email}}</a>
+        </td>
+        <td>
+          <span *ngIf="getPhoneNoPrefixCountryCode(rowData.phone) != null" class="p-column-title">
+            {{columns[2].header}}
+          </span>
+          <a class="dark-blue" id="link-phone" href="{{ getPhoneNoWithHyperLink(rowData.phone) }}">
+            {{ getPhoneNoPrefixCountryCode(rowData.phone) | mask:'+0 (000) 000-0000' }}
+          </a>
+        </td>
+        <td class="roleName"><span class="p-column-title">{{columns[3].header}}</span>{{rowData.roleName}}</td>
+        <td class="isActive">
+          <span class="p-column-title">
+            {{columns[4].header}}
+          </span>
+          <span [ngClass]="rowData.isActive == 1 ? 'badge bg-primary dark-blueBg' : 'badge bg-danger'">
+            {{ rowData.isActive | active }}
+          </span>
+        </td>
+        <!-- impersonate login -->
+        <td>
+          <button
+            *ngIf="isShowImpersonateColumn && rowData.isActive == 1 && internalRoleRefType.Prospect != rowData.internalRoleID"
+            class="btn btn-sm teal-500Bg" (click)="onLoginImpersonate(rowData)">
+            login as
+          </button>
+        </td>
+        <!-- <span class="p-column-title">{{columns[4].header}}</span> -->
+        <td *ngIf="isShowActionColumn">
+          <div class="dropdown">
+            <button pButton icon="fas fa-wrench" class="yellow-500Bg p-button-rounded p-button-sm"
+              type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a *ngIf="isViewUser && isEditUser" id="link-edit" (click)="editUser(rowData.id)" class="dropdown-item dark-blue">
+                  <i class="fas fa-pencil-alt me-1"></i>
+                  {{ 'URAM.USER.LIST.BUTTON_EDIT' | translate }}
+                </a>
+              </li>
+              <li>
+                <a *ngIf="isViewUser && isEditUser && isLoggedUser(rowData.id)" id="link-remove" class="dropdown-item dark-blue" (click)="deleteUser(rowData.id)">
+                  <i class="far fa-trash-alt me-1"></i>
+                  {{ 'URAM.USER.LIST.BUTTON_REMOVE' | translate }}
+                </a>
+              </li>
+              <li>
+                <a *ngIf="isViewUser && isDeleteUser && isLoggedUser(rowData.id)" id="link-reset-password"
+                    (click)="resetPassword(rowData.id)" class="dropdown-item dark-blue"><i
+                      class="fas fa-key me-1"></i>
+                    {{ 'URAM.USER.LIST.BUTTON_RESET_PASSWORD' | translate }}</a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="dropdown drop-no-arrow">
+              <button class="btn btn-small lighter--grey dropdown-toggle" id="drop-down-menu" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
               </button>
-            </td>
-            <!-- <span class="ui-column-title">{{columns[4].header}}</span> -->
-            <td class="grid-dropdown" *ngIf="isShowActionColumn">
-              <div class="dropdown drop-no-arrow">
-                <button class="btn btn-small lighter--grey dropdown-toggle" id="drop-down-menu" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <i class="icon-options icons"></i>
-                </button>
 
-                <div class="dropdown-menu more-transform-menu" aria-labelledby="dropdownMenu">
-                  <a *ngIf="isViewUser && isEditUser" id="link-edit" (click)="editUser(rowData.id)"
-                    class="dropdown-item menu--item"><i class="fas fa-pencil-alt pd-menu-icon"></i>
-                    {{ 'URAM.USER.LIST.BUTTON_EDIT' | translate }}</a>
-                  <!-- <a *ngIf="isViewUser && isEditUser && isLoggedUser(rowData.id)" id="link-reset-password"
+              <div class="dropdown-menu more-transform-menu" aria-labelledby="dropdownMenu">
+                <a *ngIf="isViewUser && isEditUser" id="link-edit" (click)="editUser(rowData.id)"
+                  class="dropdown-item menu--item"><i class="fas fa-pencil-alt pd-menu-icon"></i>
+                  {{ 'URAM.USER.LIST.BUTTON_EDIT' | translate }}</a> -->
+          <!-- <a *ngIf="isViewUser && isEditUser && isLoggedUser(rowData.id)" id="link-reset-password"
                     (click)="resetPassword(rowData.id)" class="dropdown-item menu--item"><i
                       class="fas fa-key pd-menu-icon"></i>
                     {{ 'URAM.USER.LIST.BUTTON_RESET_PASSWORD' | translate }}</a> -->
-                  <a *ngIf="isViewUser && isDeleteUser && isLoggedUser(rowData.id)" id="link-remove"
-                    class="dropdown-item menu--item" (click)="deleteUser(rowData.id)"><i
-                      class="far fa-trash-alt pd-menu-icon"></i>
-                    {{ 'URAM.USER.LIST.BUTTON_REMOVE' | translate }}</a>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-    <!-- Table End -->
+          <!-- <a *ngIf="isViewUser && isDeleteUser && isLoggedUser(rowData.id)" id="link-remove"
+                  class="dropdown-item menu--item" (click)="deleteUser(rowData.id)"><i
+                    class="far fa-trash-alt pd-menu-icon"></i>
+                  {{ 'URAM.USER.LIST.BUTTON_REMOVE' | translate }}</a>
+              </div> -->
+          <!-- </div> -->
 
-    <!-- Paginator Start -->
-    <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
-      class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
-      (onPageChange)="loadUsers()" [totalRecords]="totalRecords">
-    </p-paginator>
-    <div *ngIf="totalRecords == 0" class="table-no-record text-center">
-      <div>{{ 'URAM.USER.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
-    </div>
-    <!-- Paginator End -->
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
+  <!-- Table End -->
+
+  <!-- Paginator Start -->
+  <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
+    class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
+    (onPageChange)="loadUsers()" [totalRecords]="totalRecords">
+  </p-paginator>
+  <div *ngIf="totalRecords == 0" class="table-no-record text-center">
+    <div>{{ 'URAM.USER.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
   </div>
+  <!-- Paginator End -->
 </div>
 <!-- Page Content End -->

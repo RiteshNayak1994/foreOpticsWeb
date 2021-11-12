@@ -8,14 +8,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { PaginatorModule } from 'primeng/paginator';
 
-import { ActivePipeModule } from '../../../@theme/pipes/active-pipe/active-pipe-module';
-import { GroupByPipeModule } from '../../../@theme/pipes/group-by-pipe/group-by-pipe-module';
+import { ActivePipeModule } from '../../../@core/pipes/active-pipe/active-pipe-module';
+import { GroupByPipeModule } from '../../../@core/pipes/group-by-pipe/group-by-pipe-module';
 import { ConfirmationDialogModule } from '../../../@core/sharedModules/confirmation-dialog/confirmation-dialog.module';
 
 import { PermissionSetListComponent } from './permissionset-list/permissionset-list.component';
 import { PermissionSetFormComponent } from './permissionset-form/permissionset-form.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { PermissionSetService } from './permissionset.service';
 
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 const routes: Routes = [
     {
@@ -55,9 +58,12 @@ const routes: Routes = [
 
         ActivePipeModule, //Active pipe
         GroupByPipeModule, // Groupby pipe
-        ConfirmationDialogModule //For confirmation Dialog
+        ConfirmationDialogModule, //For confirmation Dialog
+        ButtonModule,
+        InputTextModule
     ],
     providers: [
+        PermissionSetService
     ],
     entryComponents: []
 })

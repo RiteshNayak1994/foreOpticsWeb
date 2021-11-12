@@ -74,7 +74,7 @@ export class ChartTableComponent implements OnInit, OnDestroy {
     subscription = this.chartService.selectedSupplier_ForRiskTrend.subscribe(
       (resetSelSupplier: number) => {
         if (resetSelSupplier == 0) {
-          this.selectedSuppliers = resetSelSupplier;
+          this.selectedSuppliers = [];
           this.chartService.selectedSupplierIDs.next({
             selectedSuppliersID: []
           });

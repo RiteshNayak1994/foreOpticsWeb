@@ -15,14 +15,14 @@ export const environment = {
   frontEndUrl:"",
 
   //dev
-  WidgetApiUrl: 'http://34.216.118.22/devfowidgetapi/',
-  URAMApiUrl: 'http://34.216.118.22/devfouramapi/', 
-  apiUrl: 'http://34.216.118.22/devfocrmapi/',
+  // WidgetApiUrl: 'http://34.216.118.22/devfowidgetapi/',
+  // URAMApiUrl: 'http://34.216.118.22/devfouramapi/', 
+  // apiUrl: 'http://34.216.118.22/devfocrmapi/',
 
   //qa
-  // WidgetApiUrl: 'http://qa.v2.fo.sdsaz.us/widgetapi/',
-  // URAMApiUrl: 'http://qa.v2.fo.sdsaz.us/uramapi/', 
-  // apiUrl: 'http://qa.v2.fo.sdsaz.us/crmapi/',
+  WidgetApiUrl: 'http://qa.v2.fo.sdsaz.us/widgetapi/',
+  URAMApiUrl: 'http://qa.v2.fo.sdsaz.us/uramapi/', 
+  apiUrl: 'http://qa.v2.fo.sdsaz.us/crmapi/',
 
   bobmBombApiUrl: '',
   tagImagesUrl: '../assets/files/t/',

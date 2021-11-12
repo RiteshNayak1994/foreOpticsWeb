@@ -83,6 +83,7 @@ export class PermissionListComponent implements OnInit {
         setTimeout(() => {
           if (response) {
             this.dataSource = response as Permission[];
+            console.log(this.dataSource);
 
             if (this.dataSource.length > 0) {
               this.totalRecords = response[0]['totalRecords'];

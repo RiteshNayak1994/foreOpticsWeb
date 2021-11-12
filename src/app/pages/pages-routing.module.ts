@@ -18,7 +18,11 @@ const routes: Routes = [{
     {
       path: 'profile',
       loadChildren: () => import('./usermanagement/profile/profile.module').then(m => m.ProfileModule)
-    }
+    },
+    {
+      path: 'uram',
+      loadChildren: () => import('./usermanagement/usermanagement.module').then(m => m.UserManagementModule),
+    },
   ],
 }];
 

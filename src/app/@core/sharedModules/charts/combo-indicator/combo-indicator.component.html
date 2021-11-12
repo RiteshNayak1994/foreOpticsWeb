@@ -41,9 +41,9 @@
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.SupplierCompare">
-                    <div *ngIf="!showTableBackBtn">
+                    <ng-container *ngIf="!showTableBackBtn">
                         <p-button label="Compare Suppliers" (click)="showTableCheckBox()"></p-button>
-                    </div>
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.RarEsFsQs">
                     <div class="divWrapper float-right">
@@ -67,12 +67,12 @@
                     </span>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Reset">
-                    <span *ngIf="selectedOrder">
+                    <span *ngIf="selectedOrder" class="iconButton">
                         <i class="fas fa-redo" (click)="removeOrderSelection()"></i>
                     </span>
                     <span *ngIf="selectedSuppliersForCompareLength > 0 && table.visible">
-                        <button (click)="removeSupplierSelection()">
-                            <i class="fas fa-redo" (click)="removeSupplierSelection()"></i>
+                        <button (click)="removeSupplierSelection()" class="iconButton">
+                            <i class="fas fa-redo"></i>
                         </button>
                     </span>
                 </ng-container>

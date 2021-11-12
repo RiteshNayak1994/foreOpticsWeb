@@ -8,11 +8,14 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { PaginatorModule } from 'primeng/paginator';
 
 import { ConfirmationDialogModule } from '../../../@core/sharedModules/confirmation-dialog/confirmation-dialog.module';
-import { ActivePipeModule } from '../../../@theme/pipes/active-pipe/active-pipe-module';
-import { GroupByPipeModule } from '../../../@theme/pipes/group-by-pipe/group-by-pipe-module';
+import { ActivePipeModule } from '../../../@core/pipes/active-pipe/active-pipe-module';
+import { GroupByPipeModule } from '../../../@core/pipes/group-by-pipe/group-by-pipe-module';
 
 import { PermissionListComponent } from './permission-list/permission-list.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { PermissionsService } from './permissions.service';
+
+import { CardModule } from 'primeng/card';
 
 const routes: Routes = [
     {
@@ -45,9 +48,12 @@ const routes: Routes = [
         ActivePipeModule, // Active pipe
         GroupByPipeModule, // Groupby pipe
         ConfirmationDialogModule, //For confirmation Dialog  
-        TranslateModule
+        TranslateModule,
+        CardModule
     ],
-    providers: [],
+    providers: [
+        PermissionsService
+    ],
     entryComponents: []
 })
-export class PermissionsModule {}
+export class PermissionsModule { }

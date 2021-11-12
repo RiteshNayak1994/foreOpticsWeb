@@ -19,6 +19,8 @@
 @import './layout';
 @import './overrides';
 
+@import '../../../scss/variables';
+
 // install the framework and custom global styles
 @include nb-install() {
 
@@ -40,6 +42,9 @@ body a{
 body a:hover{
   text-decoration: none !important;
 }
+.w-100{
+  width: 100%;
+}
 .fw-600{
   font-weight: 600;
 }
@@ -51,6 +56,11 @@ body a:hover{
   color: #f00;
   margin-left: 3px;
 }
+.btn-warning{
+  background-color: #e68f0e !important;
+  color: #fff !important;
+}
+
 // utilities - end
 
 // -- app styling - starts
