@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import * as $ from "jquery";
 
 import { ThemeService } from '../../../@core/sharedServices/theme.service';
+import { CommonHelper } from '../../../@core/common-helper';
 
 @Component({
   selector: 'ngx-header',
@@ -17,6 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
+  enableDarkMode: boolean = false;
+  loggedInUserName: any;
 
   themes = [
     {
@@ -31,16 +34,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private primeNgThemeService: ThemeService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private primeNgThemeService: ThemeService,
+    private breakpointService: NbMediaBreakpointsService,
+    private commonHelper: CommonHelper
+    ) {
   }
 
   ngOnInit() {
+    this.loggedInUserName = this.commonHelper.getLoggedUserDetail().name;
     this.currentTheme = this.themeService.currentTheme;
 
     const { xl } = this.breakpointService.getBreakpointsMap();
@@ -64,23 +70,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
-    this.primeNgThemeService.switchTheme(themeName);
-    if(themeName == 'default'){
-      this.primeNgThemeService.highChartTheme.next('default');
-    }
-    else{
+  changeTheme(enableDarkMode: any) {
+    if (enableDarkMode.checked) {
+      this.themeService.changeTheme('dark');
+      this.primeNgThemeService.switchTheme('dark');
       this.primeNgThemeService.highChartTheme.next('dark');
+    }
+    else {
+      this.themeService.changeTheme('default');
+      this.primeNgThemeService.switchTheme('default');
+      this.primeNgThemeService.highChartTheme.next('default');
     }
   }
 
   toggleSidebar() {
-    if($('nb-sidebar').hasClass('compacted')){
+    if ($('nb-sidebar').hasClass('compacted')) {
       $('nb-sidebar').removeClass('compacted');
       $('nb-sidebar').addClass('expanded');
     }
-    else{
+    else {
       $('nb-sidebar').removeClass('expanded');
       $('nb-sidebar').addClass('compacted');
     }

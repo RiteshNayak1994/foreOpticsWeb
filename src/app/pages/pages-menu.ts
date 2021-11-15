@@ -22,11 +22,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/profile'
   },
   {
-    title: 'Logout',
-    icon: {icon: 'power-off', pack: 'fas'},
-    link: '/auth/logout'
-  },
-  {
     title: 'Settings',
     group: true
   },
@@ -51,7 +46,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/uram/permissions'
       }
     ]
+  },
+  {
+    title: 'Logout',
+    icon: {icon: 'power-off', pack: 'fas'},
+    link: '/auth/logout'
   }
-
-
 ];

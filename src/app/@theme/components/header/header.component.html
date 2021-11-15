@@ -4,26 +4,16 @@
     </button>
     <a class="logo" href="#" (click)="navigateHome()">ForeOptics</a>
   </div>
-  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
-    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-  </nb-select>
-  <!-- <ngx-layout-direction-switcher class="direction-switcher"></ngx-layout-direction-switcher> -->
-</div>
-
-<div class="header-container">
-  <nb-actions size="small">
-
-    <!-- <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
-    </nb-action>
-    <nb-action class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="control-item" icon="bell-outline"></nb-action> -->
-    <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
-      <nb-user [nbContextMenu]="userMenu"
-               [onlyPicture]="userPictureOnly"
-               [name]="user?.name"
-               [picture]="user?.picture">
-      </nb-user>
-    </nb-action>
-  </nb-actions>
+  <div class="float-end ms-2 ps-2 pt-1 lineHeight userNameBrder">
+    {{loggedInUserName}}
+  </div>
+  <div class="float-end">
+    <!-- <i class="fas fa-sun fa-lg me-1"></i> -->
+    <!-- <p-inputSwitch [(ngModel)]="enableDarkMode" (onChange)=changeTheme($event) styleClass="customSwitch">
+    </p-inputSwitch> -->
+    <p-toggleButton (onChange)="changeTheme($event)" styleClass="iconButton" [offIcon]="'pi pi-sun'"
+      [onIcon]="'pi pi-moon'" [(ngModel)]="enableDarkMode">
+    </p-toggleButton>
+    <!-- <i class="fas fa-moon fa-lg ms-1"></i> -->
+  </div>
 </div>

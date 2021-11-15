@@ -15,12 +15,11 @@ import {
   NbThemeModule,
 } from '@nebular/theme';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import {
-  HeaderComponent,
-  LayoutDirectionSwitcherComponent,
-  SearchInputComponent,
-  SwitcherComponent,
+  HeaderComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -48,14 +47,10 @@ const NB_MODULES = [
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
-  DropdownModule,
   FormsModule
 ];
 const COMPONENTS = [
-  SwitcherComponent,
-  LayoutDirectionSwitcherComponent,
   HeaderComponent,
-  SearchInputComponent,
   OneColumnLayoutComponent
 ];
 const PIPES = [
@@ -65,9 +60,14 @@ const PIPES = [
   TimingPipe,
   NumberWithCommasPipe,
 ];
+const PRIMENG_MODULES = [
+  DropdownModule,
+  InputSwitchModule,
+  ToggleButtonModule
+]
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, ...NB_MODULES, ...PRIMENG_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
