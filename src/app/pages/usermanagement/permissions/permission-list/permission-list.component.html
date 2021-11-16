@@ -1,24 +1,27 @@
 <!-- Table Header Start -->
-<div class="page-header">
-    <h4><span class="header-text">{{ 'URAM.PERMISSION.TITLE' | translate }}</span>
-    </h4>
+<div class="container-fluid mb-3">
+    <span class="fw-600 fs-4">
+        {{ 'URAM.PERMISSION.TITLE' | translate }}
+    </span>
 </div>
 <!-- Table Header End -->
 
 <!-- Table Start -->
-<div class="page-content pt-3 animated fadeIn">
+<div class="container-fluid">
     <div class="tbl-permissions-list">
         <div class="card-columns">
             <div *ngFor="let object of dataSource | groupBy:'groupName'; let i=index">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body p-0 ">
-                        <h5 class="card-title">{{ object.key }}</h5>
-                        <div class="card-text">
-                            <ul class="pl-3 mb-xl-3 mb-2" *ngFor="let obj of object.value">
-                                <li>{{ obj.name }}</li>
+                <div class="mb-2">
+                    <p-card styleClass="customCard">
+                        <ng-template pTemplate="header">
+                            <div class="fw-600 fs-5 pt-3 pb-2 ps-3">{{ object.key }}</div>
+                        </ng-template>
+                        <div class="ps-3">
+                            <ul>
+                                <li class="mb-2" *ngFor="let obj of object.value">{{ obj.name }}</li>
                             </ul>
                         </div>
-                    </div>
+                    </p-card>
                 </div>
             </div>
         </div>

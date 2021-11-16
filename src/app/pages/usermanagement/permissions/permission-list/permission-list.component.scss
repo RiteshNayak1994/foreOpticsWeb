@@ -1,13 +1,6 @@
 .tbl-permissions-list {
     .card-columns {
         column-count: 4;
-
-        .card {
-            .card-title {
-                padding-bottom: 10px;
-                border-bottom: solid 1px #e8e8e8;
-            }
-        }
     }
 
     @media (max-width: 1200px) {
@@ -27,4 +20,21 @@
             column-count: 1;
         }
     }
+}
+:host ::ng-deep{
+    .customCard.p-card
+    {
+        display: inline-block;
+        width: 100%;
+        .p-card-body{
+            padding: 0.25rem;
+        }
+        .p-card-content{
+            padding: 0.5rem 0;
+        }
+    }
+}
+
+.mnh260{
+    min-height: 260px;
 }
