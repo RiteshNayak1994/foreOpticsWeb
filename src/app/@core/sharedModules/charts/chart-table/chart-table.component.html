@@ -1,5 +1,44 @@
 <div *ngIf="tableData ? (tableData.length > 0) : false">
     <ng-container [ngSwitch]="dashboardName">
+        <ng-container *ngSwitchCase="dashboardNamesList.RiskForecast">
+            <p-table [columns]="cols" [value]="tableData" [scrollable]="true" tableStyleClass="forecastTable">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <ng-container *ngFor="let col of columns">
+                            <th *ngIf="col.visibility == 'visible'" [ngClass]="col.className" class="cellContentBold"
+                                [pSortableColumn]="col.sort ? col.data : null">
+                                <span>{{col.title}}</span>
+                                <p-sortIcon *ngIf="col.sort && ['number'].includes(col.dataType)" [field]="col.data">
+                                </p-sortIcon>
+                                <p-sortIcon *ngIf="col.sort && ['string','date'].includes(col.dataType)"
+                                    [field]="col.data">
+                                </p-sortIcon>
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
+                    <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.groupName].index === rowIndex">
+                        <td colspan="3">
+                            <span style="font-weight:bold">{{rowData.groupName}}</span>
+                        </td>
+                    </tr>
+                    <tr class="forecastDataRow">
+                        <ng-container *ngFor="let col of columns">
+                            <td [ngClass]="col.className" *ngIf="col.visibility == 'visible'">
+                                <ng-container *ngIf="['float'].includes(col.dataType) ;else ForecastElse">
+                                    {{rowData[col.data] | number:'.2'}}
+                                </ng-container>
+                                <ng-template #ForecastElse>
+                                    {{rowData[col.data]}}
+                                </ng-template>
+                                
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
         <ng-container *ngSwitchCase="dashboardNamesList.RiskTrend">
             <p-table *ngIf="showRiskFactorTable" [id]="'charTable_'+indId" [columns]="cols" [value]="tableData"
                 [scrollable]="true" scrollHeight="330px" dataKey="SupplierID" [(selection)]="selectedSuppliers"
@@ -107,10 +146,10 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr (click)="rowClick(rowData)">
+                    <tr class="rowCustomClick {{indicatorName}}" (click)="rowClick(rowData)">
                         <td *ngFor="let col of columns" [ngClass]="col.className">
-                            <span class="p-column-title">{{col.data}}</span>
                             <ng-container [ngSwitch]="col.data">
+                                <span class="p-column-title">{{col.title}}</span>
                                 <ng-container *ngSwitchCase="'DamVariance'">
                                     <span *ngIf="rowData[col.data] > 0;else negativeValue">
                                         <i class="fas fa-arrow-up dark-green"></i>
@@ -118,7 +157,7 @@
                                     </span>
                                     <ng-template #negativeValue>
                                         <i class="fas fa-arrow-down red-prog"></i>
-                                        <span class="ms-1 red-prog">{{mathInstance.abs(rowData[col.data])}}</span>
+                                        <span class="red-prog ms-1">{{mathInstance.abs(rowData[col.data]) | number:'.2' }}</span>
                                     </ng-template>
                                 </ng-container>
                                 <ng-container

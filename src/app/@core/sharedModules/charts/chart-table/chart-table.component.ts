@@ -1,17 +1,15 @@
-import { Component, OnInit, Input, OnDestroy, EventEmitter, Output, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { ChartService } from '../chart.service';
 import { colors, DashboardNamesList, IndicatorNameList, RiskDisplayNameList } from '../chartConstants';
 import * as moment from 'moment';
 import { inventoryTableData } from './inventoryDataTable';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ShortNumberPipe } from '../../../../@core/pipes/short-number/short-number.pipe';
-import { DateFormatPipe } from '../../../../@core/pipes/date-format-pipe/date-format-pipe';
-import { CommonHelper } from '../../../common-helper';
 import { drillDownTable } from './drillDownTableData';
 import { FilterService } from '../../filters/filter.service';
-import * as FileSaver from 'file-saver';
-
+import { ShortNumberPipe } from '../../../pipes/short-number/short-number.pipe';
+import { DateFormatPipe } from '../../../pipes/date-format-pipe/date-format-pipe';
+import { CommonHelper } from '../../../common-helper';
 @Component({
   selector: 'app-chart-table',
   templateUrl: './chart-table.component.html',
@@ -74,7 +72,7 @@ export class ChartTableComponent implements OnInit, OnDestroy {
     subscription = this.chartService.selectedSupplier_ForRiskTrend.subscribe(
       (resetSelSupplier: number) => {
         if (resetSelSupplier == 0) {
-          this.selectedSuppliers = [];
+          this.selectedSuppliers = resetSelSupplier;
           this.chartService.selectedSupplierIDs.next({
             selectedSuppliersID: []
           });
@@ -136,34 +134,45 @@ export class ChartTableComponent implements OnInit, OnDestroy {
 
   // method to open external risk trend chart
   loadRiskTrend(rowData, riskIndex) {
-    this.chartService.showBackBtn.next({
-      showTableBackBtn: true,
-      Supplier: rowData.Supplier,
-      SupplierID: rowData.SupplierID,
-      riskIndex: riskIndex,
-      SelectedSuppliers: this.selectedSuppliers
-    });
+    // this.chartService.showBackBtn.next({
+    //   showTableBackBtn: true,
+    //   Supplier: rowData.Supplier,
+    //   SupplierID: rowData.SupplierID,
+    //   riskIndex: riskIndex,
+    //   SelectedSuppliers: this.selectedSuppliers
+    // });
   }
 
   rowClick(rowData) {
-    if (this.dashboardName == DashboardNamesList.RiskProfile && this.displayOrder == 4 && !this.showTableBackBtn) {
-      this.tableData = [];
-      this.cols = [];
-      this.cols = drillDownTable.displayCol;
-      this.commonHelper.showLoader();
-      this.chartService.GetSupplyChainPOLineAtRisk(this.SCfilterObj.timeSpan, rowData.PO).then((tableData: any) => {
-        if (tableData) {
-          this.tableData = tableData;
-          this.commonHelper.hideLoader();
-          this.showTableBackBtn = true;
-          this.chartService.showBackBtn.next({ showTableBackBtn: this.showTableBackBtn });
-        }
-      },
-        (error) => {
-          this.commonHelper.hideLoader();
-          this.commonHelper.getGeneralTranslateErrorMessage(error);
-        }
-      );
+    if (this.dashboardName == DashboardNamesList.RiskProfile) {
+      if (this.displayOrder == 4 && !this.showTableBackBtn) {
+        this.tableData = [];
+        this.cols = [];
+        this.cols = drillDownTable.displayCol;
+        this.commonHelper.showLoader();
+        this.chartService.GetSupplyChainPOLineAtRisk(this.SCfilterObj.timeSpan, rowData.PO).then((tableData: any) => {
+          if (tableData) {
+            this.tableData = tableData;
+            this.commonHelper.hideLoader();
+            this.showTableBackBtn = true;
+            this.chartService.showBackBtn.next({ showTableBackBtn: this.showTableBackBtn });
+          }
+        },
+          (error) => {
+            this.commonHelper.hideLoader();
+            this.commonHelper.getGeneralTranslateErrorMessage(error);
+          }
+        );
+      }
+      else if (this.displayOrder == 3)
+      {
+        let dataToSend = {
+          SupplierId: rowData.SupplierID,
+          SupplierName: rowData.SupplierName
+        };
+        this._router.navigate(['dashboard/supplierDetail/' + rowData.SupplierID], { state: dataToSend });
+      }
+
     }
 
     //this.tableData = drillDownTable.data;
@@ -179,9 +188,37 @@ export class ChartTableComponent implements OnInit, OnDestroy {
     this.chartService.selectedOrder.next(orderNumber);
   }
 
+  rowGroupMetadata: any;
+  updateRowGroupMetaData() {
+    this.rowGroupMetadata = {};
+    if (this.tableData) {
+      for (let i = 0; i < this.tableData.length; i++) {
+        let rowData = this.tableData[i];
+        let groupName = rowData.groupName;
+        if (i == 0) {
+          this.rowGroupMetadata[groupName] = { index: 0, size: 1 };
+        }
+        else {
+          let previousRowData = this.tableData[i - 1];
+          let previousRowGroup = previousRowData.groupName;
+          if (groupName === previousRowGroup)
+            this.rowGroupMetadata[groupName].size++;
+          else
+            this.rowGroupMetadata[groupName] = { index: i, size: 1 };
+        }
+      }
+    }
+
+  }
+
   getTableData() {
     if (!this.dashboardName.includes("Supply_Chain") && (this.indId == 150 || this.indId == 160)) {
       this.tableData = inventoryTableData;
+      return;
+    }
+    if (this.dashboardName == this.dashboardNamesList.RiskForecast && this.indId == 555) {
+      this.tableData = this.tableConfig.data;
+      this.updateRowGroupMetaData();
       return;
     }
     // if (this.dashboardName == 'Risk_Trend') {
@@ -225,6 +262,7 @@ export class ChartTableComponent implements OnInit, OnDestroy {
 
           if (this.dashboardName == DashboardNamesList.RiskTrend)
             iData.indicatorData.forEach(i => i["ExternalRisk"] = JSON.parse(i["ExternalRisk"]));
+
           this.tableData = iData.indicatorData;
           this.tableData.forEach((td, i) => td["color"] = colors[i]);
         }
@@ -495,11 +533,13 @@ export class ChartTableComponent implements OnInit, OnDestroy {
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 }

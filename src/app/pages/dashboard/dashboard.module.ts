@@ -10,11 +10,14 @@ import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TranslateModule } from '@ngx-translate/core';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { Daterangepicker } from 'ng2-daterangepicker';
+import { PaginatorModule } from 'primeng/paginator';
+import { NgxMaskModule, MaskService  } from 'ngx-mask';
 
 
 // App Imports
@@ -29,12 +32,18 @@ import { RiskTrendDasboardComponent } from './risk-trend-dasboard/risk-trend-das
 import { ForecastDashboardV2Component } from './forecast-dashboard-v2/forecast-dashboard-v2.component'
 import { DashboardService } from '../../@core/sharedServices/dashboard.service';
 import { ScRiskSummaryDashboardComponent } from './sc-risk-summary-dashboard/sc-risk-summary-dashboard.component';
+import { SuperAdminDashboardComponent } from './super-admin-dashboard/super-admin-dashboard.component';
+import { ActivePipeModule } from '../../@core/pipes/active-pipe/active-pipe-module';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'riskProfile',
+        redirectTo: 'riskSummary',
         component: RiskProfileDashboardComponent
+    },
+    {
+        path: 'superadmin',
+        component: SuperAdminDashboardComponent,
     },
     {
         path: 'riskSummary',
@@ -72,6 +81,7 @@ const routes: Routes = [
         RiskTrendDasboardComponent,
         ForecastDashboardV2Component,
         ScRiskSummaryDashboardComponent,
+        SuperAdminDashboardComponent
     ],
     imports: [
         CardModule,
@@ -82,20 +92,22 @@ const routes: Routes = [
         CalendarModule,
         DropdownModule,
         CheckboxModule,
+        InputTextModule,
         MultiSelectModule,
         TranslateModule,
         Daterangepicker,
         RadioButtonModule,
         ReactiveFormsModule,
-
+        PaginatorModule,
         // ChartsModule,
         ChartsModule,
         HighchartsChartModule,
-
+        ActivePipeModule,
+        NgxMaskModule.forRoot({}),
         RouterModule.forChild(routes)
     ],
     providers: [
-        DashboardService
+        DashboardService, MaskService
     ],
     exports:[
         RouterModule

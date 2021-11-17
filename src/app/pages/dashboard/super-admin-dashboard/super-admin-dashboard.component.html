@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <span class="fw-600 fs-4">{{ title }}</span>
+</div>
+
+<!-- Page Content Start -->
+<div class="container-fluid">
+    <!-- Table Header Start -->
+    <div class="row mb-3">
+        <div class="col-xl-2 col-md-4 col-sm-5">
+            <div>
+                <label class="mb-1 fs13px">{{ 'URAM.USER.LIST.SEARCH' | translate }}</label>
+                <div class="p-input-icon-right w-100">
+                    <i class="pi pi-search"></i>
+                    <input #searchTextInput pInputText type="text" id="txt-search-text" class="w-100 customInputText"
+                        [(ngModel)]="userSearchFilter.searchText" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-5">
+            <div>
+                <label class="mb-1 fs13px">{{'URAM.USER.LIST.TENANT' | translate}}</label>
+                <div>
+                    <p-dropdown [options]="tenantDataSource" optionLabel="name" styleClass="dropDownOverride"
+                        id="drp-tenant" [(ngModel)]="userSearchFilter.selectedTenant" (onChange)="loadUsers()">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-xl-8 col-md-4 col-sm-2 col-6">
+            <button id="btn-reset" class="btn btn-outline-secondary mt-4" type="button" (click)="onResetAllFilters()"
+                [disabled]="(userSearchFilter.searchText == '' ? true : false)">
+                {{'URAM.USER.LIST.BUTTON_RESET' | translate}}
+            </button>
+        </div>
+    </div>
+
+    <!-- Table Header End -->
+    <!-- Table Start -->
+    <p-table *ngIf="dataSource" #pTable [responsive]="true" [rows]="10" [columns]="cols" [value]="dataSource"
+        sortField="fullName" [sortOrder]="1" [lazy]="true" (onLazyLoad)="loadUsers()" [totalRecords]="totalRecords"
+        [autoLayout]="true" [scrollable]="true">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="!col.sort"
+                    class="{{col.field}} {{col.class}}">
+                    {{ col.header | translate }}
+                    <p-sortIcon [field]="col.field" *ngIf="col.sort"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td class="action">
+                    <div class="w-100">
+                        <button class="btn btn-sm teal-500Bg" *ngIf="rowData.isActive == 1"
+                            (click)="impersonateLogin(rowData)">
+                            <i class="pi pi-sign-in me-1"></i>
+                            login as
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <img *ngIf="rowData.imagePath != null && rowData.imagePath.length > 0"
+                        class="rounded-circle avatar me-2" src="{{ rowData.imagePath }}"
+                        onerror="this.src='assets/images/default/users/no-image.jpg';" />
+                    <ngx-avatar size="24" *ngIf="rowData.imagePath == null" class="rounded-circle avatar me-2"
+                        name="{{ rowData.shortName }}">
+                    </ngx-avatar>
+                    {{rowData.fullName}}
+                </td>
+                <td>
+                    <span class="p-column-title">
+                        {{columns[1].header}}
+                    </span>
+                    <a class="dark-blue" href="mailto:{{rowData.email}}"> {{rowData.email}}</a>
+                </td>
+                <td>
+                    <span *ngIf="getPhoneNoPrefixCountryCode(rowData.phone) != null" class="p-column-title">
+                        {{columns[2].header}}
+                    </span>
+                    <a id="link-phone" class="dark-blue" href="{{ getPhoneNoWithHyperLink(rowData.phone) }}">
+                        {{ getPhoneNoPrefixCountryCode(rowData.phone) | mask:'+0 (000) 000-0000' }}
+                    </a>
+                </td>
+                <td class="roleName">
+                    <span class="p-column-title">
+                        {{columns[3].header}}
+                    </span>
+                    {{rowData.roleName}}
+                </td>
+                <td>
+                    <span class="p-column-title">
+                        {{columns[4].header}}
+                    </span>
+                    <span [ngClass]="rowData.isActive == 1 ? 'badge bg-primary dark-blueBg' : 'badge bg-danger'">
+                        {{ rowData.isActive | active }}
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!-- Table End -->
+    <!-- Paginator Start -->
+    <p-paginator #paginator [hidden]="totalRecords == 0" [rows]="10" [rowsPerPageOptions]='[10,20,30]'
+        class="center-paginator" showCurrentPageReport="true" currentPageReportTemplate="{currentPage} of {totalPages}"
+        (onPageChange)="loadUsers()" [totalRecords]="totalRecords">
+    </p-paginator>
+    <div *ngIf="totalRecords == 0" class="table-no-record text-center">
+        <div>{{ 'URAM.USER.LIST.MESSAGE_NO_RECORDS_FOUND' | translate }}</div>
+    </div>
+    <!-- Paginator End -->
+</div>
+<!-- Page Content End -->

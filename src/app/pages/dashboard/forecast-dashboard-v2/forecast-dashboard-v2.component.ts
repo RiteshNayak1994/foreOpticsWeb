@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonHelper } from '../../../@core/common-helper';
 import { DashboardService } from '../../../@core/sharedServices/dashboard.service';
+import { tableWidget } from './staticForecastWidgetData';
 
 @Component({
   selector: 'app-forecast-dashboard-v2',
@@ -47,6 +48,7 @@ export class ForecastDashboardV2Component implements OnInit {
           iL.widgetHeader = JSON.parse(iL.widgetHeader);
           iL.widgetSize = JSON.parse(iL.widgetSize);
         });
+        this.indicatorList.push(tableWidget);
       }
     },
       (error) => {

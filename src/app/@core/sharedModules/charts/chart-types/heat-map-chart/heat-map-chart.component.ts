@@ -158,24 +158,24 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
           enabled: true,
           liveRedraw: false,
 
-          barBackgroundColor: '#d5d5d5',
-          barBorderWidth: 0,
-          barBorderRadius: 0,
-          barBorderColor: '#d5d5d5',
+          // barBackgroundColor: '#d5d5d5',
+          // barBorderWidth: 0,
+          // barBorderRadius: 0,
+          // barBorderColor: '#d5d5d5',
 
-          buttonArrowColor: '#fff',
-          buttonBackgroundColor: '#fff',
-          buttonBorderWidth: 0,
-          buttonBorderRadius: 0,
-          buttonBorderColor: '#fff',
+          // buttonArrowColor: '#fff',
+          // buttonBackgroundColor: '#fff',
+          // buttonBorderWidth: 0,
+          // buttonBorderRadius: 0,
+          // buttonBorderColor: '#fff',
 
-          trackBackgroundColor: '#fff',
-          trackBorderWidth: 0,
-          trackBorderColor: '#fff',
-          trackBorderRadius: 0,
+          // trackBackgroundColor: '#fff',
+          // trackBorderWidth: 0,
+          // trackBorderColor: '#fff',
+          // trackBorderRadius: 0,
 
-          rifleColor: '#d5d5d5',
-          height: 8
+          // rifleColor: '#d5d5d5',
+          // height: 8
           //size: 8
         },
         events: {

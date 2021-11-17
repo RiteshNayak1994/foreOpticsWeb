@@ -69,6 +69,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.DAMVariance .classSuppliers:hover{
+    cursor: pointer;
+}
+tr.OpenOrdersAtRisk {
+    cursor: pointer;
+}
 :host ::ng-deep {
     .riskProfileTable .classDam{
         width: 10% !important;
@@ -83,6 +89,9 @@
 }
 .classInfoGain{
     text-align: center !important;
+}
+.externalRisk:hover{
+    cursor: pointer;   
 }
 :host ::ng-deep {
     .riskTrendTable .clippedSupplierName{
@@ -103,3 +112,9 @@
     text-align: right !important;
 }
 // Supplier detail dashboard - end
+
+// Risk Forescast - start
+.classForecastMonth{
+    text-align: right !important;
+}
+// Risk Forescast - end

@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { TaskType, NoteType, Warehouse } from '../@core/enum';
+import { TaskType, NoteType, Warehouse } from './enum';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import heic2any from 'heic2any';
 import * as $ from "jquery";
-
 @Injectable()
 
 export class CommonHelper {
@@ -173,18 +172,14 @@ export class CommonHelper {
     //#region Spin Loader
 
     hideLoader() {
-        if (this.showLoadingPanel > 0) {
-            this.showLoadingPanel--;
-        }
         $('#nb-global-spinner').hide();
     }
     showLoader() {
-        this.showLoadingPanel++;
         $('#nb-global-spinner').show();
     }
 
     setLoaderHide() {
-        this.showLoadingPanel = 0;
+        $('#nb-global-spinner').hide();
     }
 
     removeAllSearchingFilterLocalStorage() {
@@ -259,6 +254,10 @@ export class CommonHelper {
         //permission-set local storage remove
         if (localStorage.getItem('urampsp') != null) {
             localStorage.removeItem('urampsp');
+        }
+
+        if (localStorage.getItem('filterValues') != null) {
+            localStorage.removeItem('filterValues');
         }
     }
 
@@ -676,7 +675,7 @@ export enum enumPermissions {
     EditTenant = "8kMb",
 
     //Dashboard
-    SuperAdminDashboard = "qlwg",
+    SuperAdminDashboard = "zZzZ",//"qlwg",
     TenantAdminDashboard = "qf4M",
 
     DeleteTenant = "KOc2",

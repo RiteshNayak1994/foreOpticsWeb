@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CommonHelper } from '../../@core/common-helper';
 
 import { AuthenticationService } from './auth.service';
-import { CommonHelper } from '../../@core/common-helper';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
         ) {
     }
 
-    canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {    
+    canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.isUserUserAuthorized(activatedRouteSnapshot, state);
     }
 
@@ -33,12 +33,22 @@ export class AuthGuard implements CanActivate {
                     }
                 } else if (loggedUserDetail) {
                     // if logged user valid then true
+                    if (loggedUserDetail.isSuperAdmin) {
+                        // role not authorised so redirect to home page
+                        if (state.url == '/dashboard/superadmin')
+                            return true;
+                        else {
+                            this._router.navigate(['/dashboard/superadmin']);
+                            return false;
+                        }
+
+                    }
                     return true;
                 }
             }
             else {
                 // if logged in not valid then redirect to login page with the return url
-                this._commonHelper.setLoggedUserDetail(null);  
+                this._commonHelper.setLoggedUserDetail(null);
                 this._router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url }});
                 return false;
             }
@@ -47,7 +57,7 @@ export class AuthGuard implements CanActivate {
 
     async getUserAuthDetail() {
         //get local temp store logged user detail
-        let loggedUserDetail = this._commonHelper.getLoggedUserDetail();        
+        let loggedUserDetail = this._commonHelper.getLoggedUserDetail();
         //get logged user session token
         const loggedUserSessionToken = localStorage.getItem('LoggedUserSessionToken');
         if (loggedUserSessionToken != null && loggedUserSessionToken !== undefined) {
@@ -70,8 +80,8 @@ export class AuthGuard implements CanActivate {
 
                 loggedUserDetail = this._commonHelper.getLoggedUserDetail();
                 return true;
-            }, (error) => {              
-                this._commonHelper.setLoggedUserDetail(null);  
+            }, (error) => {
+                this._commonHelper.setLoggedUserDetail(null);
                 this._router.navigate(['/auth/login']);
                 return false;
             });

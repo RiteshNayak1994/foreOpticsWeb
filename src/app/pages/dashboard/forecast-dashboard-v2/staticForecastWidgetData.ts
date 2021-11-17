@@ -1,96 +1,251 @@
-export const widgetForecastData = [
-    {
-        dashboardName: "Forecast",
-        description: "top5Supplier",
-        displayOrder: 1,
-        id: 1011,
-        isVisible: true,
-        name: "top5Supplier",
-        widgetBody: {
-            chart: {
-                type: "spline",
-                xAxisCol: ['JAN', 'FEB', 'MAR', 'APR', 'MAY'],
-                apiData: [{
-                    name: 'HONEYWELL MSS',
-                    type: 'spline',
-                    data: [0.2, 0.5, 0.6, 0.8, 0.5]
-
-                }, {
-                    name: 'METAL FUSION INC.',
-                    type: 'spline',
-                    data: [0.4, 0.8, 1, 0.5, 0.4]
-                }, {
-                    name: 'PARKER HANNIFIN',
-                    type: 'spline',
-                    data: [1, 0.7, 0.8, 0.6, 0.7]
-                }, {
-                    name: 'PLANSEE USA LLC',
-                    type: 'spline',
-                    data: [0.5, 0.6, 0.7, 0.8, 0.9]
-                }, {
-                    name: 'TMA PRECISION TUBE LLC',
-                    type: 'spline',
-                    data: [0.8, 0.5, 0.7, 0.6, 1]
-                }]
-            }
-        },
-        widgetHeader: {
-            filters: [{
-                filtername: 'dataview'
-            }],
-            title: 'Top 5 Supplier'
-        },
-        widgetSize: {
-            bsWidth: "col-6",
-            height: 50,
-            width: 50,
+export const tableWidget = {
+    created: "2021-09-23T11:19:15.66",
+    dashboardName: "Risk_Forecast",
+    description: "Supplier_Risk_TabularData",
+    displayOrder: 3,
+    id: 555,
+    isActive: true,
+    isQuerySp: false,
+    isVisible: true,
+    name: "Risk_Forecast_W3",
+    query: "",
+    tenantId: 1,
+    userId: 1,
+    widgetBody: {
+        table: {
+            displayCol: [
+                {
+                    className: "classSuppliersForecast",
+                    data: "name",
+                    dataAlign: "left",
+                    dataType: "string",
+                    headerAlign: "left",
+                    sort: false,
+                    title: "Supplier",
+                    visibility: "visible",
+                },
+                {
+                    className: "classGroupName",
+                    data: "groupName",
+                    dataAlign: "left",
+                    dataType: "string",
+                    headerAlign: "left",
+                    sort: false,
+                    title: "Group Name",
+                    visibility: "hidden",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "june_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "June 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "july_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "July 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "aug_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Aug 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "sep_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Sep 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "oct_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Oct 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "nov_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Nov 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "dec_21",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Dec 21",
+                    visibility: "visible",
+                },
+                {
+                    className: "classForecastMonth",
+                    data: "jan_22",
+                    dataAlign: "right",
+                    dataType: "float",
+                    headerAlign: "right",
+                    sort: false,
+                    title: "Jan 22",
+                    visibility: "visible",
+                }
+            ],
+            data: [
+                {
+                    name: 'GP ELECTRONICS (HK) LIMITED',
+                    groupName: 'Suppliers at Risk',
+                    june_21: 0.36,
+                    july_21: 0.35,
+                    aug_21:  0.37,
+                    sep_21:  0.35,
+                    oct_21:  0.30,
+                    nov_21:  0.29,
+                    dec_21:  0.28,
+                    jan_22:  0.27
+                },
+                {
+                    name: 'VTEHC COMMUNICATION LTD',
+                    groupName:  'Suppliers at Risk',//'Top 5 Performing Suppliers',
+                    june_21: 0.46,
+                    july_21: 0.44,
+                    aug_21:  0.46,
+                    sep_21:  0.44,
+                    oct_21:  0.46,
+                    nov_21:  0.46,
+                    dec_21:  0.47,
+                    jan_22:  0.47
+                },
+                {
+                    name: 'WESTERN MAXIM RESOURCES INC',
+                    groupName: 'Suppliers at Risk',
+                    june_21: 0.50,
+                    july_21: 0.49,
+                    aug_21:  0.54,
+                    sep_21:  0.49,
+                    oct_21:  0.50,
+                    nov_21:  0.51,
+                    dec_21:  0.51,
+                    jan_22:  0.51
+                },
+                {
+                    name: 'GP ACOUSTICS (UK) LTD',
+                    groupName: 'Suppliers at Risk',
+                    june_21: 0.42,
+                    july_21: 0.32,
+                    aug_21:  0.42,
+                    sep_21:  0.39,
+                    oct_21:  0.42,
+                    nov_21:  0.42,
+                    dec_21:  0.42,
+                    jan_22:  0.42
+                },
+                {
+                    name: 'ZYKRONIX INCS',
+                    groupName: 'Suppliers at Risk',
+                    june_21: 0.54,
+                    july_21: 0.53,
+                    aug_21:  0.51,
+                    sep_21:  0.53,
+                    oct_21:  0.56,
+                    nov_21:  0.57,
+                    dec_21:  0.57,
+                    jan_22:  0.58
+                },
+                {
+                    name: 'ACCUTITE FASTENERS INC',
+                    groupName: 'Top 5 Performing Suppliers',
+                    june_21: 0.81,
+                    july_21: 0.75,
+                    aug_21:  0.81,
+                    sep_21:  0.78,
+                    oct_21:  0.85,
+                    nov_21:  0.85,
+                    dec_21:  0.86,
+                    jan_22:  0.87
+                },
+                {
+                    name: 'DIGI-KEY CORPORATION',
+                    groupName: 'Top 5 Performing Suppliers',
+                    june_21: 0.70,
+                    july_21: 0.68,
+                    aug_21:  0.64,
+                    sep_21:  0.68,
+                    oct_21:  0.70,
+                    nov_21:  0.75,
+                    dec_21:  0.75,
+                    jan_22:  0.75
+                },
+                {
+                    name: 'GATOR CASES, INC.',
+                    groupName: 'Top 5 Performing Suppliers',
+                    june_21: 0.73,
+                    july_21: 0.63,
+                    aug_21:  0.66,
+                    sep_21:  0.63,
+                    oct_21:  0.66,
+                    nov_21:  0.72,
+                    dec_21:  0.72,
+                    jan_22:  0.72
+                },
+                {
+                    name: 'AVNET ELECTRONICS MARKETING',
+                    groupName: 'Top 5 Performing Suppliers',
+                    june_21: 0.78,
+                    july_21: 0.77,
+                    aug_21:  0.78,
+                    sep_21:  0.77,
+                    oct_21:  0.78,
+                    nov_21:  0.79,
+                    dec_21:  0.79,
+                    jan_22:  0.79
+                },
+                {
+                    name: 'CELTO ACOUSTIQUE LIMITED',
+                    groupName: 'Top 5 Performing Suppliers',
+                    june_21: 0.68,
+                    july_21: 0.72,
+                    aug_21:  0.74,
+                    sep_21:  0.72,
+                    oct_21:  0.74,
+                    nov_21:  0.79,
+                    dec_21:  0.79,
+                    jan_22:  0.79
+                }
+            ]
         }
     },
-    {
-        dashboardName: "Forecast",
-        description: "last5Supplier",
-        displayOrder: 2,
-        id: 1012,
-        isVisible: true,
-        name: "last5Supplier",
-        widgetBody: {
-            chart: {
-                type: "spline",
-                xAxisCol: ['JAN', 'FEB', 'MAR', 'APR', 'MAY'],
-                apiData: [{
-                    name: 'HONEYWELL MSS',
-                    type: 'spline',
-                    data: [0.2, 0.5, 0.6, 0.8, 0.5]
-
-                }, {
-                    name: 'METAL FUSION INC.',
-                    type: 'spline',
-                    data: [0.4, 0.8, 1, 0.5, 0.4]
-                }, {
-                    name: 'PARKER HANNIFIN',
-                    type: 'spline',
-                    data: [1, 0.7, 0.8, 0.6, 0.7]
-                }, {
-                    name: 'PLANSEE USA LLC',
-                    type: 'spline',
-                    data: [0.5, 0.6, 0.7, 0.8, 0.9]
-                }, {
-                    name: 'TMA PRECISION TUBE LLC',
-                    type: 'spline',
-                    data: [0.8, 0.5, 0.7, 0.6, 1]
-                }]
-            }
-        },
-        widgetHeader: {
-            filters: [{
-                filtername: 'dataview'
-            }],
-            title: 'Last 5 Supplier'
-        },
-        widgetSize: {
-            bsWidth: "col-6",
-            height: 50,
-            width: 50,
-        }
+    widgetHeader: {
+        filters: null,
+        title: 'Forecast Data'
+    },
+    widgetSize: {
+        bsWidth: "col-12",
+        height: 50,
+        width: 50,
     }
-]
+}

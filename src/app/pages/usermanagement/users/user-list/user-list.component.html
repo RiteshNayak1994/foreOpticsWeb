@@ -88,8 +88,13 @@
             {{ getPhoneNoPrefixCountryCode(rowData.phone) | mask:'+0 (000) 000-0000' }}
           </a>
         </td>
-        <td class="roleName"><span class="p-column-title">{{columns[3].header}}</span>{{rowData.roleName}}</td>
-        <td class="isActive">
+        <td>
+          <span class="p-column-title">
+            {{columns[3].header}}
+          </span>
+          {{rowData.roleName}}
+        </td>
+        <td>
           <span class="p-column-title">
             {{columns[4].header}}
           </span>
