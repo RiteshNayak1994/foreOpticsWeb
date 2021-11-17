@@ -28,12 +28,17 @@ import { FiltersModule } from '../../@core/sharedModules/filters/filters.module'
 import { RiskTrendDasboardComponent } from './risk-trend-dasboard/risk-trend-dasboard.component';
 import { ForecastDashboardV2Component } from './forecast-dashboard-v2/forecast-dashboard-v2.component'
 import { DashboardService } from '../../@core/sharedServices/dashboard.service';
+import { ScRiskSummaryDashboardComponent } from './sc-risk-summary-dashboard/sc-risk-summary-dashboard.component';
 
 const routes: Routes = [
     {
         path: '',
         redirectTo: 'riskProfile',
         component: RiskProfileDashboardComponent
+    },
+    {
+        path: 'riskSummary',
+        component: ScRiskSummaryDashboardComponent,
     },
     {
         path: 'supplierRisk',
@@ -66,6 +71,7 @@ const routes: Routes = [
         RiskProfileDashboardComponent,
         RiskTrendDasboardComponent,
         ForecastDashboardV2Component,
+        ScRiskSummaryDashboardComponent,
     ],
     imports: [
         CardModule,

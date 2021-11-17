@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractChart } from '../abstract-chart';
 import * as Highcharts from 'highcharts/highstock';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
 import { ChartService } from '../../chart.service';
 import heatmap from 'highcharts/modules/heatmap';
-import { ThemeService } from '../../../../sharedServices/theme.service';
+import { Router } from '@angular/router';
+import drillDown from 'highcharts/modules/drilldown';
+import { ShortNumberPipe } from '../../../../pipes/short-number/short-number.pipe';
 import { themes } from '../../chartConstants';
-heatmap(Highcharts);
+import { ThemeService } from '../../../../sharedServices/theme.service';
 
+heatmap(Highcharts);
+drillDown(Highcharts);
 @Component({
   selector: 'app-heat-map-chart',
   templateUrl: './heat-map-chart.component.html',
@@ -26,7 +29,8 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
   shortNumberPipe = new ShortNumberPipe();
   subScriptionList: Subscription = new Subscription();
   xCategories;
-  xCategoriesFullName =
+  yCategories;
+  yCategoriesFullName =
     {
       "Res": "Responsiveness",
       "Agl": "Agility",
@@ -38,8 +42,9 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
 
   constructor(
     private chartService: ChartService,
+    private _router: Router,
     private themeService: ThemeService
-  ) {
+    ) {
     super();
   }
 
@@ -108,16 +113,6 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
     return axis.categories[point[isY ? 'y' : 'x']];
   }
 
-
-  categories = [
-    'ALLEGIANT AIR', 'ANSETT AIRCRAFT SPARES',
-    'RELIANCE SPECIALTY PRODUCTS INC', 'HEIM BEARING DIVISION OF RBC',
-    'BRON TAPES INC.', 'ADHESIVE PRODUCTS INC.',
-    'ALLEGIANT AIR', 'ANSETT AIRCRAFT SPARES',
-    'RELIANCE SPECIALTY PRODUCTS INC', 'HEIM BEARING DIVISION OF RBC',
-    'BRON TAPES INC.', 'ADHESIVE PRODUCTS INC.'
-  ]
-
   ngAfterViewInit() {
     let tempThis = this;
     this.chart = Highcharts.chart({
@@ -125,50 +120,87 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
         renderTo: 'container_' + this.indId,
         type: 'heatmap',
         height: 325,
-        marginLeft: 200
+        marginLeft: 200,
+        inverted: true,
+        events: {
+          drilldown: function (e: any) {
+            let dataToSend = {
+              SupplierId: e.point.SupplierID,
+              SupplierName: e.point.category
+            };
+            tempThis._router.navigate(['dashboard/supplierDetail/' + e.point.SupplierID], { state: dataToSend });
+          }
+        },
+      },
+      drilldown: {
+        activeAxisLabelStyle: {
+          textDecoration: 'none',
+          fontWeight: '300',
+          color: null
+        },
+        activeDataLabelStyle: {
+          textDecoration: 'none',
+          fontWeight: '300',
+          color: null
+        }
       },
       title: {
         text: ''
       },
       xAxis: {
         //categories: ['REL', 'RES', 'AGL'],
-        opposite: true
-      },
-      yAxis: {
-        //   categories: this.categories,
+        //opposite: true
         title: null,
-        reversed: true,
+        ceiling: 4,
+        floor: 0,
+        tickLength: 0,
         scrollbar: {
           enabled: true,
           liveRedraw: false,
 
-          // barBackgroundColor: '#d5d5d5',
-          // barBorderWidth: 0,
-          // barBorderRadius: 0,
-          // barBorderColor: '#d5d5d5',
+          barBackgroundColor: '#d5d5d5',
+          barBorderWidth: 0,
+          barBorderRadius: 0,
+          barBorderColor: '#d5d5d5',
 
-          // buttonArrowColor: '#fff',
-          // buttonBackgroundColor: '#fff',
-          // buttonBorderWidth: 0,
-          // buttonBorderRadius: 0,
-          // buttonBorderColor: '#fff',
+          buttonArrowColor: '#fff',
+          buttonBackgroundColor: '#fff',
+          buttonBorderWidth: 0,
+          buttonBorderRadius: 0,
+          buttonBorderColor: '#fff',
 
-          // trackBackgroundColor: '#fff',
-          // trackBorderWidth: 0,
-          // trackBorderColor: '#fff',
-          // trackBorderRadius: 0,
+          trackBackgroundColor: '#fff',
+          trackBorderWidth: 0,
+          trackBorderColor: '#fff',
+          trackBorderRadius: 0,
 
-          // rifleColor: '#d5d5d5',
-          // size: 8
+          rifleColor: '#d5d5d5',
+          height: 8
+          //size: 8
         },
-        ceiling: 4,
-        floor: 0,
-        tickLength: 0,
         events: {
           setExtremes: function (e) {
             if (e.trigger == "scrollbar") {
               e.preventDefault();
-              tempThis.setxAxisExtreme(Math.floor(e.min), Math.floor(e.min) + 5, true);
+              tempThis.setxAxisExtreme(Math.round(e.min), Math.round(e.max), true);
+            }
+          }
+        }
+      },
+      yAxis: {
+        //   categories: this.categories,
+        title: {
+          text: ''
+        },
+        opposite: true,
+        // ceiling: 4,
+        // floor: 0,
+        // tickLength: 0,
+        events: {
+          setExtremes: function (e) {
+            if (e.trigger == "scrollbar") {
+              e.preventDefault();
+              tempThis.setxAxisExtreme(Math.round(e.min), Math.round(e.max), true);
             }
           }
         }
@@ -199,10 +231,14 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
       },
       tooltip: {
         formatter: function () {
-          let fullName = tempThis.xCategoriesFullName[tempThis.xCategories[this.point.x]];
+          let fullName = tempThis.yCategoriesFullName[tempThis.yCategories[this.point.y]];
           return '<b>' + fullName + '</b> <b>' + Highcharts.numberFormat(this.point.value, 2) + '</b>';
         }
       },
+      // legend: {
+      //   layout: 'horizontal',
+      //   align: 'center',
+      // },
       credits: {
         enabled: false
       },
@@ -221,9 +257,18 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
         borderWidth: 1,
         type: 'heatmap',
         data: [
-          [0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 67], [0, 5, 8], [0, 6, 10], [0, 7, 19], [0, 8, 8], [0, 9, 24], [0, 10, 67], [0, 11, 8],
-          [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [1, 5, 117], [1, 6, 92], [1, 7, 58], [1, 8, 78], [1, 9, 117], [1, 10, 48], [1, 11, 117],
-          [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [2, 5, 123], [2, 6, 35], [2, 7, 15], [2, 8, 123], [2, 9, 64], [2, 10, 52], [2, 11, 123],
+          [0, 0, 10], [0, 1, 92], [2, 0, 35],
+          [1, 0, 19], [1, 1, 58], [2, 1, 15],
+          [2, 0, 8], [2, 1, 78], [2, 2, 123],
+          [3, 0, 24], [3, 1, 117], [2, 3, 64],
+          [4, 0, 67], [4, 1, 48], [2, 4, 52],
+          [5, 0, 8], [5, 1, 117], [2, 5, 123],
+          [6, 0, 10], [6, 1, 92], [2, 6, 35],
+          [7, 0, 19], [7, 1, 58], [2, 7, 15],
+          [8, 0, 8], [8, 1, 78], [2, 8, 123],
+          [9, 0, 24], [9, 1, 117], [2, 9, 64],
+          [10, 0, 67], [10, 1, 48], [2, 10, 52],
+          [11, 0, 8], [11, 1, 117], [2, 11, 123]
         ],
         dataLabels: {
           enabled: true,
@@ -256,22 +301,34 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
     }
     let seriesData = [];
 
-    let yCategories = data.map(s => s[this.legendCol]).filter((x, i, a) => a.indexOf(x) === i);
+    let yCategories;
+    this.xCategories = data.map(s => s[this.legendCol]).filter((x, i, a) => a.indexOf(x) === i);
 
 
     let cdata = data.map(s => s[this.yAxisCol]);
     if (this.seriesCol) {
 
-      this.xCategories = this.seriesCol[this.seriesColProp];
-      let tempData = data.filter(rp => rp[this.xCategories[0]] > 0 || rp[this.xCategories[1]] > 0 || rp[this.xCategories[2]] > 0);
-      yCategories = tempData.map(s => s[this.legendCol]).filter((x, i, a) => a.indexOf(x) === i);
+      this.yCategories = this.seriesCol[this.seriesColProp];
+      let tempData = data.filter(rp => rp[this.yCategories[0]] > 0 || rp[this.yCategories[1]] > 0 || rp[this.yCategories[2]] > 0);
+      this.xCategories = tempData.map(s => s[this.legendCol]).filter((x, i, a) => a.indexOf(x) === i);
 
       let sData = [];
 
-      yCategories.forEach((s, i) => {
+      this.xCategories.forEach((s, i) => {
         this.seriesCol[this.seriesColProp].forEach((sr, j) => {
           let value = tempData.find(tm => tm[this.legendCol] == s)[sr];
-          sData.push([j, i, value]);
+          // let point = { name : y: s[this.yAxisCol], drilldown: true, SupplierID: s.SupplierID };
+          let SupplierID = tempData.find(t => t.SupplierName === s)["SupplierID"];
+          let point = {
+            x: i,
+            y: j,
+            value: value,
+            drilldown: true,
+            category: s,
+            SupplierID: SupplierID
+          }
+          //sData.push([j, i, value]);
+          sData.push(point);
         });
 
       });
@@ -300,7 +357,7 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
 
     return {
       xCategories: this.xCategories,
-      yCategories: yCategories,
+      yCategories: this.yCategories,
       seriesData: seriesData,
     }
   }
@@ -339,13 +396,15 @@ export class HeatMapChartComponent extends AbstractChart implements OnInit {
 
 
   setxAxisExtreme(min, max, redraw = false) {
-    if (this.data.yCategories.length < 6)
-      max = this.data.yCategories.length - 1;
-    else
-      max = min + 5;
+    if (this.data.xCategories.length < 4)
+      max = this.data.xCategories.length - 1;
+    else if (min == 0)
+      max = min + 4;
+    else if (min > 0)
+      min = max - 4;
 
 
-    this.chart.yAxis[0].setExtremes(min, max, redraw);
+    this.chart.xAxis[0].setExtremes(min, max, redraw);
   }
 
 }

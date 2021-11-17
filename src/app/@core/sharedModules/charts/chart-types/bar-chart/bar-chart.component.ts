@@ -119,7 +119,7 @@ export class BarChartComponent extends AbstractChart implements OnInit {
               SupplierId: e.point.SupplierID,
               SupplierName: e.point.category
             };
-            tempThis._router.navigate(['/supplierDetail/' + e.point.SupplierID], { state: dataToSend });
+            tempThis._router.navigate(['dashboard/supplierDetail/' + e.point.SupplierID], { state: dataToSend });
           }
         },
         height: 325,

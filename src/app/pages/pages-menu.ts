@@ -2,6 +2,11 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title: 'Risk Summary',
+    icon: {icon: 'globe-americas', pack: 'fas'},
+    link: '/dashboard/riskSummary'
+  },
+  {
     title: 'Risk Profile',
     icon: {icon: 'chalkboard', pack: 'fas'},
     link: '/dashboard/riskProfile'

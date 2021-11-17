@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../pipes/short-number/short-number.pipe';
+import { ThemeService } from '../../../../sharedServices/theme.service';
 import { ChartService } from '../../chart.service';
-import { colors } from '../../chartConstants';
+import { colors, themes } from '../../chartConstants';
 import { AbstractChart } from '../abstract-chart';
 
 @Component({
@@ -16,7 +17,10 @@ export class ColumnChartComponent extends AbstractChart implements OnInit, OnDes
   shortNumberPipe = new ShortNumberPipe();
   subScriptionList: Subscription = new Subscription();
 
-  constructor(private chartService: ChartService) {
+  constructor(
+    private chartService: ChartService,
+    private themeService: ThemeService
+    ) {
     super();
   }
 
@@ -78,6 +82,9 @@ export class ColumnChartComponent extends AbstractChart implements OnInit, OnDes
         renderTo: 'container_' + this.indId,
         type: 'column',
       },
+      title:{
+        text: ''
+      },
       colors: colors,
       xAxis: {
         type: 'category',
@@ -137,6 +144,16 @@ export class ColumnChartComponent extends AbstractChart implements OnInit, OnDes
       //   data: this.apiData.data
       // }]
     });
+    this.themeService.highChartTheme.subscribe(
+      (theme: any) => {
+        if (theme == 'default') {
+          tmpThis.chart.update(themes.defaultTheme);
+        }
+        else {
+          tmpThis.chart.update(themes.darkTheme);
+        }
+      }
+    );
   }
 
   ngOnDestroy() {

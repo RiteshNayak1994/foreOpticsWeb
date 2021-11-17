@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CommonHelper } from '../../../@core/common-helper';
-import { DashboardService } from '../../../@core/sharedServices/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DashboardService } from '../../../@core/sharedServices/dashboard.service';
+import { CommonHelper } from '../../../@core/common-helper';
 
 @Component({
   selector: 'app-supplier-dashboard',
@@ -70,18 +70,19 @@ export class SupplierDashboardComponent implements OnInit {
   }
 
   getBuyerList() {
+    this.buyerList = [];
     this.buyerList.push({ id: 0, name: 'All Buyers' });
-    this.commonHelper.showLoader();
+    //this.commonHelper.showLoader();
 
     // Get Member services
     this._dashboardService.getBuyers(this.selectedTSValue, this.supplierId).then(
       (response: any[]) => {
-        this.commonHelper.hideLoader();
+        //this.commonHelper.setLoaderHide();
         this.buyerList = [...this.buyerList, ...response]
       },
 
       (error: any) => {
-        this.commonHelper.hideLoader();
+       // this.commonHelper.setLoaderHide();
         this.commonHelper.getGeneralTranslateErrorMessage(error);
       });
   }
@@ -91,7 +92,7 @@ export class SupplierDashboardComponent implements OnInit {
 
     this._dashboardService.getFOWidgetsList(this.dashboardName).then((wdgts) => {
       if (wdgts) {
-        this.commonHelper.hideLoader();
+        this.commonHelper.setLoaderHide();
         this.indicatorList = JSON.parse(JSON.stringify(wdgts));
         this.indicatorList.forEach((iL) => {
           iL.widgetBody = JSON.parse(iL.widgetBody);
@@ -101,7 +102,7 @@ export class SupplierDashboardComponent implements OnInit {
       }
     },
       (error) => {
-        this.commonHelper.hideLoader();
+        this.commonHelper.setLoaderHide();
         this.commonHelper.getGeneralTranslateErrorMessage(error);
       }
     );

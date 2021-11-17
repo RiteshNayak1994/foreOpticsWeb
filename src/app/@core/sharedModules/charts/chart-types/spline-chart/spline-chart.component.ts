@@ -4,13 +4,13 @@ import { AbstractChart } from '../abstract-chart';
 import * as Highcharts from 'highcharts';
 import { colors, IndicatorsAs, themes } from '../../chartConstants';
 import { Subscription } from 'rxjs';
-import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../pipes/short-number/short-number.pipe';
 import { ChartService } from '../../chart.service';
 import * as moment from 'moment';
 import highchartmore from 'highcharts/highcharts-more';
 import { ThemeService } from '../../../../sharedServices/theme.service';
-
 highchartmore(Highcharts);
+
 @Component({
   selector: 'app-spline-chart',
   templateUrl: './spline-chart.component.html',
@@ -47,13 +47,13 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
   riskArray = ["loc", "gov", "clm", "logi", "trnd", "geo", "prc", "bus", "trns", "lif"];
   stDvList = [];
   avgList = [];
+  yValueArray = [];
   isAscending = true;
-  initialOptions: any;
 
   constructor(
     private chartService: ChartService,
     private themeService: ThemeService
-  ) {
+    ) {
     super();
   }
 
@@ -143,6 +143,7 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
 
   ngAfterViewInit() {
     let tmpThis = this;
+
     Highcharts.setOptions({
       lang: {
         numericSymbols: ["k", "M", "B", "T", "P", "E"]
@@ -383,6 +384,7 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
 
     let seriesNames = aData.map(s => s[this.legendCol]).filter((x, i, a) => a.indexOf(x) === i);
     let seriesData = [];
+    this.yValueArray = [];
     let counter = 0;
     let yAxisTitle = this.colDisplayName[this.yAxisCol];
     seriesNames.forEach((s, i) => {
@@ -393,11 +395,13 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
     let yAxisUB;
     let yAxisLB;
 
-    if (this.stDvList.length > 0 && this.avgList.length > 0) {
-      let stdDv = this.stDvList.length > 1 ? this.standarvDev(this.stDvList) : this.stDvList[0];
-      let avg = this.avgList.length > 1 ? this.avgArray(this.avgList) : this.avgList[0];
+    if (this.yValueArray.length > 0) { // this.stDvList.length > 0 && this.avgList.length > 0
+      let stdDv = this.standarvDev(this.yValueArray);//this.stDvList.length > 1 ? this.standarvDev(this.stDvList) : this.stDvList[0];
+      let avg = this.avgArray(this.yValueArray);//this.avgList.length > 1 ? this.avgArray(this.avgList) : this.avgList[0];
       yAxisUB = (avg + (3 * stdDv)).toFixed(2);
       yAxisLB = (avg - (3 * stdDv)).toFixed(2);
+      yAxisUB = yAxisUB > 0.99 ? 0.99 : yAxisUB;
+      yAxisLB = yAxisLB < 0 ? 0 : yAxisLB;
 
       let upperBoundData = this.apiData.filter((x, i, a) => a.findIndex(a => a[this.xAxisCol] == x[this.xAxisCol]) == i).map(d => ([new Date(d[this.xAxisCol]).getTime(), +yAxisUB]));
       let lowerBoundData = this.apiData.filter((x, i, a) => a.findIndex(a => a[this.xAxisCol] == x[this.xAxisCol]) == i).map(d => ([new Date(d[this.xAxisCol]).getTime(), +yAxisLB]));
@@ -454,10 +458,11 @@ export class SplineChartComponent extends AbstractChart implements OnInit, OnDes
 
     if (this.dashboardName == "Risk_Trend") {
       let yValueArray = sDataArray.map(s => s[1]);
-      let avgValue = this.avgArray(yValueArray);
-      let stdValue = this.standarvDev(yValueArray);
-      this.avgList.push(avgValue);
-      this.stDvList.push(stdValue);
+      this.yValueArray.push(...yValueArray);
+      // let avgValue = this.avgArray(yValueArray);
+      // let stdValue = this.standarvDev(yValueArray);
+      // this.avgList.push(avgValue);
+      // this.stDvList.push(stdValue);
     }
 
     let firstZoneValue;

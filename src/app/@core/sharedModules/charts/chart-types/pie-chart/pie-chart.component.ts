@@ -1,8 +1,9 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../pipes/short-number/short-number.pipe';
+import { ThemeService } from '../../../../sharedServices/theme.service';
 import { ChartService } from '../../chart.service';
-import { colors, IndicatorsAs } from '../../chartConstants';
+import { colors, IndicatorsAs, themes } from '../../chartConstants';
 import { AbstractChart } from '../abstract-chart';
 
 @Component({
@@ -15,7 +16,10 @@ export class PieChartComponent extends AbstractChart implements OnInit {
     data;
     shortNumberPipe = new ShortNumberPipe();
 
-    constructor(private chartService: ChartService) {
+    constructor(
+        private chartService: ChartService,
+        private themeService: ThemeService
+        ) {
         super();
     }
 
@@ -80,7 +84,7 @@ export class PieChartComponent extends AbstractChart implements OnInit {
                 }
             },
             title: {
-                text: [IndicatorsAs.IndeCommonData, IndicatorsAs.RelCommonData].includes(tmpThis.indicatorsAs) ? null : 'Browser market shares in January, 2018'
+                text: '' 
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -121,6 +125,16 @@ export class PieChartComponent extends AbstractChart implements OnInit {
                 enabled: false
             }
         });
+        this.themeService.highChartTheme.subscribe(
+            (theme: any) => {
+              if (theme == 'default') {
+                tmpThis.chart.update(themes.defaultTheme);
+              }
+              else {
+                tmpThis.chart.update(themes.darkTheme);
+              }
+            }
+          );
     }
 
     removeSeries() {

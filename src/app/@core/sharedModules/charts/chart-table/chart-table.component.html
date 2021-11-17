@@ -175,7 +175,7 @@
             </p-table>
         </ng-container>
         <ng-container *ngSwitchCase="dashboardNamesList.SupplyChainSupplierDetail">
-            <p-table #dataTable [value]="tableData">
+            <p-table #dataTable [value]="tableData" [scrollable]="true" scrollHeight="265px">
                 <ng-template pTemplate="header">
                     <tr>
                         <th *ngFor="let col of cols" [class]="col.className">
@@ -188,12 +188,12 @@
                         <td *ngFor="let col of cols" [class]="col.className">
                             <ng-container [ngSwitch]="col.data">
                                 <ng-container *ngSwitchCase="'id'">
-                                    <p-radioButton name="group2" [value]="rowData[col.data]" [(ngModel)]="selectedOrder"
+                                    <p-radioButton name="group2" [value]="rowData[col.data]" [(ngModel)]="selectedId"
                                         (click)="handleOrderClick(rowData[col.data])">
                                     </p-radioButton>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'rec'">
-                                    <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm"></i>
+                                    <i *ngIf="rowData[col.data]" class="fas fa-circle fa-sm green-text"></i>
                                 </ng-container>
                                 <ng-container *ngSwitchDefault>
                                     {{rowData[col.data]}}

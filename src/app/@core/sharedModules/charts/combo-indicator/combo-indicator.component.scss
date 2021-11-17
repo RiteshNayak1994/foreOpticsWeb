@@ -1,8 +1,10 @@
+@import '../../../../../scss/variables';
+
 // ng-prime - card - start
 :host ::ng-deep{
     .customCard.p-card{
         padding: 0 0.5rem; 
-        max-height: 395px;
+        // max-height: 395px;
         height: 100%;
     }
     .p-card-body{
@@ -81,4 +83,37 @@
     font-weight: 500;
     line-height: 2;
 }
+// supplier detail dashboard start
+.h-120{
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 120px;
+    color: #134e7b;
+    padding-right: 15px;
+}
+:host ::ng-deep{
+    .sDetailinfoBox .p-card-header{
+        text-align: center;
+    }
+    .datatitle{
+        font-weight: 500;
+    }
+    .activedata{
+        color: #fdb813 !important;
+        font-weight: 500;
+    }
+}
+.formatdata{
+    color: #5a574f;
+    font-weight: 500;
+    cursor: pointer;
+}
+.highRisk{
+    color: var(--orange-600);
+}
+.lowRisk{
+    color: var(--green-500);
+}
+// supplier detail dashboard end
+
 // general styling - end

@@ -4,7 +4,9 @@ import { AbstractChart } from '../abstract-chart';
 import more from 'highcharts/highcharts-more';
 import solidguage from 'highcharts/modules/solid-gauge';
 import { ChartService } from '../../chart.service';
-import { ShortNumberPipe } from '../../../../../@core/pipes/short-number/short-number.pipe';
+import { ShortNumberPipe } from '../../../../pipes/short-number/short-number.pipe';
+import { colors, themes } from '../../chartConstants';
+import { ThemeService } from '../../../../sharedServices/theme.service';
 more(Highcharts);
 solidguage(Highcharts);
 
@@ -17,7 +19,10 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
   data: any;
   shortNumberPipe = new ShortNumberPipe();
 
-  constructor(private chartService: ChartService) {
+  constructor(
+    private chartService: ChartService,
+    private themeService: ThemeService
+    ) {
     super();
   }
 
@@ -42,15 +47,19 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
   }
 
   ngAfterViewInit() {
+    let tempThis = this;
     this.chart = Highcharts.chart({
       chart: {
         renderTo: 'container_' + this.indId,
         type: 'solidgauge',
         height: 140
       },
+      title:{
+        text: ''
+      },
       pane: {
         center: ['50%', '75%'],
-        size: '150%',
+        size: '130%',
         startAngle: -90,
         endAngle: 90,
         background: [{
@@ -58,7 +67,7 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
             Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
           innerRadius: '75%',
           outerRadius: '100%',
-          shape: 'arc'
+          shape: 'arc',
         }]
       },
       tooltip: {
@@ -71,7 +80,7 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
             enabled: false
           },
           stops: [
-            [0.01, '#134e7b']
+            [0.01, '#665191']
           ],
           lineWidth: 0,
           tickWidth: 0,
@@ -88,9 +97,7 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
             borderWidth: 0,
             y: -25,
             useHTML: true,
-            format: '<div style="text-align:center">' +
-                    '<span style="font-size:20px">{y}</span><br/>' +
-                    '</div>'
+            format: '<span style="text-align:center;font-size:20px">{y}</span>' 
           }
         }
       },
@@ -103,6 +110,16 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
       //   data: [this.apiData]
       // }]
     });
+    this.themeService.highChartTheme.subscribe(
+      (theme: any) => {
+        if (theme == 'default') {
+          tempThis.chart.update(themes.defaultTheme);
+        }
+        else {
+          tempThis.chart.update(themes.darkTheme);
+        }
+      }
+    );
   }
 
   
@@ -114,7 +131,8 @@ export class SolidGuageChartComponent extends AbstractChart implements OnInit {
     seriesNames.forEach((s, i) => {
       let sData = {
         "name": s,
-        "data": [data.filter(ds => ds[this.legendCol] == s)[0][this.yAxisCol]]
+        "data": [+data.filter(ds => ds[this.legendCol] == s)[0][this.yAxisCol]],
+        "color": "#665191"
       }
       seriesData.push(sData);
     });

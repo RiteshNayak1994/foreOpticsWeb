@@ -1,13 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { ChartService } from '../chart.service';
-import { CommonHelper } from '../../../common-helper';
-import { DashboardService } from '../../../sharedServices/dashboard.service';
 import { DashboardNamesList, FilterNameList, IndicatorNameList, nameParamType, RiskDisplayNameList, sizeList } from '../chartConstants';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { FilterService } from '../../filters/filter.service';
+import { DashboardService } from '../../../sharedServices/dashboard.service';
+import { CommonHelper } from '../../../common-helper';
 @Component({
   selector: 'app-combo-indicator',
   templateUrl: './combo-indicator.component.html',
@@ -227,13 +227,13 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getQueryData() {
-    if (this.indicatorConfig.id == 150 || this.indicatorConfig.id == 160) { return; }
+    if (this.indicatorConfig.id == 150 || this.indicatorConfig.id == 160 || this.indicatorConfig.id == 555) { return; }
 
     this.commonHelper.showLoader();
 
     let parameters = [];
 
-    parameters.push(this.createParameterObject(nameParamType.TenantID, this.paramDataType.int, 1));
+    parameters.push(this.createParameterObject(nameParamType.TenantID, this.paramDataType.int, this.indicatorConfig.tenantId));
 
     if (this.indicatorConfig.dashboardName == DashboardNamesList.SupplyChainSupplierDetail) {
       let widgetParamaterList = ['SupplierDRI', 'SupplierReliability', 'SupplierReponsiveness', 'SupplierAgility', 'SpenOnOrderByBuyer',
@@ -407,11 +407,10 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onRiskFactorChange(filterName: string) {
-    let riskFactorValue : any = this.selectedRiskFactor;
-    this.header.title = this.riskFactorOptions.find((fac) => fac.value == riskFactorValue).caption;
+    this.header.title = this.riskFactorOptions.find((fac) => fac.value == this.selectedRiskFactor.value).caption;
 
     let indicatorId = this.indicatorConfig.id;
-    let filterValue = riskFactorValue ? riskFactorValue : this.selectedRiskFactor.toString();
+    let filterValue = this.selectedRiskFactor.value ? this.selectedRiskFactor.value : this.selectedRiskFactor.toString();
     this.header.filters.find(f => f.filtername == filterName).selectedValue = filterValue;
     this.chartService.setFilterConfig({ filterName, filterValue, indicatorId });
     //console.log(this.selectedRiskFilter);
@@ -442,7 +441,7 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.indicatorConfig.name == this.indicatorNameList.Risk_Trend[1].name) {
       headerText = "Time-Phased " + headerText + " Score";
     }
-    let fixedText = headerText;
+    let fixedText = ' <span class="datatitle">' + headerText;
     let toggleText = '';
 
     if (this.indicatorConfig.dashboardName == DashboardNamesList.SupplyChainSupplierDetail) {
@@ -454,7 +453,7 @@ export class ComboIndicatorComponent implements OnInit, OnDestroy, AfterViewInit
       }
 
     }
-    // fixedText += "</span>";
+    fixedText += "</span>";
     this.headerElement = fixedText + toggleText;
   }
 

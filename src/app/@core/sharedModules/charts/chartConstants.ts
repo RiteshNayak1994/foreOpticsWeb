@@ -1,6 +1,6 @@
 export const durationList = ["Daily", "Weekly", "Monthly", "Quaterly", "Yearly", "FromTo"];
 
-export const colors = ['#003f5c', '#ff7c43', '#665191', '#f95d6a', '#2f4b7c'];
+export const colors = ['#665191', '#f95d6a', '#2f4b7c', '#003f5c', '#ff7c43'];
 
 export const themes = {
     defaultTheme: {

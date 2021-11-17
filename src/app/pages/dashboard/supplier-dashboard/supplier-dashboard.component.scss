@@ -1,0 +1,7 @@
+// prime ng input override - start
+:host ::ng-deep{
+    .dropDownOverride.p-dropdown {
+        width: 100%;
+    }
+}
+// prime ng input override - end

@@ -1,18 +1,18 @@
 <p-card [ngClass]="getCardClass()" styleClass="customCard">
     <ng-template pTemplate="header">
-        <span class="cardTitle" [innerHTML]="headerElement"></span>
+        <span [innerHTML]="headerElement"></span>
         <ng-container *ngFor="let fltrs of header.filters">
             <ng-container [ngSwitch]="fltrs.filtername">
                 <ng-container *ngSwitchCase="filterNameList.QuantityCost">
-                    <div class="float-right">
-                        <span class="mr-3 formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[0]}"
+                    <div class="float-end">
+                        <span class="me-3 formatdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[0]}"
                             (click)="changeFilter(fltrs.filtername,fltrs.value[0])">{{fltrs.label[0]}}</span>
-                        <span class="formetdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[1]}"
+                        <span class="formatdata" [ngClass]="{'activedata' : fltrs.selectedValue == fltrs.value[1]}"
                             (click)="changeFilter(fltrs.filtername,fltrs.value[1])">{{fltrs.label[1]}}</span>
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Information">
-                    <i class="fas fa-info-circle fa-sm"></i>
+                    <i class="float-end fas fa-info-circle fa-sm"></i>
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.RiskText">
                     <span *ngIf="showTableBackBtn" class="ml-2">
@@ -68,7 +68,7 @@
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Reset">
                     <span *ngIf="selectedOrder" class="iconButton">
-                        <i class="fas fa-redo" (click)="removeOrderSelection()"></i>
+                        <i class="ms-1 fas fa-redo" (click)="removeOrderSelection()"></i>
                     </span>
                     <span *ngIf="selectedSuppliersForCompareLength > 0 && table.visible">
                         <button (click)="removeSupplierSelection()" class="iconButton">
@@ -78,7 +78,7 @@
                 </ng-container>
                 <ng-container *ngSwitchCase="filterNameList.Export">
                     <button pTooltip="Export to Excel" tooltipPosition="left"
-                        class="iconButton backBtnBorder float-right" (click)="exportClick()">
+                        class="iconButton backBtnBorder float-right mb-2" (click)="exportClick()">
                         <i class="pi pi-file-excel"></i></button>
                 </ng-container>
             </ng-container>
@@ -189,8 +189,8 @@
                 </div>
             </div>
         </ng-container>
-        <ng-container *ngSwitchCase="'Supply_Chain_Supplier_Detail'">
-            <div class="row col-12">
+        <ng-container *ngSwitchCase="dashboardNamesList.SupplyChainSupplierDetail">
+            <div class="col-12">
                 <ng-container *ngIf="chart">
                     <div *ngIf="indicatorData ? (indicatorData.length > 0) : false" [ngClass]="chart.bsWidth">
                         <app-indicator [indId]="indicatorConfig.id" [selectedView]="chart.type"
@@ -199,21 +199,23 @@
                             [yAxisTitle]="chart.yAxisTitle">
                         </app-indicator>
                     </div>
-                    <div *ngIf="indicatorData ? (indicatorData.length == 0) : false" [ngClass]="chart.bsWidth">
+                    <div *ngIf="indicatorData ? (indicatorData.length == 0) : false" class="pt-3"
+                        [ngClass]="chart.bsWidth">
                         Chart data not available for selected duration!
                     </div>
                 </ng-container>
                 <ng-container *ngIf="table">
-                    <div [ngClass]="table.bsWidth">
+                    <div>
                         <app-chart-table [isChartComboTable]="false" [indId]="indicatorConfig.id"
-                            [dashboardName]='indicatorConfig.dashboardName' [tableConfig]="table">
+                            [dashboardName]='indicatorConfig.dashboardName'
+                            [tableConfig]="table">
                         </app-chart-table>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="icon">
                     <div [ngClass]="icon.bsWidth">
                         <div class="col-8">
-                            <div class="row">
+                            <div class="row ps-2">
                                 <i class="fas fa-truck-moving fa-2x col-4 mt-4"
                                     [ngClass]="transportRisk > 0.5 ? 'highRisk' : 'lowRisk'"></i>
                                 <i class="fas fa-smog fa-2x col-4 mt-4"
@@ -236,7 +238,7 @@
                 </ng-container>
                 <ng-container *ngIf="text">
                     <div [ngClass]="text.bsWidth">
-                        <div>
+                        <div class="align-middle text-center h-120">
                             {{dri}}
                         </div>
                     </div>
